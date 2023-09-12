@@ -35,7 +35,7 @@ const LoginPage = () => {
             <div className="absolute top-4 left-4">
                 <button
                     onClick={navigateHome}
-                    className="rounded-full p-2 h-10 w-10 border-2 border-gray-200 flex justify-center items-center"
+                    className="rounded-full p-2 h-10 w-10 bg-transparent border-2 border-gray-200 flex justify-center items-center hover:shadow-sm active:shadow-md transition-shadow duration-300 ease-in-out"
                 >
                     <img src={arrowLeft} alt="Home" className="" />
                 </button>
