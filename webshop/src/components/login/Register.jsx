@@ -19,7 +19,9 @@ const RegisterPage = () => {
         if (isValidEmail(email)) {
             setEmailError("")
             if (password === retypePassword) {
-                // Replace this with your actual registration logic
+                // TODO: need to add register functionality
+                // so that when we click on register button
+                // it gets added to the json file
             } else {
                 alert("Passwords do not match!")
             }

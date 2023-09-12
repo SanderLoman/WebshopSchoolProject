@@ -27,7 +27,7 @@ const LoginPage = () => {
     }
 
     const navigateHome = () => {
-        navigate("/") // Navigate to home page
+        navigate("/")
     }
 
     return (
