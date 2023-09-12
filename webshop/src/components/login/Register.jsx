@@ -2,9 +2,10 @@ import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import "./Login.css"
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [retypePassword, setRetypePassword] = useState("")
     const [emailError, setEmailError] = useState("")
 
     const { login } = useAuth()
@@ -14,10 +15,14 @@ const LoginPage = () => {
         return emailRegex.test(email)
     }
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         if (isValidEmail(email)) {
             setEmailError("")
-            login(email, password)
+            if (password === retypePassword) {
+                // Replace this with your actual registration logic
+            } else {
+                alert("Passwords do not match!")
+            }
         } else {
             setEmailError("Please enter a valid email address")
         }
@@ -26,14 +31,14 @@ const LoginPage = () => {
     return (
         <div className="h-screen flex justify-center items-center">
             <div className="login-container bg-white p-8 rounded-md shadow-lg">
-                <h1 className="text-2xl font-semibold mb-4">Login</h1>
+                <h1 className="text-2xl font-semibold mb-4">Register</h1>
 
                 <input
                     type="text"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 my-2 border rounded outline-none focus:ring-0 focus:shadow-md transition-shadow duration-300 ease-in-out"
+                    className="input-field"
                 />
                 {emailError && <p className="text-red-500">{emailError}</p>}
 
@@ -42,32 +47,21 @@ const LoginPage = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 my-2 border rounded outline-none focus:ring-0 focus:shadow-md transition-shadow duration-300 ease-in-out"
+                    className="input-field"
                 />
 
-                <button
-                    onClick={handleLogin}
-                    className="w-full bg-blue-600 text-white p-3 my-2 rounded hover:bg-blue-700 active:ring-0 active:shadow-lg transition-shadow duration-300 ease-in-out"
-                >
-                    Login
+                <button onClick={handleRegister} className="login-button">
+                    Register
                 </button>
 
-                <div className="mt-4 w-full flex justify-between items-center">
-                    <div>
-                        <a href="#" className="text-blue-500">
-                            Forgot Password?
-                        </a>
-                    </div>
-                    <div className="border-l border-gray-500 h-4 mx-2"></div>
-                    <div>
-                        <a href="#" className="text-blue-500">
-                            Register
-                        </a>
-                    </div>
+                <div className="mt-4">
+                    <a href="#" className="text-blue-500">
+                        Already have an account? Login
+                    </a>
                 </div>
             </div>
         </div>
     )
 }
 
-export default LoginPage
+export default RegisterPage
