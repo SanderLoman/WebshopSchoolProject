@@ -1,11 +1,14 @@
 import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
+import { useNavigate } from "react-router-dom"
+import arrowLeft from "../../assests/left-arrow.svg"
 import "./Login.css"
 
 const LoginPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [emailError, setEmailError] = useState("")
+    const navigate = useNavigate()
 
     const { login } = useAuth()
 
@@ -23,8 +26,20 @@ const LoginPage = () => {
         }
     }
 
+    const navigateHome = () => {
+        navigate("/") // Navigate to home page
+    }
+
     return (
         <div className="h-screen flex justify-center items-center">
+            <div className="absolute top-4 left-4">
+                <button
+                    onClick={navigateHome}
+                    className="rounded-full p-2 h-10 w-10 border-2 border-gray-200 flex justify-center items-center"
+                >
+                    <img src={arrowLeft} alt="Home" className="" />
+                </button>
+            </div>
             <div className="login-container bg-white p-8 rounded-md shadow-lg">
                 <h1 className="text-2xl font-semibold mb-4">Login</h1>
 
