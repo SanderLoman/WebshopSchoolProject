@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import arrowLeft from "../../assests/left-arrow.svg"
 import "./Login.css"
 
@@ -19,12 +19,18 @@ const LoginPage = () => {
 
     const handleLogin = () => {
         if (isValidEmail(email)) {
-            setEmailError("")
-            login(email, password)
+            setEmailError("");
+            const loginSuccess = login(email, password);
+            if (loginSuccess) {
+                navigate("/");
+            } else {
+                setEmailError("Invalid email or password");
+            }
         } else {
-            setEmailError("Please enter a valid email address")
+            setEmailError("Please enter a valid email address");
         }
-    }
+    };
+    
 
     const navigateHome = () => {
         navigate("/")
@@ -75,9 +81,9 @@ const LoginPage = () => {
                     </div>
                     <div className="border-l border-gray-500 h-4 mx-2"></div>
                     <div>
-                        <a href="#" className="text-blue-500">
+                        <Link to="/register" className="text-blue-500">
                             Register
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
