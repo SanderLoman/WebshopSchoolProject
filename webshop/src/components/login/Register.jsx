@@ -11,6 +11,7 @@ const RegisterPage = () => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [emailError, setEmailError] = useState("")
+    const [passwordError, setPasswordError] = useState("")
     const navigate = useNavigate()
 
     const { register } = useAuth()
@@ -25,9 +26,10 @@ const RegisterPage = () => {
             setEmailError("")
             register(email, password, firstName, lastName, "customer")
             // Code to push user data to JSON file should be handled in register function
-            navigate("/")
+            navigate("/login")
         } else {
-            setEmailError("Please enter valid details")
+            setEmailError("Please enter a valid email address")
+            setPasswordError("Passwords do not match")
         }
     }
 
@@ -90,7 +92,7 @@ const RegisterPage = () => {
                     className="w-full p-3 my-2 border rounded outline-none focus:ring-0 focus:shadow-md transition-shadow duration-300 ease-in-out"
                 />
 
-                {emailError && <p className="text-red-500">{emailError}</p>}
+                {emailError && <p className="text-red-500">{passwordError}</p>}
 
                 <button
                     onClick={handleRegister}

@@ -8,7 +8,6 @@ const Navbar = () => {
     const { user, logout } = useAuth()
     const navigate = useNavigate()
     const parentRef = useRef(null)
-    const [dropdownClass, setDropdownClass] = useState("hidden")
 
     useEffect(() => {
         console.log("User state has changed:", user)
@@ -22,7 +21,6 @@ const Navbar = () => {
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
-        setDropdownClass(isOpen ? "hidden" : "dropdown-enter-active")
     }
 
     const navigateToLogin = () => {
