@@ -31,7 +31,6 @@ const LoginPage = () => {
         }
     };
     
-
     const navigateHome = () => {
         navigate("/")
     }
