@@ -16,7 +16,6 @@ const Admin = () => {
     }
 
     const modifyProduct = (productId) => {
-        // Modify product logic here
     }
 
     const deleteProduct = (productId) => {
