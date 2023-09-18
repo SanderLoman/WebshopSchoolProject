@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
 const Admin = () => {
-    const [orders, setOrders] = useState([]) // Replace with actual orders data
-    const [products, setProducts] = useState([]) // Replace with actual products data
+    const [orders, setOrders] = useState([])
+    const [products, setProducts] = useState([])
     const [newProduct, setNewProduct] = useState({
         id: "",
         name: "",
