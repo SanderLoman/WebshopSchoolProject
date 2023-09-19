@@ -31,7 +31,24 @@ app.get("/api/products", (req, res) => {
                 res.status(500).send("Internal Server Error")
                 return
             }
-            res.json(JSON.parse(data))
+            const products = JSON.parse(data)
+            res.json(products.products || {})
+        },
+    )
+})
+
+app.get("/api/reset-products/", (req, res) => {
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("An error occurred:", err)
+                res.status(500).send("Internal Server Error")
+                return
+            }
+            const products = JSON.parse(data)
+            res.json(products.reset_products || {})
         },
     )
 })
