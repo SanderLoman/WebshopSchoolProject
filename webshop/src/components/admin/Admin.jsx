@@ -53,7 +53,7 @@ const Admin = () => {
 
     return (
         <div className="z-0 h-screen w-screen">
-            <nav className="z-10 absolute bg-white w-full text-black text-xl">
+            <nav className="z-10 absolute bg-white w-full text-black text-xl border-b-2 border-black font-medium">
                 <div className="flex justify-between items-center p-2">
                     <div className="w-1/2 md:w-1/3">
                         <div className="font-bold text-lg">Logo</div>
@@ -84,7 +84,7 @@ const Admin = () => {
                             </div>
                             {isOpen && (
                                 <div
-                                    className="fixed right-0 mt-2 bg-white text-black shadow-lg rounded-bl-xl"
+                                    className="fixed right-0 mt-2 bg-white text-black border-b-2 border-l-2 border-black"
                                     style={{ width: `${dropdownWidth}px` }}
                                 >
                                     {windowWidth < 768 ? menuItems : null}
@@ -115,6 +115,31 @@ const Admin = () => {
                     </div>
                 </div>
             </nav>
+            <div className="flex justify-center h-full w-screen font-bold">
+                <div className="container">
+                    {/* Buttons */}
+                    <div className="flex justify-between mt-14 p-4">
+                        {/* Buttons on the top-left */}
+                        <div className="flex w-1/2 space-x-2">
+                            <button className="border-2 border-black px-2 bg-white">
+                                Orders
+                            </button>
+                            <button className="border-2 border-black px-2 bg-white">
+                                Products
+                            </button>
+                        </div>
+                        {/* Buttons on the top-right */}
+                        <div className="flex w-1/2 justify-between md:justify-end space-x-2">
+                            <button className="border-2 border-black px-2 bg-white hover:bg-red-600 hover:text-white transition-all duration-150 ease-in-out">
+                                Reset Products
+                            </button>
+                            <button className="w-10 h-10 border-2 border-black bg-white">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFUlEQVR4nO2aSwrCMBRFzzbqVF2TvzVoXYaTbsztKDqMCBFEtAW1MTXnwB0VShOa9+67BEREREREJDEjYB5VURgr4AiEqAOwpBCmwPlu8TedgAkFsH2y+Js2FEDTsgHXZ39P4wbgHxA8AlgDgkUQu0CwDaIPCBohdIJBK8ywZoEpUAO7N7RvscL7N99ZpxylVy/m+V/rnCJUGT0kObnp2He8tshgkV26Zoy9Mc9ggV2a9bkBVQwwQ6Y6pEiYlzHADJnpFI9oEsYxwMylDW7iNw2C5h+M0Ce4AfgH4BHAGoBFELsAtkH0AWiE0AmiFaagWaBuscJrCmDScklqMCPtN0KVx2tyycKMXKhKvigpIiIiIsJvuQBJNvgVdT6bCQAAAABJRU5ErkJggg==" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -58,7 +58,7 @@ const Navbar = () => {
     )
 
     return (
-        <nav className="z-10 absolute bg-white w-full text-black text-xl">
+        <nav className="z-10 absolute bg-white w-full text-black text-xl border-b-2 border-black font-medium">
             <div className="flex justify-between items-center p-2">
                 <div className="w-1/2 md:w-1/3">
                     <div className="font-bold">Logo</div>
@@ -94,7 +94,7 @@ const Navbar = () => {
                         </div>
                         {isOpen && (
                             <div
-                                className="fixed right-0 mt-2 bg-white text-black shadow-lg rounded-bl-xl"
+                                className="fixed right-0 mt-2 bg-white text-black border-b-2 border-l-2 border-black select-none"
                                 style={{ width: `${dropdownWidth}px` }}
                             >
                                 {windowWidth < 768 ? menuItems : null}
