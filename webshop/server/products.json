@@ -32,5 +32,56 @@
         }
     },
     "reset_products": {},
-    "orders": {}
+    "orders": [
+        {
+            "id": 1,
+            "products_bought": [
+                {
+                    "t-shirt": {
+                        "name": "T-shirt",
+                        "id": 3,
+                        "prijs": 19.99,
+                        "img-url": ""
+                    },
+                    "amount": 4
+                },
+                {
+                    "skinny_jeans": {
+                        "name": "Skinny Jeans",
+                        "id": 2,
+                        "prijs": 49.99,
+                        "img-url": ""
+                    },
+                    "amount": 2
+                }
+            ],
+            "buyer": "John Doe",
+            "timestamp": "2018-01-01 12:00:00"
+        },
+        {
+            "id": 2,
+            "products_bought": [
+                {
+                    "t-shirt": {
+                        "name": "T-shirt",
+                        "id": 3,
+                        "prijs": 19.99,
+                        "img-url": ""
+                    },
+                    "amount": 2
+                },
+                {
+                    "skinny_jeans": {
+                        "name": "Skinny Jeans",
+                        "id": 2,
+                        "prijs": 49.99,
+                        "img-url": ""
+                    },
+                    "amount": 1
+                }
+            ],
+            "buyer": "John Doe",
+            "timestamp": "2018-01-01 12:00:00"
+        }
+    ]
 }
