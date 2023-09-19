@@ -8,9 +8,22 @@ const Admin = () => {
     const [dropdownWidth, setDropdownWidth] = useState(null)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [currentView, setCurrentView] = useState("orders")
+    const [orders, setOrders] = useState({})
     const { user, logout } = useAuth()
     const navigate = useNavigate()
     const parentRef = useRef(null)
+
+    useEffect(() => {
+        // Fetch orders from the backend
+        fetch("http://localhost:4500/api/orders")
+            .then((res) => res.json())
+            .then((data) => {
+                setOrders(data)
+            })
+            .catch((err) => {
+                console.error("Failed to fetch orders:", err)
+            })
+    }, [])
 
     useEffect(() => {
         console.log("User state has changed:", user)
@@ -184,7 +197,25 @@ const Admin = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* Need to GET orders here and map them*/}
+                                    {Object.keys(orders).map((orderId) => {
+                                        const order = orders[orderId]
+                                        return (
+                                            <tr key={orderId}>
+                                                <td className="py-2 px-4 border">
+                                                    {order.id}
+                                                </td>
+                                                <td className="py-2 px-4 border">
+                                                    {order.name}
+                                                </td>
+                                                <td className="py-2 px-4 border">
+                                                    {order.buyer}
+                                                </td>
+                                                <td className="py-2 px-4 border">
+                                                    {order.timestamp}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
