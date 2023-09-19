@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../auth/useAuth.jsx"
+import "./Navbar.css"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -45,40 +46,37 @@ const Navbar = () => {
     const menuItems = (
         <ul className="cursor-pointer">
             <li className="border-b p-2 hover:bg-slate-100 active:bg-slate-200">
-                <a href="/admin">Home</a>
+                <div onClick={null}>About</div>
             </li>
             <li className="border-b p-2 hover:bg-slate-100 active:bg-slate-200">
-                <a href="/">About</a>
+                <div onClick={null}>Services</div>
             </li>
             <li className="border-b p-2 hover:bg-slate-100 active:bg-slate-200">
-                <a href="/">Services</a>
-            </li>
-            <li className="border-b p-2 hover:bg-slate-100 active:bg-slate-200">
-                <a href="/">Contact</a>
+                <div onClick={null}>Contact</div>
             </li>
         </ul>
     )
 
     return (
-        <nav className="z-10 absolute bg-white w-full text-black">
+        <nav className="z-10 absolute bg-white w-full text-black text-xl">
             <div className="flex justify-between items-center p-2">
                 <div className="w-1/2 md:w-1/3">
-                    <div className="font-bold text-lg">Logo</div>
+                    <div className="font-bold">Logo</div>
                 </div>
                 <div className="hidden md:block w-1/3 text-center">
                     <div className="hidden md:flex justify-center space-x-4">
-                        <a href="/" className="">
-                            Home
-                        </a>
-                        <a href="/" className="">
+                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
                             About
-                        </a>
-                        <a href="/" className="">
+                            <span className="absolute bottom-0 left-0"></span>
+                        </div>
+                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
                             Services
-                        </a>
-                        <a href="/" className="">
+                            <span className="absolute bottom-0 left-0"></span>
+                        </div>
+                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
                             Contact
-                        </a>
+                            <span className="absolute bottom-0 left-0"></span>
+                        </div>
                     </div>
                 </div>
                 <div className="w-1/2 md:w-1/3 text-right">
@@ -103,7 +101,7 @@ const Navbar = () => {
                                 <ul className="cursor-pointer">
                                     {!user && (
                                         <li
-                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200"
+                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl"
                                             onClick={navigateToLogin}
                                         >
                                             <div>Login</div>
@@ -127,7 +125,7 @@ const Navbar = () => {
                                     )}
                                     {user && (
                                         <li
-                                            className="p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl"
+                                            className="p-2 hover:bg-slate-100 active:bg-slate-200"
                                             onClick={logout}
                                         >
                                             <div>Log Out</div>
