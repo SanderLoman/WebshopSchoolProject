@@ -1,4 +1,36 @@
 {
-    "producten": {},
-    "reset_producten": {}
+    "producten": {
+        "sweater_black": {
+            "name": "Black Sweater",
+            "id": 1,
+            "prijs": 29.99,
+            "img-url": ""
+        },
+        "sweater_white": {
+            "name": "White Sweater",
+            "id": 2,
+            "prijs": 29.99,
+            "img-url": ""
+        },
+        "jeans": {
+            "name": "Jeans",
+            "id": 2,
+            "prijs": 49.99,
+            "img-url": ""
+        },
+        "skinny_jeans": {
+            "name": "Skinny Jeans",
+            "id": 2,
+            "prijs": 49.99,
+            "img-url": ""
+        },
+        "t-shirt": {
+            "name": "T-shirt",
+            "id": 3,
+            "prijs": 19.99,
+            "img-url": ""
+        }
+    },
+    "reset_producten": {},
+    "orders": {}
 }

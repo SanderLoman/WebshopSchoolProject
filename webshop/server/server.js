@@ -7,10 +7,9 @@ const auth = require("./auth.json")
 
 const app = express()
 
-// CORS setup, if your React app is on a different port
+// CORS setup, if React is on a different port
 app.use(cors())
 
-// To parse JSON request bodies
 app.use(express.json())
 
 app.use((req, res, next) => {
@@ -18,9 +17,39 @@ app.use((req, res, next) => {
     next()
 })
 
-// Your API routes should come before the 404 middleware
 app.get("/api/authData", (req, res) => {
     res.sendFile(path.join(__dirname, "./auth.json"))
+})
+
+app.get("/api/products", (req, res) => {
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("An error occurred:", err)
+                res.status(500).send("Internal Server Error")
+                return
+            }
+            res.json(JSON.parse(data))
+        },
+    )
+})
+
+app.get("/api/orders", (req, res) => {
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("An error occurred:", err)
+                res.status(500).send("Internal Server Error")
+                return
+            }
+            const products = JSON.parse(data)
+            res.json(products.orders || {})
+        },
+    )
 })
 
 app.post("/api/register", (req, res) => {
