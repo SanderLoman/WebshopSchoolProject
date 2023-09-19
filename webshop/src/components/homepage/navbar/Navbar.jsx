@@ -17,7 +17,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if (isOpen && parentRef.current) {
-            setDropdownWidth(parentRef.current.offsetWidth + 10)
+            setDropdownWidth(parentRef.current.offsetWidth + 20)
         }
     }, [isOpen])
 
@@ -65,15 +65,24 @@ const Navbar = () => {
                 </div>
                 <div className="hidden md:block w-1/3 text-center">
                     <div className="hidden md:flex justify-center space-x-4">
-                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
+                        <div
+                            onClick={null}
+                            className="nav-link relative select-none cursor-pointer"
+                        >
                             About
                             <span className="absolute bottom-0 left-0"></span>
                         </div>
-                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
+                        <div
+                            onClick={null}
+                            className="nav-link relative select-none cursor-pointer"
+                        >
                             Services
                             <span className="absolute bottom-0 left-0"></span>
                         </div>
-                        <div onClick={null} className="nav-link relative select-none cursor-pointer">
+                        <div
+                            onClick={null}
+                            className="nav-link relative select-none cursor-pointer"
+                        >
                             Contact
                             <span className="absolute bottom-0 left-0"></span>
                         </div>
@@ -85,11 +94,14 @@ const Navbar = () => {
                             onClick={toggleMenu}
                             className="flex items-center cursor-pointer"
                         >
-                            <span className="mr-2 select-none">
-                                {user
-                                    ? `${user.firstName} ${user.lastName}`
-                                    : "Account"}
-                            </span>
+                            <div>
+                                <span className="mr-2 nav-link relative select-none">
+                                    {user
+                                        ? `${user.firstName} ${user.lastName}`
+                                        : "Account"}
+                                </span>
+                                <span className="absolute bottom-0 left-0"></span>
+                            </div>
                             <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-300 hover:border"></div>
                         </div>
                         {isOpen && (
@@ -101,7 +113,7 @@ const Navbar = () => {
                                 <ul className="cursor-pointer">
                                     {!user && (
                                         <li
-                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl"
+                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl text-start"
                                             onClick={navigateToLogin}
                                         >
                                             <div>Login</div>
@@ -109,7 +121,7 @@ const Navbar = () => {
                                     )}
                                     {user && user.role !== "admin" && (
                                         <li
-                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200"
+                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 text-start"
                                             onClick={null}
                                         >
                                             <div>Account</div>
@@ -117,7 +129,7 @@ const Navbar = () => {
                                     )}
                                     {user && user.role === "admin" && (
                                         <li
-                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200"
+                                            className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 text-start"
                                             onClick={navigateToAdmin}
                                         >
                                             <div>Admin</div>
@@ -125,7 +137,7 @@ const Navbar = () => {
                                     )}
                                     {user && (
                                         <li
-                                            className="p-2 hover:bg-slate-100 active:bg-slate-200"
+                                            className="p-2 hover:bg-slate-100 active:bg-slate-200 text-start"
                                             onClick={logout}
                                         >
                                             <div>Log Out</div>
