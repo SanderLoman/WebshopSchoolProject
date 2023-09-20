@@ -9,18 +9,36 @@ const Admin = () => {
     const [dropdownWidth, setDropdownWidth] = useState(null)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [currentView, setCurrentView] = useState("orders")
-    const { isDarkMode } = useDarkMode()
-    const [orders, setOrders] = useState({})
     const { user, logout } = useAuth()
+    const [orders, setOrders] = useState([])
     const navigate = useNavigate()
     const parentRef = useRef(null)
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const localData = localStorage.getItem("isDarkMode")
+        if (localData !== null) {
+            return JSON.parse(localData)
+        } else {
+            return (
+                window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches
+            )
+        }
+    })
+
+    useEffect(() => {
+        localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode))
+    }, [isDarkMode])
 
     useEffect(() => {
         // Fetch orders from the backend
         fetch("http://localhost:4500/api/orders")
             .then((res) => res.json())
             .then((data) => {
-                setOrders(data)
+                if (Array.isArray(data)) {
+                    setOrders(data)
+                } else {
+                    console.error("Invalid API response:", data)
+                }
             })
             .catch((err) => {
                 console.error("Failed to fetch orders:", err)
@@ -79,14 +97,14 @@ const Admin = () => {
         <div
             className={`z-0 h-screen w-screen ${
                 isDarkMode
-                    ? "bg-[#1d242c] border-teal-500 text-white"
+                    ? "bg-[#1d242c] border-[#06fece] text-white"
                     : "bg-white text-black"
             }`}
         >
             <nav
                 className={`z-10 absolute w-full text-xl border-b-2 border-black font-medium ${
                     isDarkMode
-                        ? "bg-[#1d242c] text-white border-teal-500"
+                        ? "bg-[#1d242c] text-white border-[#06fece]"
                         : "bg-white text-black"
                 }`}
             >
@@ -120,14 +138,22 @@ const Admin = () => {
                             </div>
                             {isOpen && (
                                 <div
-                                    className="fixed right-0 mt-2 bg-white text-black border-b-2 border-l-2 border-black"
+                                    className={`${
+                                        isDarkMode
+                                            ? "bg-[#1d242c] text-white border-[#06fece]"
+                                            : "bg-white text-black"
+                                    } fixed right-0 mt-2 border-b-2 border-l-2 border-black select-none`}
                                     style={{ width: `${dropdownWidth}px` }}
                                 >
                                     {windowWidth < 768 ? menuItems : null}
                                     <ul className="cursor-pointer">
                                         {!user && (
                                             <li
-                                                className="border-b p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl text-start"
+                                                className={`border-b p-2 ${
+                                                    isDarkMode
+                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
+                                                        : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                                                }  text-start`}
                                                 onClick={navigateToLogin}
                                             >
                                                 <div>Login</div>
@@ -135,7 +161,11 @@ const Admin = () => {
                                         )}
                                         {user && (
                                             <li
-                                                className="p-2 hover:bg-slate-100 active:bg-slate-200 rounded-bl-xl text-start"
+                                                className={`p-2 ${
+                                                    isDarkMode
+                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
+                                                        : "hover:bg-slate-100 active:bg-slate-200"
+                                                }  text-start`}
                                                 onClick={() => {
                                                     logout()
                                                     navigate("/")
@@ -166,8 +196,8 @@ const Admin = () => {
                                 onClick={() => switchView("orders")}
                                 className={`border-2 border-black px-2 h-10 transition-all duration-75 ease-in-out ${
                                     currentView === "orders"
-                                        ? "bg-blue-600 text-white"
-                                        : "bg-white hover:bg-blue-200"
+                                        ? "bg-[#06fece] text-black"
+                                        : "hover:bg-gray-700"
                                 }`}
                             >
                                 Orders
@@ -176,8 +206,8 @@ const Admin = () => {
                                 onClick={() => switchView("products")}
                                 className={`border-2 border-black px-2 h-10 transition-all duration-75 ease-in-out ${
                                     currentView === "products"
-                                        ? "bg-blue-600 text-white"
-                                        : "bg-white hover:bg-blue-200"
+                                        ? "bg-[#06fece] text-black"
+                                        : " hover:bg-gray-700"
                                 }`}
                             >
                                 Products
@@ -187,10 +217,22 @@ const Admin = () => {
                         <div className="flex w-1/2 md:justify-end space-x-2">
                             {currentView === "products" && (
                                 <>
-                                    <button className="flex-grow md:flex-none md:w-32 h-10 border-2 border-black px-2 bg-white hover:bg-red-600 hover:text-white transition-all duration-75 ease-in-out">
+                                    <button
+                                        className={`flex-grow md:flex-none md:w-32 h-10 border-2 px-2 transition-all duration-75 ease-in-out ${
+                                            isDarkMode
+                                                ? "border-[#06fece] hover:bg-[#06fece] text-white hover:text-black"
+                                                : "border-black bg-white hover:bg-red-600 hover:text-white"
+                                        }`}
+                                    >
                                         Reset
                                     </button>
-                                    <button className="w-10 h-10 border-2 border-black bg-white hover:bg-green-500 hover:text-white transition-all duration-75 ease-in-out">
+                                    <button
+                                        className={`w-10 h-10 border-2 transition-all duration-75 ease-in-out ${
+                                            isDarkMode
+                                                ? "border-[#06fece] hover:bg-[#06fece] text-white hover:text-black"
+                                                : "border-black bg-white hover:text-white"
+                                        }`}
+                                    >
                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFUlEQVR4nO2aSwrCMBRFzzbqVF2TvzVoXYaTbsztKDqMCBFEtAW1MTXnwB0VShOa9+67BEREREREJDEjYB5VURgr4AiEqAOwpBCmwPlu8TedgAkFsH2y+Js2FEDTsgHXZ39P4wbgHxA8AlgDgkUQu0CwDaIPCBohdIJBK8ywZoEpUAO7N7RvscL7N99ZpxylVy/m+V/rnCJUGT0kObnp2He8tshgkV26Zoy9Mc9ggV2a9bkBVQwwQ6Y6pEiYlzHADJnpFI9oEsYxwMylDW7iNw2C5h+M0Ce4AfgH4BHAGoBFELsAtkH0AWiE0AmiFaagWaBuscJrCmDScklqMCPtN0KVx2tyycKMXKhKvigpIiIiIsJvuQBJNvgVdT6bCQAAAABJRU5ErkJggg==" />
                                     </button>
                                 </>
@@ -199,55 +241,120 @@ const Admin = () => {
                     </div>
                     {currentView === "orders" && (
                         <div
-                            className={`border-2 mx-2 md:mx-0 ${
+                            className={`mx-2 md:mx-0 ${
                                 isDarkMode
                                     ? "bg-[#1d242c] text-white"
                                     : "bg-white text-black"
                             }`}
                         >
                             <table
-                                className={`min-w-full ${
+                                className={`min-w-full border-2 ${
                                     isDarkMode
-                                        ? "bg-[#1d242c] text-white"
+                                        ? "bg-[#1d242c] border-[#06fece] text-white"
                                         : "bg-white text-black"
                                 }`}
                             >
-                                <thead>
-                                    <tr>
-                                        <th className="w-1/4 py-2 px-4 border">
-                                            ID
+                                <thead className="border-[#06fece]">
+                                    <tr className="border-2 border-[#06fece]">
+                                        <th className="w-1/5 py-2 px-2">ID</th>
+                                        <th className="w-1/5 py-2 px-2">
+                                            Product Name
                                         </th>
-                                        <th className="w-1/4 py-2 px-4 border">
-                                            Name
+                                        <th className="w-1/5 py-2 px-2">
+                                            Amount
                                         </th>
-                                        <th className="w-1/4 py-2 px-4 border">
+                                        <th className="w-1/5 py-2 px-2">
                                             Buyer
                                         </th>
-                                        <th className="w-1/4 py-2 px-4 border">
+                                        <th className="w-1/5 py-2 px-2">
                                             Timestamp
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.keys(orders).map((orderId) => {
-                                        const order = orders[orderId]
-                                        return (
-                                            <tr key={orderId}>
-                                                <td className="py-2 px-4 border">
-                                                    {order.id}
-                                                </td>
-                                                <td className="py-2 px-4 border">
-                                                    {order.name}
-                                                </td>
-                                                <td className="py-2 px-4 border">
-                                                    {order.buyer}
-                                                </td>
-                                                <td className="py-2 px-4 border">
-                                                    {order.timestamp}
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
+                                    {Array.isArray(orders) &&
+                                        orders.map((order) =>
+                                            order.products_bought.map(
+                                                (product, index) => (
+                                                    <tr
+                                                        key={`${order.id}-${product.id}-${index}`}
+                                                    >
+                                                        {index === 0 && (
+                                                            <>
+                                                                <td
+                                                                    className={`border text-center ${
+                                                                        isDarkMode
+                                                                            ? "border-[#06fece]"
+                                                                            : "border-black"
+                                                                    }`}
+                                                                    rowSpan={
+                                                                        order
+                                                                            .products_bought
+                                                                            .length
+                                                                    }
+                                                                >
+                                                                    {order.id}
+                                                                </td>
+                                                            </>
+                                                        )}
+                                                        <td
+                                                            className={`border text-center ${
+                                                                isDarkMode
+                                                                    ? "border-[#06fece]"
+                                                                    : "border-black"
+                                                            }`}
+                                                        >
+                                                            {product.name}
+                                                        </td>
+                                                        <td
+                                                            className={`border text-center ${
+                                                                isDarkMode
+                                                                    ? "border-[#06fece]"
+                                                                    : "border-black"
+                                                            }`}
+                                                        >
+                                                            {product.amount}
+                                                        </td>
+                                                        {index === 0 && (
+                                                            <>
+                                                                <td
+                                                                    className={`border text-center ${
+                                                                        isDarkMode
+                                                                            ? "border-[#06fece]"
+                                                                            : "border-black"
+                                                                    }`}
+                                                                    rowSpan={
+                                                                        order
+                                                                            .products_bought
+                                                                            .length
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        order.buyer
+                                                                    }
+                                                                </td>
+                                                                <td
+                                                                    className={`border text-center ${
+                                                                        isDarkMode
+                                                                            ? "border-[#06fece]"
+                                                                            : "border-black"
+                                                                    }`}
+                                                                    rowSpan={
+                                                                        order
+                                                                            .products_bought
+                                                                            .length
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        order.timestamp
+                                                                    }
+                                                                </td>
+                                                            </>
+                                                        )}
+                                                    </tr>
+                                                ),
+                                            ),
+                                        )}
                                 </tbody>
                             </table>
                         </div>

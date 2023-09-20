@@ -114,8 +114,6 @@ const Navbar = () => {
                         </div>
                     </div>
                 </div>
-                <button onClick={toggleDarkMode}>Toggle</button>
-
                 <div className="w-1/2 md:w-1/3 text-right">
                     <div className="relative inline-block" ref={parentRef}>
                         <div
@@ -144,14 +142,14 @@ const Navbar = () => {
                                     isDarkMode
                                         ? "bg-[#1d242c] text-white border-teal-500"
                                         : "bg-white text-black"
-                                } fixed right-0 mt-2 border-b-2 border-l-2 border-black select-none`}
+                                } absolute right-0 mt-2 border-b-2 border-l-2 border-black select-none -mr-2`}
                                 style={{ width: `${dropdownWidth}px` }}
                             >
                                 {windowWidth < 768 ? menuItems : null}
                                 <ul className="cursor-pointer">
                                     {!user && (
                                         <li
-                                            className={`border-b p-2 ${
+                                            className={`p-2 ${
                                                 isDarkMode
                                                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
                                                     : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
@@ -163,7 +161,7 @@ const Navbar = () => {
                                     )}
                                     {user && user.role !== "admin" && (
                                         <li
-                                            className={`border-b p-2 ${
+                                            className={`p-2 ${
                                                 isDarkMode
                                                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
                                                     : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
@@ -185,6 +183,18 @@ const Navbar = () => {
                                             <div>Admin</div>
                                         </li>
                                     )}
+                                    <button
+                                        onClick={toggleDarkMode}
+                                        className={`p-2 w-full ${
+                                            isDarkMode
+                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                                                : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                                        }  text-start`}
+                                    >
+                                        {isDarkMode
+                                            ? "Toggle Light Mode"
+                                            : "Toggle Dark Mode"}
+                                    </button>
                                     {user && (
                                         <li
                                             className={`p-2 ${
