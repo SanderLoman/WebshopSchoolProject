@@ -4,20 +4,23 @@ import HomePage from "./components/homepage/HomePage.jsx"
 import LoginPage from "./components/login/Login.jsx"
 import RegisterPage from "./components/login/Register.jsx"
 import AdminPage from "./components/admin/Admin.jsx"
+import { DarkModeProvider } from "./components/darkmode/DarkModeContext.jsx"
 import "./App.css"
 
 function App() {
     return (
-        <Router>
-            <div className="bg-gray-100">
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/admin" element={<AdminPage />} />
-                </Routes>
-            </div>
-        </Router>
+        <DarkModeProvider>
+            <Router>
+                <div className="bg-gray-100">
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/admin" element={<AdminPage />} />
+                    </Routes>
+                </div>
+            </Router>
+        </DarkModeProvider>
     )
 }
 

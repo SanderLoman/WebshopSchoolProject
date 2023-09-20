@@ -14,19 +14,25 @@
         },
         "jeans": {
             "name": "Jeans",
-            "id": 2,
+            "id": 3,
             "prijs": 49.99,
             "img-url": ""
         },
         "skinny_jeans": {
             "name": "Skinny Jeans",
-            "id": 2,
+            "id": 4,
             "prijs": 49.99,
             "img-url": ""
         },
         "t-shirt": {
             "name": "T-shirt",
-            "id": 3,
+            "id": 5,
+            "prijs": 19.99,
+            "img-url": ""
+        },
+        "shoes": {
+            "name": "Hele snelle schoenen",
+            "id": 4,
             "prijs": 19.99,
             "img-url": ""
         }
