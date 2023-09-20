@@ -50,7 +50,7 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                         : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                 }  text-start`}
             >
@@ -59,7 +59,7 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                         : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                 }  text-start`}
             >
@@ -68,7 +68,7 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                         : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                 }  text-start`}
             >
@@ -81,7 +81,7 @@ const Navbar = () => {
         <nav
             className={`${
                 isDarkMode
-                    ? "bg-[#1d242c] border-b-2 border-teal-500 text-white text-xl font-medium"
+                    ? "bg-[#1d242c] border-b-2 border-[#06fece] text-white text-xl font-medium"
                     : "z-10 absolute bg-white w-full text-black text-xl border-b-2 border-black font-medium"
             }`}
         >
@@ -131,7 +131,7 @@ const Navbar = () => {
                             <div
                                 className={`${
                                     isDarkMode
-                                        ? "w-10 h-10 rounded-full bg-[#1d242c] border-2 hover:border border-teal-500"
+                                        ? "w-10 h-10 rounded-full bg-[#1d242c] border-2 hover:border border-[#06fece]"
                                         : "w-10 h-10 rounded-full bg-white border-2  border-black hover:border"
                                 }`}
                             ></div>
@@ -140,7 +140,7 @@ const Navbar = () => {
                             <div
                                 className={`${
                                     isDarkMode
-                                        ? "bg-[#1d242c] text-white border-teal-500"
+                                        ? "bg-[#1d242c] text-white border-[#06fece]"
                                         : "bg-white text-black"
                                 } absolute right-0 mt-2 border-b-2 border-l-2 border-black select-none -mr-2`}
                                 style={{ width: `${dropdownWidth}px` }}
@@ -151,7 +151,7 @@ const Navbar = () => {
                                         <li
                                             className={`p-2 ${
                                                 isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                                                     : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                                             }  text-start`}
                                             onClick={navigateToLogin}
@@ -163,7 +163,7 @@ const Navbar = () => {
                                         <li
                                             className={`p-2 ${
                                                 isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                                                     : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                                             }  text-start`}
                                             onClick={null}
@@ -175,7 +175,7 @@ const Navbar = () => {
                                         <li
                                             className={`p-2 ${
                                                 isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                                                     : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                                             }  text-start`}
                                             onClick={navigateToAdmin}
@@ -187,7 +187,7 @@ const Navbar = () => {
                                         onClick={toggleDarkMode}
                                         className={`p-2 w-full ${
                                             isDarkMode
-                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-teal-500"
+                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
                                                 : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
                                         }  text-start`}
                                     >
