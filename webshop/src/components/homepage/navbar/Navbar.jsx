@@ -8,10 +8,30 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [dropdownWidth, setDropdownWidth] = useState(null)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-    const { isDarkMode, toggleDarkMode } = useDarkMode()
+    const { isDarkMode, setIsDarkMode } = useDarkMode()
     const { user, logout } = useAuth()
     const parentRef = useRef(null)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.classList.add("dark")
+        } else {
+            document.documentElement.classList.remove("dark")
+        }
+    }, [isDarkMode])
+
+    useEffect(() => {
+        const localData = localStorage.getItem("isDarkMode")
+        if (localData !== null) {
+            setIsDarkMode(JSON.parse(localData))
+        }
+    }, [])
+
+    // Update localStorage whenever isDarkMode changes
+    useEffect(() => {
+        localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode))
+    }, [isDarkMode])
 
     useEffect(() => {
         console.log("User state has changed:", user)
@@ -50,8 +70,8 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
                 }  text-start`}
             >
                 <div onClick={null}>Link1</div>
@@ -59,8 +79,8 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
                 }  text-start`}
             >
                 <div onClick={null}>Link2</div>
@@ -68,8 +88,8 @@ const Navbar = () => {
             <li
                 className={`border-b p-2 ${
                     isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
                 }  text-start`}
             >
                 <div onClick={null}>Link3</div>
@@ -81,9 +101,9 @@ const Navbar = () => {
         <nav
             className={`${
                 isDarkMode
-                    ? "bg-[#1d242c] border-b-2 border-[#06fece] text-white text-xl font-medium"
-                    : "z-10 absolute bg-white w-full text-black text-xl border-b-2 border-black font-medium"
-            }`}
+                    ? "bg-[#1d242c] border-white text-white text-xl font-medium"
+                    : "bg-white border-black text-black text-xl font-medium"
+            } z-10 absolute w-full`}
         >
             <div className="flex justify-between items-center p-2">
                 <div className="w-1/2 md:w-1/3">
@@ -131,8 +151,8 @@ const Navbar = () => {
                             <div
                                 className={`${
                                     isDarkMode
-                                        ? "w-10 h-10 rounded-full bg-[#1d242c] border-2 hover:border border-[#06fece]"
-                                        : "w-10 h-10 rounded-full bg-white border-2  border-black hover:border"
+                                        ? "w-10 h-10 rounded-full bg-[#1d242c] border hover:border border-white"
+                                        : "w-10 h-10 rounded-full bg-gray-200 border border-gray-300"
                                 }`}
                             ></div>
                         </div>
@@ -140,31 +160,19 @@ const Navbar = () => {
                             <div
                                 className={`${
                                     isDarkMode
-                                        ? "bg-[#1d242c] text-white border-[#06fece]"
-                                        : "bg-white text-black"
-                                } absolute right-0 mt-2 border-b-2 border-l-2 border-black select-none -mr-2`}
+                                        ? "bg-[#1d242c] text-white border-white drop-shadow-xl shadow-2xl shadow-gray-900"
+                                        : "bg-white text-black shadow-2xl"
+                                } absolute right-0 mt-2 rounded-bl-xl border-black select-none -mr-2`}
                                 style={{ width: `${dropdownWidth}px` }}
                             >
                                 {windowWidth < 768 ? menuItems : null}
                                 <ul className="cursor-pointer">
-                                    {!user && (
-                                        <li
-                                            className={`p-2 ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
-                                            }  text-start`}
-                                            onClick={navigateToLogin}
-                                        >
-                                            <div>Login</div>
-                                        </li>
-                                    )}
                                     {user && user.role !== "admin" && (
                                         <li
                                             className={`p-2 ${
                                                 isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                                                    ? "hover:bg-[#13171d] active:hover:bg-[#101316] border-b"
+                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b"
                                             }  text-start`}
                                             onClick={null}
                                         >
@@ -175,8 +183,8 @@ const Navbar = () => {
                                         <li
                                             className={`p-2 ${
                                                 isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b"
+                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b"
                                             }  text-start`}
                                             onClick={navigateToAdmin}
                                         >
@@ -184,17 +192,31 @@ const Navbar = () => {
                                         </li>
                                     )}
                                     <button
-                                        onClick={toggleDarkMode}
+                                        onClick={() =>
+                                            setIsDarkMode(!isDarkMode)
+                                        }
                                         className={`p-2 w-full ${
                                             isDarkMode
-                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b-2 border-[#06fece]"
-                                                : "hover:bg-slate-100 active:bg-slate-200 border-b-2 border-black"
+                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b "
+                                                : "hover:bg-slate-100 active:bg-slate-200 border-b"
                                         }  text-start`}
                                     >
                                         {isDarkMode
                                             ? "Toggle Light Mode"
                                             : "Toggle Dark Mode"}
                                     </button>
+                                    {!user && (
+                                        <li
+                                            className={`p-2 ${
+                                                isDarkMode
+                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
+                                                    : "hover:bg-slate-100 active:bg-slate-200"
+                                            }  text-start rounded-bl-xl`}
+                                            onClick={navigateToLogin}
+                                        >
+                                            <div>Login</div>
+                                        </li>
+                                    )}
                                     {user && (
                                         <li
                                             className={`p-2 ${

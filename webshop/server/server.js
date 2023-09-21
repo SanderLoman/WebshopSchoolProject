@@ -69,10 +69,16 @@ app.get("/api/orders", (req, res) => {
     )
 })
 
-app.post("/api/register", (req, res) => {
+app.post("/api/register", async (req, res) => {
     const { email, password, firstName, lastName, role } = req.body
-    registerUser(email, password, firstName, lastName, role)
-    res.send("User registered")
+    const status = await registerUser(
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+    )
+    res.send(status)
 })
 
 // For handling not found routes
@@ -81,35 +87,41 @@ app.use((req, res) => {
 })
 
 const registerUser = (email, password, firstName, lastName, role) => {
-    // Read the existing users from the file
-    fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
-        if (err) {
-            console.error("An error occurred:", err)
-            return
-        }
-
-        const users = JSON.parse(data)
-
-        // Check if user already exists
-        const existingUser = users.find((user) => user.email === email)
-        if (existingUser) {
-            console.log("User already exists")
-            return
-        }
-
-        // Add the new user
-        users.push({ email, password, firstName, lastName, role })
-
-        // Write the updated user list back to the file
-        fs.writeFile(
+    return new Promise((resolve, reject) => {
+        fs.readFile(
             path.join(__dirname, "./auth.json"),
-            JSON.stringify(users, null, 2),
-            (err) => {
+            "utf-8",
+            (err, data) => {
                 if (err) {
                     console.error("An error occurred:", err)
+                    reject("An error occurred")
                     return
                 }
-                console.log("User successfully registered")
+
+                const users = JSON.parse(data)
+                const existingUser = users.find((user) => user.email === email)
+
+                if (existingUser) {
+                    console.log("User already exists")
+                    resolve(false)
+                    return
+                }
+
+                users.push({ email, password, firstName, lastName, role })
+
+                fs.writeFile(
+                    path.join(__dirname, "./auth.json"),
+                    JSON.stringify(users, null, 2),
+                    (err) => {
+                        if (err) {
+                            console.error("An error occurred:", err)
+                            reject("An error occurred")
+                            return
+                        }
+                        console.log("User successfully registered")
+                        resolve(true)
+                    },
+                )
             },
         )
     })

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import RegisterPage from "../login/Register.jsx"
 
 const useAuth = () => {
     const [user, setUser] = useState(
@@ -25,7 +26,7 @@ const useAuth = () => {
             }
         }
         fetchAuthData()
-    }, [])
+    }, [1000])
 
     const login = (email, password) => {
         if (!authData) {
@@ -60,12 +61,14 @@ const useAuth = () => {
             }),
         })
 
-        if (res.ok) {
+        const text = await res.text()
+
+        if (text === "User successfully registered") {
             const newUser = { email, password, firstName, lastName, role }
             setAuthData([...authData, newUser])
-            return true
+            return "User successfully registered"
         } else {
-            return false
+            return text // This will be "User already exists" if the user exists
         }
     }
 
