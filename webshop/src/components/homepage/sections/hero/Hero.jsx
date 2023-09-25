@@ -1,5 +1,7 @@
 import React from "react"
 import Slider from "react-slick"
+import photo1 from "../assets/photo1.png"
+import photo2 from "../assets/photo2.jpeg"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "./Hero.css"
@@ -33,7 +35,7 @@ const Hero = () => {
                     </p>
                     <a
                         href="#"
-                        className="flex w-max mx-auto lg:mx-0 px-5 py-3 text-base font-medium text-center text-black border rounded-lg dark:text-white ring-4 border-blue-700 bg-blue-700 active:ring-0 transition-all duration-75 ease-in-out"
+                        className="flex w-max mx-auto lg:mx-0 px-5 py-3 text-base font-medium text-center border rounded-lg text-white ring-4 border-blue-700 bg-blue-700 active:ring-0 transition-all duration-75 ease-in-out"
                     >
                         Go Shopping! →
                     </a>
@@ -43,26 +45,38 @@ const Hero = () => {
                     <div className="invisible"></div>
 
                     {/* <!-- Top Right --> */}
-                    <div className="visible bg-white drop-shadow-2xl shadow-2xl dark:border-white dark:bg-[#1d242c] dark:shadow-gray-900 rounded-xl h-full">
-                        <Slider className="h-full" {...settings}>
-                            <div>
-                                img placeholder1
-                                <img src="#" alt="" />
+                    <div className="visible bg-transparent drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 rounded-xl h-max">
+                        <Slider className="-mb-2" {...settings}>
+                            <div className="h-full">
+                                {/* img placeholder1 */}
+                                <img
+                                    src={photo1}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
-                            <div>
-                                img placeholder2
-                                <img src="#" alt="" />
+                            <div className="h-full">
+                                {/* img placeholder2 */}
+                                <img
+                                    src={photo2}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
-                            <div>
-                                img placeholder3
-                                <img src="#" alt="" />
+                            <div className="h-full">
+                                {/* img placeholder3 */}
+                                <img
+                                    src={photo1}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                         </Slider>
                     </div>
 
                     {/* <!-- Bottom Left --> */}
-                    <div className="visible bg-white drop-shadow-2xl shadow-2xl dark:border-white dark:bg-[#1d242c] dark:shadow-gray-900 rounded-xl h-full">
-                        <Slider {...settings}>
+                    <div className="visible bg-transparentv drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 rounded-xl h-max">
+                        <Slider className="-mb-2" {...settings}>
                             <div>
                                 img placeholder1
                                 <img src="#" alt="" />
