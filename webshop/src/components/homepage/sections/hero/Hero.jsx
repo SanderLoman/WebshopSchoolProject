@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Slider from "react-slick"
 import photo1 from "../assets/photo1.jpeg"
 import photo2 from "../assets/photo2.jpeg"
@@ -11,39 +11,18 @@ import "slick-carousel/slick/slick-theme.css"
 import "./Hero.css"
 
 const Hero = () => {
-    const [secondSliderAutoplay, setSecondSliderAutoplay] = useState(false)
-    const [key, setKey] = useState(0)
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setSecondSliderAutoplay(true)
-            setKey((prevKey) => prevKey + 1)
-        }, 1500)
-
-        return () => clearTimeout(timer)
-    }, [])
-
-    const commonSettings = {
+    const settings = {
         dots: false,
         arrows: false,
         infinite: true,
+        autoplay: true,
         pauseOnHover: true,
+        // fade: true,
         autoplaySpeed: 3000,
         draggable: true,
-        // fade: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-    }
-
-    const firstSliderSettings = {
-        ...commonSettings,
-        autoplay: true,
-    }
-
-    const secondSliderSettings = {
-        ...commonSettings,
-        autoplay: secondSliderAutoplay,
     }
 
     return (
@@ -71,58 +50,36 @@ const Hero = () => {
 
                     {/* <!-- Top Right --> */}
                     <div className="visible bg-transparent drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 h-max rounded-xl">
-                        <Slider className="-mb-2" {...firstSliderSettings}>
+                        <Slider className="-mb-2" {...settings}>
                             <div className="h-full">
-                                <img
-                                    src={photo1}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder1 */}
+                                <img src={photo1} alt="" className="rounded-xl" />
                             </div>
                             <div className="h-full">
-                                <img
-                                    src={photo2}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder2 */}
+                                <img src={photo2} alt="" className="rounded-xl" />
                             </div>
                             <div className="h-full">
-                                <img
-                                    src={photo3}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder3 */}
+                                <img src={photo3} alt="" className="rounded-xl" />
                             </div>
                         </Slider>
                     </div>
 
                     {/* <!-- Bottom Left --> */}
                     <div className="visible bg-transparentv drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 rounded-xl h-max">
-                        <Slider
-                            key={key}
-                            className="-mb-2"
-                            {...secondSliderSettings}
-                        >
+                        <Slider className="-mb-2" {...settings}>
                             <div className="h-full">
-                                <img
-                                    src={photo4}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder1 */}
+                                <img src={photo4} alt="" className="rounded-xl" />
                             </div>
                             <div className="h-full">
-                                <img
-                                    src={photo5}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder2 */}
+                                <img src={photo5} alt="" className="rounded-xl" />
                             </div>
                             <div className="h-full">
-                                <img
-                                    src={photo6}
-                                    alt=""
-                                    className="rounded-xl"
-                                />
+                                {/* img placeholder3 */}
+                                <img src={photo6} alt="" className="rounded-xl" />
                             </div>
                         </Slider>
                     </div>
