@@ -101,7 +101,7 @@ const Navbar = () => {
         <nav
             className={`${
                 isDarkMode
-                    ? "bg-[#1d242c] border-white text-white text-xl font-medium"
+                    ? "bg-[#1d242c] border-white text-white text-xl font-medium shadow-lg shadow-gray-900"
                     : "bg-white border-black text-black text-xl font-medium"
             } z-10 absolute w-full`}
         >
@@ -115,7 +115,7 @@ const Navbar = () => {
                             onClick={null}
                             className="nav-link relative select-none cursor-pointer"
                         >
-                            Link1
+                            Shop
                             <span className="absolute bottom-0 left-0"></span>
                         </div>
                         <div
@@ -198,7 +198,7 @@ const Navbar = () => {
                                                 className={`border-b p-2 ${
                                                     isDarkMode
                                                         ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                                                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
+                                                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
                                                 }  text-start`}
                                             >
                                                 <div onClick={null}>Cart</div>

@@ -97,7 +97,7 @@ const Admin = () => {
 
     return (
         <div className="z-0 h-screen w-screen bg-white text-black dark:text-white dark:bg-black">
-            <nav className="z-10 absolute w-full text-xl border-b-2 border-black font-medium bg-white text-black">
+            <nav className="z-10 absolute w-full text-xl border-b border-black font-medium bg-white text-black">
                 <div className="flex justify-between items-center p-2">
                     <div className="w-1/2 md:w-1/3">
                         <div className="font-bold text-lg">Logo</div>
@@ -124,11 +124,11 @@ const Admin = () => {
                                         ? `${user.firstName} ${user.lastName}`
                                         : "Account"}
                                 </span>
-                                <div className="w-10 h-10 rounded-full bg-white border-2 border-black hover:border"></div>
+                                <div className="w-10 h-10 rounded-full bg-white border border-black hover:border"></div>
                             </div>
                             {isOpen && (
                                 <div
-                                    className="bg-white text-black fixed right-0 mt-2 border-b-2 border-l-2 border-black select-none"
+                                    className="bg-white text-black fixed right-0 mt-2 border-b border-l border-black select-none"
                                     style={{ width: `${dropdownWidth}px` }}
                                 >
                                     {windowWidth < 768 ? menuItems : null}
@@ -165,13 +165,13 @@ const Admin = () => {
                         <div className="flex w-1/2 space-x-2">
                             <button
                                 onClick={() => switchView("orders")}
-                                className="border-2 border-black px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
+                                className="border border-black px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
                             >
                                 Orders
                             </button>
                             <button
                                 onClick={() => switchView("products")}
-                                className="border-2 border-black px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
+                                className="border border-black px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
                             >
                                 Products
                             </button>
@@ -179,10 +179,10 @@ const Admin = () => {
                         <div className="flex w-1/2 md:justify-end space-x-2">
                             {currentView === "products" && (
                                 <>
-                                    <button className="flex-grow md:flex-none md:w-32 h-10 border-2 px-2 transition-all duration-75 ease-in-out border-black bg-white hover:bg-red-600 hover:text-white">
+                                    <button className="flex-grow md:flex-none md:w-32 h-10 border px-2 transition-all duration-75 ease-in-out border-black bg-white hover:bg-red-600 hover:text-white">
                                         Reset
                                     </button>
-                                    <button className="w-10 h-10 border-2 transition-all duration-75 ease-in-out border-black bg-white hover:text-white">
+                                    <button className="w-10 h-10 border transition-all duration-75 ease-in-out border-black bg-white hover:text-white">
                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFUlEQVR4nO2aSwrCMBRFzzbqVF2TvzVoXYaTbsztKDqMCBFEtAW1MTXnwB0VShOa9+67BEREREREJDEjYB5VURgr4AiEqAOwpBCmwPlu8TedgAkFsH2y+Js2FEDTsgHXZ39P4wbgHxA8AlgDgkUQu0CwDaIPCBohdIJBK8ywZoEpUAO7N7RvscL7N99ZpxylVy/m+V/rnCJUGT0kObnp2He8tshgkV26Zoy9Mc9ggV2a9bkBVQwwQ6Y6pEiYlzHADJnpFI9oEsYxwMylDW7iNw2C5h+M0Ce4AfgH4BHAGoBFELsAtkH0AWiE0AmiFaagWaBuscJrCmDScklqMCPtN0KVx2tyycKMXKhKvigpIiIiIsJvuQBJNvgVdT6bCQAAAABJRU5ErkJggg==" />
                                     </button>
                                 </>
