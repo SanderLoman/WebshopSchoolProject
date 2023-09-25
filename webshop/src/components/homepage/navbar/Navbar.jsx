@@ -191,6 +191,19 @@ const Navbar = () => {
                                             <div>Admin</div>
                                         </li>
                                     )}
+                                    {user &&
+                                        (user.role === "admin" ||
+                                            user.role === "user") && (
+                                            <li
+                                                className={`border-b p-2 ${
+                                                    isDarkMode
+                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+                                                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
+                                                }  text-start`}
+                                            >
+                                                <div onClick={null}>Cart</div>
+                                            </li>
+                                        )}
                                     <button
                                         onClick={() =>
                                             setIsDarkMode(!isDarkMode)
