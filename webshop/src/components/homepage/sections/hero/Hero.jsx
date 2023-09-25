@@ -50,36 +50,66 @@ const Hero = () => {
 
                     {/* <!-- Top Right --> */}
                     <div className="visible bg-transparent drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 h-max rounded-xl">
-                        <Slider className="-mb-2" {...settings}>
+                        <Slider
+                            className="-mb-2 cursor-grab active:cursor-grabbing"
+                            {...settings}
+                        >
                             <div className="h-full">
                                 {/* img placeholder1 */}
-                                <img src={photo1} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo1}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                             <div className="h-full">
                                 {/* img placeholder2 */}
-                                <img src={photo2} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo2}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                             <div className="h-full">
                                 {/* img placeholder3 */}
-                                <img src={photo3} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo3}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                         </Slider>
                     </div>
 
                     {/* <!-- Bottom Left --> */}
                     <div className="visible bg-transparentv drop-shadow-2xl shadow-2xl dark:border-white dark:shadow-gray-900 rounded-xl h-max">
-                        <Slider className="-mb-2" {...settings}>
+                        <Slider
+                            className="-mb-2 cursor-grab active:cursor-grabbing"
+                            {...settings}
+                        >
                             <div className="h-full">
                                 {/* img placeholder1 */}
-                                <img src={photo4} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo4}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                             <div className="h-full">
                                 {/* img placeholder2 */}
-                                <img src={photo5} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo5}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                             <div className="h-full">
                                 {/* img placeholder3 */}
-                                <img src={photo6} alt="" className="rounded-xl" />
+                                <img
+                                    src={photo6}
+                                    alt=""
+                                    className="rounded-xl"
+                                />
                             </div>
                         </Slider>
                     </div>
