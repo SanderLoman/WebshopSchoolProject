@@ -27,7 +27,7 @@ const Hero = () => {
 
     return (
         <section className="bg-gray-100 dark:bg-[#1d242c] h-screen">
-            <div className="grid max-w-screen-xl px-4 py-52 mx-auto lg:gap-8 xl:gap-0 lg:py-20 lg:grid-cols-12 h-full">
+            <div className="grid max-w-screen-xl px-4 py-64 mx-auto lg:gap-8 xl:gap-0 lg:py-20 lg:grid-cols-12 h-full">
                 <div className="mr-auto lg:place-self-center lg:col-span-7">
                     <h1 className="max-w-2xl text-center lg:text-left mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
                         Your Fashion Journey Starts Here.
@@ -54,28 +54,28 @@ const Hero = () => {
                             className="-mb-2 cursor-grab active:cursor-grabbing"
                             {...settings}
                         >
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder1 */}
                                 <img
                                     src={photo1}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder2 */}
                                 <img
                                     src={photo2}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder3 */}
                                 <img
                                     src={photo3}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
                         </Slider>
@@ -87,28 +87,28 @@ const Hero = () => {
                             className="-mb-2 cursor-grab active:cursor-grabbing"
                             {...settings}
                         >
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder1 */}
                                 <img
                                     src={photo4}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder2 */}
                                 <img
                                     src={photo5}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
-                            <div className="h-full">
+                            <div className="h-full p-1">
                                 {/* img placeholder3 */}
                                 <img
                                     src={photo6}
                                     alt=""
-                                    className="rounded-xl"
+                                    className="rounded-lg"
                                 />
                             </div>
                         </Slider>

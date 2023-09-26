@@ -3,38 +3,32 @@
         "sweater_black": {
             "name": "Black Sweater",
             "id": 1,
-            "prijs": 29.99,
-            "img-url": ""
+            "prijs": 29.99
         },
         "sweater_white": {
             "name": "White Sweater",
             "id": 2,
-            "prijs": 29.99,
-            "img-url": ""
+            "prijs": 29.99
         },
         "jeans": {
             "name": "Jeans",
             "id": 3,
-            "prijs": 49.99,
-            "img-url": ""
+            "prijs": 49.99
         },
         "skinny_jeans": {
-            "name": "Skinny Jeans",
+            "name": "Cargo Jeans",
             "id": 4,
-            "prijs": 49.99,
-            "img-url": ""
+            "prijs": 49.99
         },
         "t-shirt": {
-            "name": "T-shirt",
+            "name": "T Shirt",
             "id": 5,
-            "prijs": 19.99,
-            "img-url": ""
+            "prijs": 19.99
         },
         "shoes": {
             "name": "Shoes",
-            "id": 4,
-            "prijs": 19.99,
-            "img-url": ""
+            "id": 6,
+            "prijs": 19.99
         }
     },
     "reset_products": {},
@@ -46,14 +40,12 @@
                     "id": 5,
                     "name": "T-shirt",
                     "prijs": 19.99,
-                    "img-url": "",
                     "amount": 2
                 },
                 {
                     "id": 2,
                     "name": "Skinny Jeans",
                     "prijs": 49.99,
-                    "img-url": "",
                     "amount": 1
                 }
             ],
@@ -67,14 +59,12 @@
                     "id": 2,
                     "name": "White Sweater",
                     "prijs": 29.99,
-                    "img-url": "",
                     "amount": 3
                 },
                 {
                     "id": 2,
                     "name": "Skinny Jeans",
                     "prijs": 49.99,
-                    "img-url": "",
                     "amount": 1
                 }
             ],

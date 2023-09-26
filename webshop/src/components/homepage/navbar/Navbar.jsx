@@ -71,7 +71,7 @@ const Navbar = () => {
                 className={`border-b p-2 ${
                     isDarkMode
                         ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
                 }  text-start`}
             >
                 <div onClick={null}>Link1</div>
@@ -80,7 +80,7 @@ const Navbar = () => {
                 className={`border-b p-2 ${
                     isDarkMode
                         ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
                 }  text-start`}
             >
                 <div onClick={null}>Link2</div>
@@ -89,7 +89,7 @@ const Navbar = () => {
                 className={`border-b p-2 ${
                     isDarkMode
                         ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b border-black"
+                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
                 }  text-start`}
             >
                 <div onClick={null}>Link3</div>
@@ -140,7 +140,7 @@ const Navbar = () => {
                             onClick={toggleMenu}
                             className="flex items-center cursor-pointer"
                         >
-                            <div>
+                            <div className="w-max">
                                 <span className="mr-2 nav-link relative select-none">
                                     {user
                                         ? `${user.firstName} ${user.lastName}`
@@ -215,8 +215,8 @@ const Navbar = () => {
                                         }  text-start`}
                                     >
                                         {isDarkMode
-                                            ? "Toggle Light Mode"
-                                            : "Toggle Dark Mode"}
+                                            ? "Light Mode"
+                                            : "Dark Mode"}
                                     </button>
                                     {!user && (
                                         <li
