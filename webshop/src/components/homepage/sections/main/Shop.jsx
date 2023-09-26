@@ -50,7 +50,7 @@ const Shop = () => {
     }
 
     return (
-        <div className="flex justify-center p-4 h-max lg:h-screen bg-gray-100 dark:bg-[#1d242c]">
+        <div id="shop" className="flex justify-center p-4 h-max lg:h-screen bg-gray-100 dark:bg-[#1d242c] ">
             <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {products.map((product) => (
                     <div
@@ -72,7 +72,7 @@ const Shop = () => {
                         <div className="flex justify-center items-center mt-2 w-full">
                             <button
                                 onClick={() => handleDecrement(product.id)}
-                                className="text-white px-2 py-1 rounded-lg w-1/3 text-end"
+                                className="px-2 py-1 rounded-lg w-1/3 text-end"
                             >
                                 -
                             </button>
@@ -81,7 +81,7 @@ const Shop = () => {
                             </div>
                             <button
                                 onClick={() => handleIncrement(product.id)}
-                                className="text-white px-2 py-1 rounded-lg w-1/3 text-start"
+                                className="px-2 py-1 rounded-lg w-1/3 text-start"
                             >
                                 +
                             </button>

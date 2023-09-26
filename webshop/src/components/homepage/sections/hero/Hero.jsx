@@ -26,7 +26,7 @@ const Hero = () => {
     }
 
     return (
-        <section className="bg-gray-100 dark:bg-[#1d242c] h-screen">
+        <section className="bg-gray-100 dark:bg-[#1d242c] h-max">
             <div className="grid max-w-screen-xl px-4 py-64 mx-auto lg:gap-8 xl:gap-0 lg:py-20 lg:grid-cols-12 h-full">
                 <div className="mr-auto lg:place-self-center lg:col-span-7">
                     <h1 className="max-w-2xl text-center lg:text-left mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
@@ -38,13 +38,22 @@ const Hero = () => {
                         designs await you.
                     </p>
                     <a
-                        href="#"
+                        href="#shop"
+                        onClick={(e) => {
+                            e.preventDefault() // Prevent the default anchor link behavior
+                            const shopElement = document.getElementById("shop")
+                            if (shopElement) {
+                                shopElement.scrollIntoView({
+                                    behavior: "smooth",
+                                })
+                            }
+                        }}
                         className="flex w-max mx-auto lg:mx-0 px-5 py-3 text-base font-medium text-center border rounded-lg text-white ring-4 border-blue-700 bg-blue-700 active:ring-0 transition-all duration-75 ease-in-out"
                     >
                         Go Shopping! →
                     </a>
                 </div>
-                <div className="hidden lg:grid grid-cols-2 gap-2 lg:mt-0 lg:col-span-5 lg:h-full justify-center items-center rounded-xl">
+                <div className="hidden lg:grid grid-cols-2 gap-2 lg:mt-0 lg:col-span-5 lg:h-1/2 justify-center items-center rounded-xl">
                     {/* <!-- Top Left (Invisible) --> */}
                     <div className="invisible"></div>
 

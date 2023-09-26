@@ -3,6 +3,7 @@ import React, { useEffect } from "react"
 import Navbar from "./navbar/Navbar.jsx"
 import Hero from "./sections/hero/Hero.jsx"
 import Shop from "./sections/main/Shop.jsx"
+import Footer from "./sections/footer/Footer.jsx"
 import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
 import "./HomePage.css"
 
@@ -18,6 +19,7 @@ const HomePage = () => {
             <Navbar />
             <Hero />
             <Shop />
+            <Footer />
         </div>
     )
 }

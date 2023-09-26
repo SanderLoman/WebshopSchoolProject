@@ -10,20 +10,20 @@
             "id": 2,
             "prijs": 29.99
         },
+        "t-shirt": {
+            "name": "T Shirt",
+            "id": 3,
+            "prijs": 19.99
+        },
         "jeans": {
             "name": "Jeans",
-            "id": 3,
+            "id": 4,
             "prijs": 49.99
         },
         "skinny_jeans": {
             "name": "Cargo Jeans",
-            "id": 4,
-            "prijs": 49.99
-        },
-        "t-shirt": {
-            "name": "T Shirt",
             "id": 5,
-            "prijs": 19.99
+            "prijs": 49.99
         },
         "shoes": {
             "name": "Shoes",

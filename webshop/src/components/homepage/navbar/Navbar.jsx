@@ -39,7 +39,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if (isOpen && parentRef.current) {
-            setDropdownWidth(parentRef.current.offsetWidth + 20)
+            setDropdownWidth(parentRef.current.offsetWidth + 17)
         }
     }, [isOpen])
 
@@ -65,37 +65,37 @@ const Navbar = () => {
         navigate("/admin")
     }
 
-    const menuItems = (
-        <ul className="cursor-pointer">
-            <li
-                className={`border-b p-2 ${
-                    isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                }  text-start`}
-            >
-                <div onClick={null}>Link1</div>
-            </li>
-            <li
-                className={`border-b p-2 ${
-                    isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                }  text-start`}
-            >
-                <div onClick={null}>Link2</div>
-            </li>
-            <li
-                className={`border-b p-2 ${
-                    isDarkMode
-                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                }  text-start`}
-            >
-                <div onClick={null}>Link3</div>
-            </li>
-        </ul>
-    )
+    // const menuItems = (
+    //     <ul className="cursor-pointer">
+    //         <li
+    //             className={`border-b p-2 ${
+    //                 isDarkMode
+    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
+    //             }  text-start`}
+    //         >
+    //             <div onClick={null}>Link1</div>
+    //         </li>
+    //         <li
+    //             className={`border-b p-2 ${
+    //                 isDarkMode
+    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
+    //             }  text-start`}
+    //         >
+    //             <div onClick={null}>Link2</div>
+    //         </li>
+    //         <li
+    //             className={`border-b p-2 ${
+    //                 isDarkMode
+    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
+    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
+    //             }  text-start`}
+    //         >
+    //             <div onClick={null}>Link3</div>
+    //         </li>
+    //     </ul>
+    // )
 
     return (
         <nav
@@ -106,35 +106,10 @@ const Navbar = () => {
             } z-10 absolute w-full`}
         >
             <div className="flex justify-between items-center p-2">
-                <div className="w-1/2 md:w-1/3">
+                <div className="w-1/2">
                     <div className="font-bold">Logo</div>
                 </div>
-                <div className="hidden md:block w-1/3 text-center">
-                    <div className="hidden md:flex justify-center space-x-4">
-                        <div
-                            onClick={null}
-                            className="nav-link relative select-none cursor-pointer"
-                        >
-                            Shop
-                            <span className="absolute bottom-0 left-0"></span>
-                        </div>
-                        <div
-                            onClick={null}
-                            className="nav-link relative select-none cursor-pointer"
-                        >
-                            Link2
-                            <span className="absolute bottom-0 left-0"></span>
-                        </div>
-                        <div
-                            onClick={null}
-                            className="nav-link relative select-none cursor-pointer"
-                        >
-                            Link3
-                            <span className="absolute bottom-0 left-0"></span>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-1/2 md:w-1/3 text-right">
+                <div className="w-1/2 text-right">
                     <div className="relative inline-block" ref={parentRef}>
                         <div
                             onClick={toggleMenu}
@@ -165,7 +140,7 @@ const Navbar = () => {
                                 } absolute right-0 mt-2 rounded-bl-xl border-black select-none -mr-2`}
                                 style={{ width: `${dropdownWidth}px` }}
                             >
-                                {windowWidth < 768 ? menuItems : null}
+                                {/* {windowWidth < 768 ? menuItems : null} */}
                                 <ul className="cursor-pointer">
                                     {user && user.role !== "admin" && (
                                         <li
