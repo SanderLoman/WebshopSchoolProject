@@ -75,6 +75,7 @@ const useAuth = () => {
     const logout = () => {
         setUser(null)
         localStorage.removeItem("user")
+        return false
     }
 
     return {

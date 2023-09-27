@@ -50,7 +50,7 @@ const Shop = () => {
     }
 
     return (
-        <div id="shop" className="flex justify-center p-4 h-max lg:h-screen bg-gray-100 dark:bg-[#1d242c] ">
+        <div id="shop" className="flex justify-center p-4 h-max bg-gray-100 dark:bg-[#1d242c] ">
             <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {products.map((product) => (
                     <div

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import { useNavigate } from "react-router-dom"
 import { useDarkMode } from "../../darkmode/DarkModeContext.jsx"
 import useAuth from "../../auth/useAuth.jsx"
@@ -223,6 +225,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </nav>
     )
 }

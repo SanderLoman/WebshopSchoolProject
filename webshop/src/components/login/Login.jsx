@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
 const LoginPage = () => {
@@ -20,20 +22,73 @@ const LoginPage = () => {
 
     const handleLogin = () => {
         if (isValidEmail(email)) {
-            setEmailError("")
+            // setEmailError("")
             const loginSuccess = login(email, password)
             if (loginSuccess) {
                 navigate("/")
+                setTimeout(() => {
+                    toast.success("Successfully logged in!", {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        newestOnTop: false,
+                        closeOnClick: true,
+                        rtl: false,
+                        pauseOnFocusLoss: true,
+                        draggable: true,
+                        pauseOnHover: true,
+                        theme: isDarkMode ? "dark" : "light",
+                    })
+                }, 100)
             } else {
-                setEmailError("Invalid email or password")
+                toast.error("Invalid email or password", {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    newestOnTop: false,
+                    closeOnClick: true,
+                    rtl: false,
+                    pauseOnFocusLoss: true,
+                    draggable: true,
+                    pauseOnHover: true,
+                    theme: isDarkMode ? "dark" : "light",
+                })
+                // setEmailError("Invalid email or password")
             }
         } else {
-            setEmailError("Please enter a valid email address")
+            toast.error("Please enter a valid email address", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                newestOnTop: false,
+                closeOnClick: true,
+                rtl: false,
+                pauseOnFocusLoss: true,
+                draggable: true,
+                pauseOnHover: true,
+                theme: isDarkMode ? "dark" : "light",
+            })
+            // setEmailError("Please enter a valid email address")
         }
     }
 
     const navigateHome = () => {
         navigate("/")
+    }
+
+    const dummyToast = () => {
+        toast.success("This is a dummy link :)", {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            newestOnTop: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnFocusLoss: true,
+            draggable: true,
+            pauseOnHover: true,
+            theme: isDarkMode ? "dark" : "light",
+        })
     }
 
     return (
@@ -80,7 +135,7 @@ const LoginPage = () => {
                             : "text-black"
                     } w-full p-3 my-2 rounded outline-none drop-shadow-xl shadow-gray-900`}
                 />
-                {emailError && <p className="text-red-500">{emailError}</p>}
+                {/* {emailError && <p className="text-red-500">{emailError}</p>} */}
 
                 <input
                     type="password"
@@ -103,9 +158,9 @@ const LoginPage = () => {
 
                 <div className="mt-4 w-full flex justify-between items-center">
                     <div>
-                        <a href="#" className="text-blue-500">
+                        <button onClick={dummyToast} className="text-blue-500">
                             Forgot Password?
-                        </a>
+                        </button>
                     </div>
                     <div className="border-l border-gray-500 h-4 mx-2"></div>
                     <div>
@@ -115,6 +170,7 @@ const LoginPage = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

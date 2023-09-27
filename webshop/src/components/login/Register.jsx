@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
 import { useNavigate } from "react-router-dom"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
 const RegisterPage = () => {
@@ -120,7 +122,7 @@ const RegisterPage = () => {
                     } w-full p-3 my-2 rounded outline-none drop-shadow-xl shadow-gray-900`}
                 />
 
-                {emailError && <p className="text-red-500">{emailError}</p>}
+                {/* {emailError && <p className="text-red-500">{emailError}</p>} */}
 
                 <input
                     type="password"
@@ -146,7 +148,7 @@ const RegisterPage = () => {
                     } w-full p-3 my-2 rounded outline-none drop-shadow-xl shadow-gray-900`}
                 />
 
-                {emailError && <p className="text-red-500">{passwordError}</p>}
+                {/* {emailError && <p className="text-red-500">{passwordError}</p>} */}
 
                 <button
                     onClick={handleRegister}
@@ -154,11 +156,12 @@ const RegisterPage = () => {
                 >
                     Register
                 </button>
-
+{/* 
                 {registrationError && (
                     <p className="text-red-500">{registrationError}</p>
-                )}
+                )} */}
             </div>
+            <ToastContainer />
         </div>
     )
 }
