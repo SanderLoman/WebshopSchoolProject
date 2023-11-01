@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
 import useAuth from "../../components/auth/useAuth.jsx"
 import "./Admin.css"
@@ -23,10 +25,8 @@ const Admin = () => {
         }
     }, [isDarkMode])
 
-    // Effect to initialize isDarkMode from localStorage
     useEffect(() => {
         const localData = localStorage.getItem("isDarkMode")
-        console.log("localData:", localData)
         if (localData !== null) {
             setIsDarkMode(JSON.parse(localData))
         }
@@ -96,159 +96,8 @@ const Admin = () => {
     )
 
     return (
-        <div
-            classname={`${
-                isDarkMode ? "text-white bg-black" : "bg-white text-black"
-            } z-0 h-screen w-screen`}
-        >
-            <nav
-                className={`${
-                    isDarkMode
-                        ? "bg-[#1d242c] border-white text-white text-xl font-medium shadow-lg shadow-gray-900"
-                        : "bg-white border text-black text-xl font-medium"
-                } z-10 absolute w-full border-b`}
-            >
-                <div className="flex justify-between items-center p-2">
-                    <div className="w-1/2 md:w-1/3">
-                        <div className="font-bold">Logo</div>
-                    </div>
-                    <div className="hidden md:block w-1/3 text-center">
-                        <div className="hidden md:flex justify-center space-x-4">
-                            <div
-                                onClick={navigateToHome}
-                                className="nav-link relative select-none cursor-pointer"
-                            >
-                                Home
-                                <span className="absolute bottom-0 left-0"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-1/2 md:w-1/3 text-right">
-                        <div className="relative inline-block" ref={parentRef}>
-                            <div
-                                onClick={toggleMenu}
-                                className="flex items-center cursor-pointer"
-                            >
-                                <div>
-                                    <span className="mr-2 nav-link relative select-none">
-                                        {user
-                                            ? `${user.firstName} ${user.lastName}`
-                                            : "Account"}
-                                    </span>
-                                    <span className="absolute bottom-0 left-0"></span>
-                                </div>
-                                <div
-                                    className={`${
-                                        isDarkMode
-                                            ? "w-10 h-10 rounded-full bg-[#1d242c] border hover:border border-white"
-                                            : "w-10 h-10 rounded-full bg-gray-200 border border-gray-300"
-                                    }`}
-                                ></div>
-                            </div>
-                            {isOpen && (
-                                <div
-                                    className={`${
-                                        isDarkMode
-                                            ? "bg-[#1d242c] text-white border-white drop-shadow-xl shadow-2xl shadow-gray-900"
-                                            : "bg-white text-black shadow-2xl"
-                                    } absolute right-0 mt-2 rounded-bl-xl border-black select-none -mr-2`}
-                                    style={{ width: `${dropdownWidth}px` }}
-                                >
-                                    {windowWidth < 768 ? menuItems : null}
-                                    <ul className="cursor-pointer">
-                                        {user &&
-                                            (user.role === "admin" ||
-                                                user.role === "user") && (
-                                                <li
-                                                    className={`border-b p-2 ${
-                                                        isDarkMode
-                                                            ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                                                            : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                                    }  text-start`}
-                                                >
-                                                    <div onClick={null}>
-                                                        Cart
-                                                    </div>
-                                                </li>
-                                            )}
-                                        <button
-                                            onClick={() =>
-                                                setIsDarkMode(!isDarkMode)
-                                            }
-                                            className={`p-2 w-full ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b "
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                            }  text-start`}
-                                        >
-                                            {isDarkMode
-                                                ? "Toggle Light Mode"
-                                                : "Toggle Dark Mode"}
-                                        </button>
-                                        {!user && (
-                                            <li
-                                                className={`p-2 ${
-                                                    isDarkMode
-                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
-                                                        : "hover:bg-slate-100 active:bg-slate-200"
-                                                }  text-start rounded-bl-xl`}
-                                                onClick={navigateToLogin}
-                                            >
-                                                <div>Login</div>
-                                            </li>
-                                        )}
-                                        {user && (
-                                            <li
-                                                className={`p-2 ${
-                                                    isDarkMode
-                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
-                                                        : "hover:bg-slate-100 active:bg-slate-200"
-                                                }  text-start`}
-                                                onClick={logout}
-                                            >
-                                                <div>Log Out</div>
-                                            </li>
-                                        )}
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <div className="flex justify-center h-full w-screen font-bold px-2 bg-white text-black">
-                <div className="container">
-                    <div className="flex justify-between mt-14 p-2 md:p-0 md:py-2">
-                        <div className="flex w-1/2 space-x-2">
-                            <button
-                                onClick={() => switchView("orders")}
-                                className="border px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
-                            >
-                                Orders
-                            </button>
-                            <button
-                                onClick={() => switchView("products")}
-                                className="border px-2 h-10 transition-all duration-75 ease-in-out hover:bg-gray-700"
-                            >
-                                Products
-                            </button>
-                        </div>
-                        <div className="flex w-1/2 md:justify-end space-x-2">
-                            {currentView === "products" && (
-                                <>
-                                    <button className="flex-grow md:flex-none md:w-32 h-10 border px-2 transition-all duration-75 ease-in-out bg-white hover:bg-red-600 hover:text-white">
-                                        Reset
-                                    </button>
-                                    <button className="w-10 h-10 border transition-all duration-75 ease-in-out bg-white hover:bg-green-600 hover:text-white">
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFUlEQVR4nO2aSwrCMBRFzzbqVF2TvzVoXYaTbsztKDqMCBFEtAW1MTXnwB0VShOa9+67BEREREREJDEjYB5VURgr4AiEqAOwpBCmwPlu8TedgAkFsH2y+Js2FEDTsgHXZ39P4wbgHxA8AlgDgkUQu0CwDaIPCBohdIJBK8ywZoEpUAO7N7RvscL7N99ZpxylVy/m+V/rnCJUGT0kObnp2He8tshgkV26Zoy9Mc9ggV2a9bkBVQwwQ6Y6pEiYlzHADJnpFI9oEsYxwMylDW7iNw2C5h+M0Ce4AfgH4BHAGoBFELsAtkH0AWiE0AmiFaagWaBuscJrCmDScklqMCPtN0KVx2tyycKMXKhKvigpIiIiIsJvuQBJNvgVdT6bCQAAAABJRU5ErkJggg==" />
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                    {currentView === "orders" && null}
-                </div>
-            </div>
+        <div>
+            <ToastContainer />
         </div>
     )
 }

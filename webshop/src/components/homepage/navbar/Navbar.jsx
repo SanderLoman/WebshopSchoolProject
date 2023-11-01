@@ -1,231 +1,245 @@
 import React, { useState, useEffect, useRef } from "react"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useNavigate } from "react-router-dom"
-import { useDarkMode } from "../../darkmode/DarkModeContext.jsx"
 import useAuth from "../../auth/useAuth.jsx"
 import "./Navbar.css"
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const [dropdownWidth, setDropdownWidth] = useState(null)
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-    const { isDarkMode, setIsDarkMode } = useDarkMode()
-    const { user, logout } = useAuth()
-    const parentRef = useRef(null)
-    const navigate = useNavigate()
+    // const light = document.querySelector("#light")
+    // const dark = document.querySelector("#dark")
 
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add("dark")
-        } else {
-            document.documentElement.classList.remove("dark")
-        }
-    }, [isDarkMode])
+    // const userTheme = localStorage.getItem("theme")
+    // const systemTheme = window.matchMedia(
+    //     "(prefers-color-scheme: dark)",
+    // ).matches
 
-    useEffect(() => {
-        const localData = localStorage.getItem("isDarkMode")
-        if (localData !== null) {
-            setIsDarkMode(JSON.parse(localData))
-        }
-    }, [])
+    // const iconToggle = () => {
+    //     dark.classList.toggle("hidden")
+    //     light.classList.toggle("hidden")
+    // }
 
-    // Update localStorage whenever isDarkMode changes
-    useEffect(() => {
-        localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode))
-    }, [isDarkMode])
+    // const themeCheck = () => {
+    //     if (userTheme === "dark" || (!userTheme && systemTheme)) {
+    //         document.documentElement.classList.add("dark")
+    //         dark.classList.add("hidden")
+    //         return
+    //     }
+    //     light.classList.add("hidden")
+    // }
 
-    useEffect(() => {
-        console.log("User state has changed:", user)
-    }, [user])
+    // const themeSwitch = () => {
+    //     if (document.documentElement.classList.contains("dark")) {
+    //         document.documentElement.classList.remove("dark")
+    //         localStorage.setItem("theme", "light")
+    //         iconToggle()
+    //         return
+    //     }
+    //     document.documentElement.classList.add("dark")
+    //     localStorage.setItem("theme", "dark")
+    //     iconToggle()
+    // }
 
-    useEffect(() => {
-        if (isOpen && parentRef.current) {
-            setDropdownWidth(parentRef.current.offsetWidth + 17)
-        }
-    }, [isOpen])
+    // light.addEventListener("click", themeSwitch)
+    // dark.addEventListener("click", themeSwitch)
 
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth)
-        }
-        window.addEventListener("resize", handleResize)
-        return () => {
-            window.removeEventListener("resize", handleResize)
-        }
-    }, [])
-
-    const toggleMenu = () => {
-        setIsOpen(!isOpen)
-    }
-
-    const navigateToLogin = () => {
-        navigate("/login")
-    }
-
-    const navigateToAdmin = () => {
-        navigate("/admin")
-    }
-
-    // const menuItems = (
-    //     <ul className="cursor-pointer">
-    //         <li
-    //             className={`border-b p-2 ${
-    //                 isDarkMode
-    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
-    //             }  text-start`}
-    //         >
-    //             <div onClick={null}>Link1</div>
-    //         </li>
-    //         <li
-    //             className={`border-b p-2 ${
-    //                 isDarkMode
-    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
-    //             }  text-start`}
-    //         >
-    //             <div onClick={null}>Link2</div>
-    //         </li>
-    //         <li
-    //             className={`border-b p-2 ${
-    //                 isDarkMode
-    //                     ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-    //                     : "hover:bg-slate-100 active:bg-slate-200 border-b"
-    //             }  text-start`}
-    //         >
-    //             <div onClick={null}>Link3</div>
-    //         </li>
-    //     </ul>
-    // )
+    // themeCheck()
 
     return (
-        <nav
-            className={`${
-                isDarkMode
-                    ? "bg-[#1d242c] border-white text-white text-xl font-medium shadow-lg shadow-gray-900"
-                    : "bg-white border-black text-black text-xl font-medium"
-            } z-10 absolute w-full`}
-        >
-            <div className="flex justify-between items-center p-2">
-                <div className="w-1/2">
-                    <div className="font-bold">Logo</div>
-                </div>
-                <div className="w-1/2 text-right">
-                    <div className="relative inline-block" ref={parentRef}>
-                        <div
-                            onClick={toggleMenu}
-                            className="flex items-center cursor-pointer"
-                        >
-                            <div className="w-max">
-                                <span className="mr-2 nav-link relative select-none">
-                                    {user
-                                        ? `${user.firstName} ${user.lastName}`
-                                        : "Account"}
-                                </span>
-                                <span className="absolute bottom-0 left-0"></span>
-                            </div>
-                            <div
-                                className={`${
-                                    isDarkMode
-                                        ? "w-10 h-10 rounded-full bg-[#1d242c] border hover:border border-white"
-                                        : "w-10 h-10 rounded-full bg-gray-200 border border-gray-300"
-                                }`}
-                            ></div>
-                        </div>
-                        {isOpen && (
-                            <div
-                                className={`${
-                                    isDarkMode
-                                        ? "bg-[#1d242c] text-white border-white drop-shadow-xl shadow-2xl shadow-gray-900"
-                                        : "bg-white text-black shadow-2xl"
-                                } absolute right-0 mt-2 rounded-bl-xl border-black select-none -mr-2`}
-                                style={{ width: `${dropdownWidth}px` }}
+        <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="#" class="flex items-center">
+                    {/* <img
+                        src="https://flowbite.com/docs/images/logo.svg"
+                        class="h-8 mr-3"
+                        alt="Flowbite Logo"
+                    /> */}
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                        Webshop
+                    </span>
+                </a>
+                <button
+                    data-collapse-toggle="navbar-multi-level"
+                    type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="navbar-multi-level"
+                    aria-expanded="false"
+                >
+                    <span class="sr-only">Open main menu</span>
+                    <svg
+                        class="w-5 h-5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 17 14"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15"
+                        />
+                    </svg>
+                </button>
+                <div
+                    class="hidden w-full md:block md:w-auto"
+                    id="navbar-multi-level"
+                >
+                    <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                        <li>
+                            <a
+                                href="#"
+                                class="block py-2 pl-3 pr-4 text-white rounded md:text-blue-700 md:p-0 md:dark:text-white dark:text-black md:dark:bg-transparent"
+                                aria-current="page"
                             >
-                                {/* {windowWidth < 768 ? menuItems : null} */}
-                                <ul className="cursor-pointer">
-                                    {user && user.role !== "admin" && (
-                                        <li
-                                            className={`p-2 ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#13171d] active:hover:bg-[#101316] border-b"
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                            }  text-start`}
-                                            onClick={null}
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            >
+                                Services
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            >
+                                Pricing
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            >
+                                Contact
+                            </a>
+                        </li>
+                        <li>
+                            <button
+                                id="dropdownNavbarLink"
+                                data-dropdown-toggle="dropdownNavbar"
+                                class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                            >
+                                Dropdown{" "}
+                                <svg
+                                    class="w-2.5 h-2.5 ml-2.5"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 10 6"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="m1 1 4 4 4-4"
+                                    />
+                                </svg>
+                            </button>
+                            <div
+                                id="dropdownNavbar"
+                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                            >
+                                <ul
+                                    class="py-2 text-sm text-gray-700 dark:text-gray-400"
+                                    aria-labelledby="dropdownLargeButton"
+                                >
+                                    <li>
+                                        <a
+                                            href="#"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
-                                            <div>Account</div>
-                                        </li>
-                                    )}
-                                    {user && user.role === "admin" && (
-                                        <li
-                                            className={`p-2 ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b"
-                                                    : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                            }  text-start`}
-                                            onClick={navigateToAdmin}
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li aria-labelledby="dropdownNavbarLink">
+                                        <button
+                                            id="doubleDropdownButton"
+                                            data-dropdown-toggle="doubleDropdown"
+                                            data-dropdown-placement="right-start"
+                                            type="button"
+                                            class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
-                                            <div>Admin</div>
-                                        </li>
-                                    )}
-                                    {user &&
-                                        (user.role === "admin" ||
-                                            user.role === "user") && (
-                                            <li
-                                                className={`border-b p-2 ${
-                                                    isDarkMode
-                                                        ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b border-white"
-                                                        : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                                }  text-start`}
+                                            Themes
+                                            <svg
+                                                class="w-2.5 h-2.5 ml-2.5"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 10 6"
                                             >
-                                                <div onClick={null}>Cart</div>
-                                            </li>
-                                        )}
-                                    <button
-                                        onClick={() =>
-                                            setIsDarkMode(!isDarkMode)
-                                        }
-                                        className={`p-2 w-full ${
-                                            isDarkMode
-                                                ? "hover:bg-[#12161b] active:hover:bg-[#101316] border-b "
-                                                : "hover:bg-slate-100 active:bg-slate-200 border-b"
-                                        }  text-start`}
-                                    >
-                                        {isDarkMode
-                                            ? "Light Mode"
-                                            : "Dark Mode"}
-                                    </button>
-                                    {!user && (
-                                        <li
-                                            className={`p-2 ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
-                                                    : "hover:bg-slate-100 active:bg-slate-200"
-                                            }  text-start rounded-bl-xl`}
-                                            onClick={navigateToLogin}
+                                                <path
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="m1 1 4 4 4-4"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <div
+                                            id="doubleDropdown"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
                                         >
-                                            <div>Login</div>
-                                        </li>
-                                    )}
-                                    {user && (
-                                        <li
-                                            className={`p-2 ${
-                                                isDarkMode
-                                                    ? "hover:bg-[#12161b] active:hover:bg-[#101316]"
-                                                    : "hover:bg-slate-100 active:bg-slate-200"
-                                            }  text-start`}
-                                            onClick={logout}
+                                            <ul
+                                                class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="doubleDropdownButton"
+                                            >
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                                                    >
+                                                        Light
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                                                    >
+                                                        Dark
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                                                    >
+                                                        System
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="#"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
-                                            <div>Log Out</div>
-                                        </li>
-                                    )}
+                                            Earnings
+                                        </a>
+                                    </li>
                                 </ul>
+                                <div class="py-1">
+                                    <a
+                                        href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                                    >
+                                        Sign out
+                                    </a>
+                                </div>
                             </div>
-                        )}
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <ToastContainer />
         </nav>
     )
 }
