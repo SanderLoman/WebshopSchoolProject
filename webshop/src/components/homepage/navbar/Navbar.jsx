@@ -1,58 +1,66 @@
 import React, { useState, useEffect, useRef } from "react"
-import { ToastContainer, toast } from "react-toastify"
+import useAuth from "../../auth/useAuth"
+import { useNavigate } from "react-router-dom"
 import "react-toastify/dist/ReactToastify.css"
-import useAuth from "../../auth/useAuth.jsx"
 import "./Navbar.css"
 
 const Navbar = () => {
-    // const light = document.querySelector("#light")
-    // const dark = document.querySelector("#dark")
+    const { user, logout } = useAuth()
 
-    // const userTheme = localStorage.getItem("theme")
-    // const systemTheme = window.matchMedia(
-    //     "(prefers-color-scheme: dark)",
-    // ).matches
+    const [theme, setTheme] = useState(() => {
+        const savedTheme = localStorage.getItem("theme")
+        return savedTheme ? savedTheme : "light"
+    })
 
-    // const iconToggle = () => {
-    //     dark.classList.toggle("hidden")
-    //     light.classList.toggle("hidden")
-    // }
+    const [themeSettingMode, setThemeSettingMode] = useState(() => {
+        const savedMode = localStorage.getItem("themeSettingMode")
+        return savedMode ? savedMode : "system"
+    })
 
-    // const themeCheck = () => {
-    //     if (userTheme === "dark" || (!userTheme && systemTheme)) {
-    //         document.documentElement.classList.add("dark")
-    //         dark.classList.add("hidden")
-    //         return
-    //     }
-    //     light.classList.add("hidden")
-    // }
+    useEffect(() => {
+        const root = document.documentElement
+        root.className = theme
 
-    // const themeSwitch = () => {
-    //     if (document.documentElement.classList.contains("dark")) {
-    //         document.documentElement.classList.remove("dark")
-    //         localStorage.setItem("theme", "light")
-    //         iconToggle()
-    //         return
-    //     }
-    //     document.documentElement.classList.add("dark")
-    //     localStorage.setItem("theme", "dark")
-    //     iconToggle()
-    // }
+        localStorage.setItem("theme", theme)
+    }, [theme])
 
-    // light.addEventListener("click", themeSwitch)
-    // dark.addEventListener("click", themeSwitch)
+    useEffect(() => {
+        localStorage.setItem("themeSettingMode", themeSettingMode)
 
-    // themeCheck()
+        if (themeSettingMode === "system") {
+            const prefersDarkScheme = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            )
+            setTheme(prefersDarkScheme.matches ? "dark" : "light")
+        }
+    }, [themeSettingMode])
+
+    const setLightMode = () => {
+        setTheme("light")
+        setThemeSettingMode("light")
+    }
+
+    const setDarkMode = () => {
+        setTheme("dark")
+        setThemeSettingMode("dark")
+    }
+
+    const setSystemMode = () => {
+        setThemeSettingMode("system")
+    }
+
+    const navigateToLogin = () => {
+        navigate("/login")
+    }
+
+    const navigateToAdmin = () => {
+        navigate("/admin")
+    }
 
     return (
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="#" class="flex items-center">
-                    {/* <img
-                        src="https://flowbite.com/docs/images/logo.svg"
-                        class="h-8 mr-3"
-                        alt="Flowbite Logo"
-                    /> */}
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                         Webshop
                     </span>
@@ -89,7 +97,7 @@ const Navbar = () => {
                         <li>
                             <a
                                 href="#"
-                                class="block py-2 pl-3 pr-4 text-white rounded md:text-blue-700 md:p-0 md:dark:text-white dark:text-black md:dark:bg-transparent"
+                                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                                 aria-current="page"
                             >
                                 Home
@@ -158,66 +166,6 @@ const Navbar = () => {
                                             Dashboard
                                         </a>
                                     </li>
-                                    <li aria-labelledby="dropdownNavbarLink">
-                                        <button
-                                            id="doubleDropdownButton"
-                                            data-dropdown-toggle="doubleDropdown"
-                                            data-dropdown-placement="right-start"
-                                            type="button"
-                                            class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        >
-                                            Themes
-                                            <svg
-                                                class="w-2.5 h-2.5 ml-2.5"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 10 6"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="m1 1 4 4 4-4"
-                                                />
-                                            </svg>
-                                        </button>
-                                        <div
-                                            id="doubleDropdown"
-                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-                                        >
-                                            <ul
-                                                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="doubleDropdownButton"
-                                            >
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                                                    >
-                                                        Light
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                                                    >
-                                                        Dark
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-                                                    >
-                                                        System
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
                                     <li>
                                         <a
                                             href="#"
@@ -225,6 +173,90 @@ const Navbar = () => {
                                         >
                                             Earnings
                                         </a>
+                                        <li aria-labelledby="dropdownNavbarLink">
+                                            <button
+                                                id="doubleDropdownButton"
+                                                data-dropdown-toggle="doubleDropdown"
+                                                data-dropdown-placement="right-start"
+                                                type="button"
+                                                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            >
+                                                Themes
+                                                <svg
+                                                    class="w-2.5 h-2.5 ml-2.5"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 10 6"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="m1 1 4 4 4-4"
+                                                    />
+                                                </svg>
+                                            </button>
+                                            <div
+                                                id="doubleDropdown"
+                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                                            >
+                                                <ul
+                                                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                    aria-labelledby="doubleDropdownButton"
+                                                >
+                                                    <li>
+                                                        <button
+                                                            id="system"
+                                                            className={`block text-left px-4 py-2 w-full ${
+                                                                themeSettingMode ===
+                                                                "system"
+                                                                    ? "bg-gray-200 dark:bg-gray-600"
+                                                                    : ""
+                                                            } hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white`}
+                                                            onClick={
+                                                                setSystemMode
+                                                            }
+                                                        >
+                                                            System
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            id="light"
+                                                            class={`block text-left px-4 py-2 w-full ${
+                                                                themeSettingMode ===
+                                                                "light"
+                                                                    ? "bg-gray-200 dark:bg-gray-600"
+                                                                    : ""
+                                                            } hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white`}
+                                                            onClick={
+                                                                setLightMode
+                                                            }
+                                                        >
+                                                            Light
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            id="dark"
+                                                            class={`block text-left px-4 py-2 w-full ${
+                                                                themeSettingMode ===
+                                                                "dark"
+                                                                    ? "bg-gray-200 dark:bg-gray-600"
+                                                                    : ""
+                                                            } hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white`}
+                                                            onClick={
+                                                                setDarkMode
+                                                            }
+                                                        >
+                                                            Dark
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
                                     </li>
                                 </ul>
                                 <div class="py-1">
