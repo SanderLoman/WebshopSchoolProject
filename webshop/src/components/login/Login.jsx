@@ -9,7 +9,6 @@ import "./Login.css"
 const LoginPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const { isDarkMode, setIsDarkMode } = useDarkMode()
     const [emailError, setEmailError] = useState("")
     const navigate = useNavigate()
 
@@ -37,7 +36,7 @@ const LoginPage = () => {
                         pauseOnFocusLoss: true,
                         draggable: true,
                         pauseOnHover: true,
-                        theme: isDarkMode ? "dark" : "light",
+                        // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
                     })
                 }, 100)
             } else {
@@ -51,7 +50,7 @@ const LoginPage = () => {
                     pauseOnFocusLoss: true,
                     draggable: true,
                     pauseOnHover: true,
-                    theme: isDarkMode ? "dark" : "light",
+                    // theme: isDarkMode ? "dark" : "light",
                 })
                 // setEmailError("Invalid email or password")
             }
@@ -66,7 +65,7 @@ const LoginPage = () => {
                 pauseOnFocusLoss: true,
                 draggable: true,
                 pauseOnHover: true,
-                theme: isDarkMode ? "dark" : "light",
+                // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
             })
             // setEmailError("Please enter a valid email address")
         }
@@ -87,41 +86,21 @@ const LoginPage = () => {
             pauseOnFocusLoss: true,
             draggable: true,
             pauseOnHover: true,
-            theme: isDarkMode ? "dark" : "light",
+            // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
         })
     }
 
     return (
-        <div
-            className={`${
-                isDarkMode
-                    ? "dark:bg-[#1d242c] text-white"
-                    : "bg-white text-black"
-            } h-screen flex justify-center items-center`}
-        >
+        <div className="h-screen flex justify-center items-center">
             <div className="absolute top-4 left-4">
                 <button
                     onClick={navigateHome}
-                    className={`${
-                        isDarkMode ? "dark:bg-[#1d242c]" : "bg-white"
-                    } rounded-full p-2 h-10 w-10 bg-transparent border bg-white border-gray-200 flex justify-center items-center hover:shadow-sm active:shadow-md transition-shadow duration-300 ease-in-out`}
+                    className="rounded-full p-2 h-10 w-10 bg-transparent border bg-white border-gray-200 flex justify-center items-center hover:shadow-sm active:shadow-md transition-shadow duration-300 ease-in-out"
                 >
-                    <div
-                        className={`${
-                            isDarkMode ? "text-white" : "text-black"
-                        } text-2xl`}
-                    >
-                        ←
-                    </div>
+                    <div className="text-2xl">←</div>
                 </button>
             </div>
-            <div
-                className={`${
-                    isDarkMode
-                        ? "dark:bg-[#1d242c] text-white drop-shadow-2xl shadow-2xl shadow-gray-900"
-                        : "bg-white text-black drop-shadow-2xl shadow-2xl"
-                } login-container p-8 rounded-md`}
-            >
+            <div className="login-container p-8 rounded-md">
                 <h1 className="text-2xl font-semibold mb-4">Login</h1>
 
                 <input
@@ -129,24 +108,15 @@ const LoginPage = () => {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`${
-                        isDarkMode
-                            ? "dark:bg-[#1d242c] dark:text-white"
-                            : "text-black"
-                    } w-full p-3 my-2 rounded outline-none drop-shadow-xl shadow-gray-900`}
+                    className="w-full p-3 my-2 rounded outline-none"
                 />
-                {/* {emailError && <p className="text-red-500">{emailError}</p>} */}
 
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className={`${
-                        isDarkMode
-                            ? "dark:bg-[#1d242c] dark:text-white"
-                            : "text-black"
-                    } w-full p-3 my-2 rounded outline-none drop-shadow-xl shadow-gray-900`}
+                    className="w-full p-3 my-2 rounded outline-none"
                 />
 
                 <button
@@ -157,17 +127,13 @@ const LoginPage = () => {
                 </button>
 
                 <div className="mt-4 w-full flex justify-between items-center">
-                    <div>
-                        <button onClick={dummyToast} className="text-blue-500">
-                            Forgot Password?
-                        </button>
-                    </div>
+                    <button onClick={dummyToast} className="text-blue-500">
+                        Forgot Password?
+                    </button>
                     <div className="border-l border-gray-500 h-4 mx-2"></div>
-                    <div>
-                        <Link to="/register" className="text-blue-500">
-                            Register
-                        </Link>
-                    </div>
+                    <Link to="/register" className="text-blue-500">
+                        Register
+                    </Link>
                 </div>
             </div>
             <ToastContainer />
