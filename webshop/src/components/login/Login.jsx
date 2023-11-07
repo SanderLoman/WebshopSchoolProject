@@ -1,11 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
+import ThemeContext from "../theme/ThemeProvider.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
 const LoginPage = () => {
+    const { themeSettingMode } = useContext(ThemeContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
@@ -28,6 +30,10 @@ const LoginPage = () => {
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
+                    theme:
+                        themeSettingMode === "dark" || "system"
+                            ? "dark"
+                            : "light",
                 })
             } else {
                 toast.error("Invalid email or password", {
@@ -36,6 +42,10 @@ const LoginPage = () => {
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
+                    theme:
+                        themeSettingMode === "dark" || "system"
+                            ? "dark"
+                            : "light",
                 })
             }
         } else {
@@ -45,6 +55,8 @@ const LoginPage = () => {
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
+                theme:
+                    themeSettingMode === "dark" || "system" ? "dark" : "light",
             })
         }
     }
