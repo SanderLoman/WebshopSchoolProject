@@ -5,8 +5,14 @@ const Footer = () => {
         <footer className="bg-white dark:bg-gray-900 dark:text-white p-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-wrap justify-between items-center">
-                    <div className="w-full md:w-1/3 mb-6 md:mb-0">
-                        <p className="md:mx-8 text-sm text-gray-400 dark:text-gray-300">
+                    <div className="w-full md:w-1/4 mb-6 md:mb-auto">
+                        <a
+                            href="/"
+                            class="flex items-center md:mb-1 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                        >
+                            Webshop
+                        </a>
+                        <p className="text-sm text-gray-400 dark:text-gray-300">
                             Explore the latest in fashion, style, and home. Fast
                             shipping, effortless shopping. Thank you for
                             choosing us!
