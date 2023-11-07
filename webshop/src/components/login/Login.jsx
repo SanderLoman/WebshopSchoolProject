@@ -143,7 +143,7 @@ const LoginPage = () => {
                     >
                         Forgot Password?
                     </button>
-                    <span className="text-gray-400">|</span>
+                    <span className="mx-2 text-gray-400"> | </span>
                     <Link to="/register" className="text-blue-500">
                         Register
                     </Link>
