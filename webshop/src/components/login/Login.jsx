@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useNavigate, Link } from "react-router-dom"
-import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
@@ -9,7 +8,6 @@ import "./Login.css"
 const LoginPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [emailError, setEmailError] = useState("")
     const navigate = useNavigate()
 
     const { login } = useAuth()
@@ -19,55 +17,35 @@ const LoginPage = () => {
         return emailRegex.test(email)
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (isValidEmail(email)) {
-            // setEmailError("")
-            const loginSuccess = login(email, password)
+            const loginSuccess = await login(email, password)
             if (loginSuccess) {
                 navigate("/")
-                setTimeout(() => {
-                    toast.success("Successfully logged in!", {
-                        position: "bottom-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        newestOnTop: false,
-                        closeOnClick: true,
-                        rtl: false,
-                        pauseOnFocusLoss: true,
-                        draggable: true,
-                        pauseOnHover: true,
-                        // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
-                    })
-                }, 100)
+                toast.success("Successfully logged in!", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                })
             } else {
                 toast.error("Invalid email or password", {
                     position: "bottom-right",
                     autoClose: 5000,
                     hideProgressBar: false,
-                    newestOnTop: false,
                     closeOnClick: true,
-                    rtl: false,
-                    pauseOnFocusLoss: true,
-                    draggable: true,
                     pauseOnHover: true,
-                    // theme: isDarkMode ? "dark" : "light",
                 })
-                // setEmailError("Invalid email or password")
             }
         } else {
             toast.error("Please enter a valid email address", {
                 position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: false,
-                newestOnTop: false,
                 closeOnClick: true,
-                rtl: false,
-                pauseOnFocusLoss: true,
-                draggable: true,
                 pauseOnHover: true,
-                // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
             })
-            // setEmailError("Please enter a valid email address")
         }
     }
 
@@ -75,68 +53,103 @@ const LoginPage = () => {
         navigate("/")
     }
 
-    const dummyToast = () => {
-        toast.success("This is a dummy link :)", {
-            position: "bottom-right",
-            autoClose: 1500,
-            hideProgressBar: false,
-            newestOnTop: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnFocusLoss: true,
-            draggable: true,
-            pauseOnHover: true,
-            // theme: isDarkMode ? "dark" : "light", !!! FIX THIS !!!
-        })
-    }
-
     return (
-        <div className="h-screen flex justify-center items-center">
+        <div className="bg-white dark:bg-gray-900 h-screen flex justify-center items-center">
             <div className="absolute top-4 left-4">
                 <button
+                    type="button"
                     onClick={navigateHome}
-                    className="rounded-full p-2 h-10 w-10 bg-transparent border bg-white border-gray-200 flex justify-center items-center hover:shadow-sm active:shadow-md transition-shadow duration-300 ease-in-out"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                    <div className="text-2xl">←</div>
+                    <svg
+                        className="w-4 h-4 transform rotate-180"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 10"
+                    >
+                        <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M1 5h12m0 0L9 1m4 4L9 9"
+                        />
+                    </svg>
+                    <span className="sr-only">Go back</span>
                 </button>
             </div>
             <div className="login-container p-8 rounded-md">
-                <h1 className="text-2xl font-semibold mb-4">Login</h1>
-
-                <input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 my-2 rounded outline-none"
-                />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 my-2 rounded outline-none"
-                />
-
-                <button
-                    onClick={handleLogin}
-                    className="ring-2 border-blue-700 bg-blue-700 active:ring-0 transition-all duration-75 ease-in-out w-full text-white p-3 my-2 rounded hover:bg-blue-700 active:shadow-lg"
-                >
+                <h1 className="text-black dark:text-white text-2xl font-semibold mb-4 text-center">
                     Login
-                </button>
+                </h1>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        handleLogin()
+                    }}
+                >
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input
+                            type="email"
+                            name="floating_email"
+                            id="floating_email"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <label
+                            htmlFor="floating_email"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Email address
+                        </label>
+                    </div>
 
-                <div className="mt-4 w-full flex justify-between items-center">
-                    <button onClick={dummyToast} className="text-blue-500">
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input
+                            type="password"
+                            name="floating_password"
+                            id="floating_password"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <label
+                            htmlFor="floating_password"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Password
+                        </label>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        Login
+                    </button>
+                </form>
+                <div className="mt-4 flex justify-between">
+                    <button
+                        onClick={() =>
+                            toast("Dummy toast for 'Forgot Password?'")
+                        }
+                        className="text-blue-500"
+                    >
                         Forgot Password?
                     </button>
-                    <div className="border-l border-gray-500 h-4 mx-2"></div>
+                    <span className="text-gray-400">|</span>
                     <Link to="/register" className="text-blue-500">
                         Register
                     </Link>
                 </div>
+                <ToastContainer />
             </div>
-            <ToastContainer />
         </div>
     )
 }
