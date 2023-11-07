@@ -77,7 +77,7 @@ const RegisterPage = () => {
                 </button>
             </div>
             <div className="register-container p-8 rounded-md">
-                <h1 className="text-black dark:text-white text-2xl font-semibold mb-4">
+                <h1 className="text-black dark:text-white text-center text-2xl font-semibold mb-4">
                     Register
                 </h1>
                 <form onSubmit={handleRegister}>
@@ -179,7 +179,7 @@ const RegisterPage = () => {
 
                     <button
                         type="submit"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         Register
                     </button>
