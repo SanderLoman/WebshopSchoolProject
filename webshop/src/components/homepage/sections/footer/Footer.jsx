@@ -163,18 +163,18 @@ const Footer = () => {
                 </p>
                 <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
                     <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6 ">
+                        <a href="#" class="mx-2 hover:underline md:mx-3">
                             About
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">
+                        <a href="#" class="mx-2 hover:underline md:mx-3">
                             FAQs
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">
-                            Contact
+                        <a href="#" class="mx-2 hover:underline md:mx-3">
+                            Hulp & Contact
                         </a>
                     </li>
                 </ul>
