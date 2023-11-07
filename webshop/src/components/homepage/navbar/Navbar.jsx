@@ -1,55 +1,30 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import useAuth from "../../auth/useAuth"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import ThemeContext from "../../theme/ThemeProvider.jsx"
 import "./Navbar.css"
 
 const Navbar = () => {
+    const { themeSettingMode, setLightMode, setDarkMode, setSystemMode } =
+        useContext(ThemeContext)
     const { user, logout } = useAuth()
     const navigate = useNavigate()
 
-    const [theme, setTheme] = useState(() => {
-        const savedTheme = localStorage.getItem("theme")
-        return savedTheme ? savedTheme : "light"
-    })
+    // const setLightMode = () => {
+    //     setTheme("light")
+    //     setThemeSettingMode("light")
+    // }
 
-    const [themeSettingMode, setThemeSettingMode] = useState(() => {
-        const savedMode = localStorage.getItem("themeSettingMode")
-        return savedMode ? savedMode : "system"
-    })
+    // const setDarkMode = () => {
+    //     setTheme("dark")
+    //     setThemeSettingMode("dark")
+    // }
 
-    useEffect(() => {
-        const root = document.documentElement
-        root.className = theme
-
-        localStorage.setItem("theme", theme)
-    }, [theme])
-
-    useEffect(() => {
-        localStorage.setItem("themeSettingMode", themeSettingMode)
-
-        if (themeSettingMode === "system") {
-            const prefersDarkScheme = window.matchMedia(
-                "(prefers-color-scheme: dark)",
-            )
-            setTheme(prefersDarkScheme.matches ? "dark" : "light")
-        }
-    }, [themeSettingMode])
-
-    const setLightMode = () => {
-        setTheme("light")
-        setThemeSettingMode("light")
-    }
-
-    const setDarkMode = () => {
-        setTheme("dark")
-        setThemeSettingMode("dark")
-    }
-
-    const setSystemMode = () => {
-        setThemeSettingMode("system")
-    }
+    // const setSystemMode = () => {
+    //     setThemeSettingMode("system")
+    // }
 
     const navigateToLogin = () => {
         navigate("/login")
@@ -60,15 +35,16 @@ const Navbar = () => {
     }
 
     return (
-        <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+        <nav class="bg-white dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="#" class="flex items-center md:w-auto">
-                    <span class="select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        Webshop
-                    </span>
+                <a
+                    href="#"
+                    class="flex items-center w-1/2 md:w-1/3 select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                >
+                    Webshop
                 </a>
-                <div class="hidden md:block md:w-auto">
-                    <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <div class="hidden md:block w-1/2 md:w-1/3">
+                    <ul class="flex justify-center flex-col font-medium p-4 md:p-0 mt-4 mx-auto border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <a
                                 href="#"
@@ -105,7 +81,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="md:w-auto flex justify-end">
+                <div className="w-1/2 md:w-1/3 flex justify-end">
                     <div
                         class="relative w-10 h-10 overflow-hidden cursor-pointer bg-gray-100 rounded-full dark:bg-gray-600"
                         id="avatarButton"
@@ -163,7 +139,7 @@ const Navbar = () => {
                                             href="#"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
-                                            Shopping cart
+                                            Cart
                                         </a>
                                     </li>
                                 </>
@@ -251,8 +227,6 @@ const Navbar = () => {
                             </li>
                         </ul>
                         <div class="py-1">
-                            {/* check whether a person is logged in or not if not show sign in if logged in show sign out */}
-
                             {user ? (
                                 <button
                                     onClick={logout}
