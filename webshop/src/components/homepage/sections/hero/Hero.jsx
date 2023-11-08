@@ -12,7 +12,7 @@ import "./Hero.css"
 
 const Hero = () => {
     return (
-        <div></div>
+        <div className="h-screen bg-white dark:bg-gray-900"></div>
     )
 }
 
