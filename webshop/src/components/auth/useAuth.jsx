@@ -68,20 +68,13 @@ const useAuth = () => {
             console.log("Registration response:", data)
 
             if (res.status === 201) {
-                toast.success(data.message)
-                return true
+                return true // Registration successful
             } else if (res.status === 409) {
-                // This line will now correctly display the error message
-                toast.error(
-                    data.message ||
-                        "Registration failed with an unknown error.",
-                )
-                return false
+                return false // User already exists
             }
         } catch (error) {
-            toast.error("An error occurred during registration.")
             console.error("An error occurred:", error)
-            return false
+            return false // Registration failed
         }
     }
 
