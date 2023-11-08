@@ -21,29 +21,31 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         if (isValidEmail(email)) {
-            const loginSuccess = await login(email, password)
+            const loginSuccess = login(email, password)
             if (loginSuccess) {
                 navigate("/")
-                toast.success("Successfully logged in!", {
-                    position: "bottom-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    className:
-                        systemTheme === "dark" || "system"
-                            ? "bg-gray-800 text-white"
-                            : "bg-gray-100 text-black",
-                })
+                setTimeout(() => {
+                    toast.success("Successfully logged in!", {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        className:
+                            systemTheme === "dark" || systemTheme === "system"
+                                ? "bg-gray-800 text-white"
+                                : "bg-gray-100 text-black",
+                    })
+                }, 0)
             } else {
                 toast.error("Invalid email or password", {
                     position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
+                    autoClose: 2000,
+                    hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
                     className:
-                        systemTheme === "dark" || "system"
+                        systemTheme === "dark" || systemTheme === "system"
                             ? "bg-gray-800 text-white"
                             : "bg-gray-100 text-black",
                 })
@@ -51,12 +53,12 @@ const LoginPage = () => {
         } else {
             toast.error("Please enter a valid email address", {
                 position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
+                autoClose: 2000,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 className:
-                    systemTheme === "dark" || "system"
+                    systemTheme === "dark" || systemTheme === "system"
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
             })
@@ -171,7 +173,7 @@ const LoginPage = () => {
                         Register
                     </Link>
                 </div>
-                <ToastContainer limit={1} />
+                <ToastContainer />
             </div>
         </div>
     )

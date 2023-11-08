@@ -33,7 +33,7 @@ const RegisterPage = () => {
                 closeOnClick: true,
                 pauseOnHover: true,
                 className:
-                    systemTheme === "dark" || "system"
+                    systemTheme === "dark" || systemTheme === "system"
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
             })
@@ -47,9 +47,8 @@ const RegisterPage = () => {
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                limit: 1,
                 className:
-                    systemTheme === "dark" || "system"
+                    systemTheme === "dark" || systemTheme === "system"
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
             })
@@ -68,28 +67,28 @@ const RegisterPage = () => {
 
         if (success) {
             navigate("/login")
-            toast.success("Successfully registered!", {
+            setTimeout(() => {
+                toast.success("Successfully registered!", {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    className:
+                        systemTheme === "dark" || systemTheme === "system"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-100 text-black",
+                })
+            }, 0)
+        } else if (!success) {
+            toast.error("User already exists", {
                 position: "bottom-right",
                 autoClose: 2000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                limit: 1,
                 className:
-                    systemTheme === "dark" || "system"
-                        ? "bg-gray-800 text-white"
-                        : "bg-gray-100 text-black",
-            })
-        } else {
-            toast.error("Registration failed", {
-                position: "bottom-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                limit: 1,
-                className:
-                    systemTheme === "dark" || "system"
+                    systemTheme === "dark" || systemTheme === "system"
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
             })
@@ -234,7 +233,7 @@ const RegisterPage = () => {
                         Register
                     </button>
                 </form>
-                <ToastContainer limit={1} />
+                <ToastContainer />
             </div>
         </div>
     )
