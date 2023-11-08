@@ -71,14 +71,24 @@ app.get("/api/orders", (req, res) => {
 
 app.post("/api/register", async (req, res) => {
     const { email, password, firstName, lastName, role } = req.body
-    const status = await registerUser(
-        email,
-        password,
-        firstName,
-        lastName,
-        role,
-    )
-    res.send(status)
+    try {
+        const status = await registerUser(
+            email,
+            password,
+            firstName,
+            lastName,
+            role,
+        )
+        if (status.success) {
+            res.status(201).json({ message: "User successfully registered" })
+        } else {
+            res.status(409).json({ message: "User already exists" })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "An error occurred during registration.",
+        })
+    }
 })
 
 // For handling not found routes
@@ -94,7 +104,7 @@ const registerUser = (email, password, firstName, lastName, role) => {
             (err, data) => {
                 if (err) {
                     console.error("An error occurred:", err)
-                    reject("An error occurred")
+                    reject({ message: "An error occurred" })
                     return
                 }
 
@@ -103,7 +113,7 @@ const registerUser = (email, password, firstName, lastName, role) => {
 
                 if (existingUser) {
                     console.log("User already exists")
-                    resolve(false)
+                    resolve({ message: "User already exists", success: false })
                     return
                 }
 
@@ -115,11 +125,14 @@ const registerUser = (email, password, firstName, lastName, role) => {
                     (err) => {
                         if (err) {
                             console.error("An error occurred:", err)
-                            reject("An error occurred")
+                            reject({ message: "An error occurred" })
                             return
                         }
                         console.log("User successfully registered")
-                        resolve(true)
+                        resolve({
+                            message: "User successfully registered",
+                            success: true,
+                        })
                     },
                 )
             },

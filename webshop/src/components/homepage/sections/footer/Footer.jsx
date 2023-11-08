@@ -8,7 +8,7 @@ const Footer = () => {
                     <div className="w-full md:w-1/4 mb-6 md:mb-auto">
                         <a
                             href="/"
-                            class="flex items-center md:mb-1 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                            className="flex items-center md:mb-1 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
                         >
                             Webshop
                         </a>
@@ -134,7 +134,7 @@ const Footer = () => {
                 </div>
                 <div className="border-t border-gray-700 pt-4 mt-4">
                     <p className="text-xs text-gray-400 text-center">
-                        © 2021-2022 Webshop™. All Rights Reserved.
+                        © 2022-2023 Webshop™. All Rights Reserved.
                     </p>
                 </div>
             </div>

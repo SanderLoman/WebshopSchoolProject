@@ -3,45 +3,45 @@ import React, { createContext, useState, useEffect } from "react"
 const ThemeContext = createContext()
 
 export const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light")
-    const [themeSettingMode, setThemeSettingMode] = useState(
-        localStorage.getItem("themeSettingMode") || "system",
+    const [lightTheme, setTheme] = useState(localStorage.getItem("lightTheme") || "light")
+    const [systemTheme, setthemeSystem] = useState(
+        localStorage.getItem("systemTheme") || "system",
     )
 
     useEffect(() => {
         const root = document.documentElement
-        root.className = theme
-        localStorage.setItem("theme", theme)
-    }, [theme])
+        root.className = lightTheme
+        localStorage.setItem("lightTheme", lightTheme)
+    }, [lightTheme])
 
     useEffect(() => {
-        localStorage.setItem("themeSettingMode", themeSettingMode)
+        localStorage.setItem("systemTheme", systemTheme)
 
-        if (themeSettingMode === "system") {
+        if (systemTheme === "system") {
             const prefersDarkScheme = window.matchMedia(
                 "(prefers-color-scheme: dark)",
             )
             setTheme(prefersDarkScheme.matches ? "dark" : "light")
         }
-    }, [themeSettingMode])
+    }, [systemTheme])
 
     const setLightMode = () => {
         setTheme("light")
-        setThemeSettingMode("light")
+        setthemeSystem("light")
     }
 
     const setDarkMode = () => {
         setTheme("dark")
-        setThemeSettingMode("dark")
+        setthemeSystem("dark")
     }
 
     const setSystemMode = () => {
-        setThemeSettingMode("system")
+        setthemeSystem("system")
     }
 
     return (
         <ThemeContext.Provider
-            value={{ theme, setLightMode, setDarkMode, setSystemMode }}
+            value={{ lightTheme, systemTheme, setLightMode, setDarkMode, setSystemMode }}
         >
             {children}
         </ThemeContext.Provider>

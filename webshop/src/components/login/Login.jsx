@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
 const LoginPage = () => {
-    const { themeSettingMode } = useContext(ThemeContext)
+    const { systemTheme } = useContext(ThemeContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
@@ -26,14 +26,14 @@ const LoginPage = () => {
                 navigate("/")
                 toast.success("Successfully logged in!", {
                     position: "bottom-right",
-                    autoClose: 3000,
+                    autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
-                    theme:
-                        themeSettingMode === "dark" || "system"
-                            ? "dark"
-                            : "light",
+                    className:
+                        systemTheme === "dark" || "system"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-100 text-black",
                 })
             } else {
                 toast.error("Invalid email or password", {
@@ -42,10 +42,10 @@ const LoginPage = () => {
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
-                    theme:
-                        themeSettingMode === "dark" || "system"
-                            ? "dark"
-                            : "light",
+                    className:
+                        systemTheme === "dark" || "system"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-100 text-black",
                 })
             }
         } else {
@@ -55,8 +55,10 @@ const LoginPage = () => {
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
-                theme:
-                    themeSettingMode === "dark" || "system" ? "dark" : "light",
+                className:
+                    systemTheme === "dark" || "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
             })
         }
     }
@@ -149,7 +151,16 @@ const LoginPage = () => {
                 <div className="mt-4 flex justify-between">
                     <button
                         onClick={() =>
-                            toast("Dummy toast for 'Forgot Password?'")
+                            toast.info(
+                                "Dummy notification for 'Forgot Password?'",
+                                {
+                                    position: "bottom-right",
+                                    className:
+                                        systemTheme === "dark" || "system"
+                                            ? "bg-gray-800 text-white"
+                                            : "bg-gray-100 text-black",
+                                },
+                            )
                         }
                         className="text-blue-500"
                     >
@@ -160,7 +171,7 @@ const LoginPage = () => {
                         Register
                     </Link>
                 </div>
-                <ToastContainer />
+                <ToastContainer limit={1} />
             </div>
         </div>
     )

@@ -1,11 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import ThemeContext from "../theme/ThemeProvider.jsx"
 import "./Login.css"
 
 const RegisterPage = () => {
+    const { systemTheme } = useContext(ThemeContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -22,27 +24,75 @@ const RegisterPage = () => {
     }
 
     const handleRegister = async (e) => {
-        e.preventDefault() // Prevent the form from submitting the traditional way
-        if (isValidEmail(email) && password === confirmPassword) {
-            const response = await register(
-                email,
-                password,
-                firstName,
-                lastName,
-                "customer",
-            )
-            if (response === false) {
-                setRegistrationError("Email already exists")
-            } else if (response === true) {
-                navigate("/login")
-            } else {
-                setRegistrationError("An error occurred")
-            }
+        e.preventDefault()
+        if (!isValidEmail(email)) {
+            toast.error("Please enter a valid email address", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                className:
+                    systemTheme === "dark" || "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
+            return
+        }
+
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                limit: 1,
+                className:
+                    systemTheme === "dark" || "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
+            return
+        }
+
+        const success = await register(
+            email,
+            password,
+            firstName,
+            lastName,
+            "customer",
+        )
+
+        console.log("Registration success:", success)
+
+        if (success) {
+            navigate("/login")
+            toast.success("Successfully registered!", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                limit: 1,
+                className:
+                    systemTheme === "dark" || "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
         } else {
-            if (!isValidEmail(email))
-                setRegistrationError("Please enter a valid email address")
-            if (password !== confirmPassword)
-                setRegistrationError("Passwords do not match")
+            toast.error("Registration failed", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                limit: 1,
+                className:
+                    systemTheme === "dark" || "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
         }
     }
 
@@ -59,7 +109,7 @@ const RegisterPage = () => {
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                     <svg
-                        className="w-4 h-4 transform rotate-180" // Add transform rotate-180 to flip the arrow
+                        className="w-4 h-4 transform rotate-180"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -184,7 +234,7 @@ const RegisterPage = () => {
                         Register
                     </button>
                 </form>
-                <ToastContainer />
+                <ToastContainer limit={1} />
             </div>
         </div>
     )

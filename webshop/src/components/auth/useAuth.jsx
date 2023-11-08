@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 import RegisterPage from "../login/Register.jsx"
 
 const useAuth = () => {
@@ -47,28 +48,40 @@ const useAuth = () => {
     }
 
     const register = async (email, password, firstName, lastName, role) => {
-        const res = await fetch("http://localhost:4500/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-                firstName,
-                lastName,
-                role,
-            }),
-        })
+        try {
+            const res = await fetch("http://localhost:4500/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    role,
+                }),
+            })
 
-        const text = await res.text()
+            const data = await res.json()
 
-        if (text === "User successfully registered") {
-            const newUser = { email, password, firstName, lastName, role }
-            setAuthData([...authData, newUser])
-            return "User successfully registered"
-        } else {
-            return text // This will be "User already exists" if the user exists
+            console.log("Registration response:", data)
+
+            if (res.status === 201) {
+                toast.success(data.message)
+                return true
+            } else if (res.status === 409) {
+                // This line will now correctly display the error message
+                toast.error(
+                    data.message ||
+                        "Registration failed with an unknown error.",
+                )
+                return false
+            }
+        } catch (error) {
+            toast.error("An error occurred during registration.")
+            console.error("An error occurred:", error)
+            return false
         }
     }
 
