@@ -11,9 +11,7 @@ import "slick-carousel/slick/slick-theme.css"
 import "./Hero.css"
 
 const Hero = () => {
-    return (
-        <div className="h-screen bg-white dark:bg-gray-900"></div>
-    )
+    return <div className="h-screen bg-white dark:bg-gray-900"></div>
 }
 
 export default Hero

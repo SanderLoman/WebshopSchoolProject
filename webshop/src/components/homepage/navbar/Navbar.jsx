@@ -3,7 +3,9 @@ import useAuth from "../../auth/useAuth"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import ThemeContext from "../../theme/ThemeProvider.jsx"
+import ThemeContext from "../../providers/ThemeProvider.jsx"
+import { initFlowbite } from "flowbite"
+import Cart from "../../cart/Cart.jsx"
 import "./Navbar.css"
 
 const Navbar = () => {
@@ -16,6 +18,7 @@ const Navbar = () => {
     } = useContext(ThemeContext)
     const { user, logout } = useAuth()
     const navigate = useNavigate()
+    const [showModal, setShowModal] = useState(false)
 
     const navigateToLogin = () => {
         navigate("/login")
@@ -24,6 +27,10 @@ const Navbar = () => {
     const navigateToAdmin = () => {
         navigate("/admin")
     }
+
+    useEffect(() => {
+        initFlowbite()
+    }, [])
 
     return (
         <nav className="bg-white dark:bg-gray-900">
@@ -136,12 +143,12 @@ const Navbar = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <button
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            onClick={() => setShowModal(true)}
                                         >
                                             Cart
-                                        </a>
+                                        </button>
                                     </li>
                                 </>
                             )}
@@ -244,6 +251,9 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+            <Cart showModal={showModal} setShowModal={setShowModal}>
+                {/* Modal Content Here */}
+            </Cart>
             <ToastContainer />
         </nav>
     )

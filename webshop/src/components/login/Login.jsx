@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react"
 import useAuth from "../auth/useAuth.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
-import ThemeContext from "../theme/ThemeProvider.jsx"
+import ThemeContext from "../providers/ThemeProvider.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
@@ -157,8 +157,13 @@ const LoginPage = () => {
                                 "Dummy notification for 'Forgot Password?'",
                                 {
                                     position: "bottom-right",
+                                    autoClose: 2000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
                                     className:
-                                        systemTheme === "dark" || "system"
+                                        systemTheme === "dark" ||
+                                        systemTheme === "system"
                                             ? "bg-gray-800 text-white"
                                             : "bg-gray-100 text-black",
                                 },
@@ -173,7 +178,7 @@ const LoginPage = () => {
                         Register
                     </Link>
                 </div>
-                <ToastContainer />
+                <ToastContainer className={"select-none"} />
             </div>
         </div>
     )

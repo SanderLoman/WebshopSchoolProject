@@ -112,7 +112,6 @@ const registerUser = (email, password, firstName, lastName, role) => {
                 const existingUser = users.find((user) => user.email === email)
 
                 if (existingUser) {
-                    console.log("User already exists")
                     resolve({ message: "User already exists", success: false })
                     return
                 }
@@ -128,7 +127,6 @@ const registerUser = (email, password, firstName, lastName, role) => {
                             reject({ message: "An error occurred" })
                             return
                         }
-                        console.log("User successfully registered")
                         resolve({
                             message: "User successfully registered",
                             success: true,

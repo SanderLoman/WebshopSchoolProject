@@ -3,7 +3,7 @@ import useAuth from "../auth/useAuth.jsx"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import ThemeContext from "../theme/ThemeProvider.jsx"
+import ThemeContext from "../providers/ThemeProvider.jsx"
 import "./Login.css"
 
 const RegisterPage = () => {
@@ -81,7 +81,7 @@ const RegisterPage = () => {
                 })
             }, 0)
         } else if (!success) {
-            toast.error("User already exists", {
+            toast.error("Email already exists", {
                 position: "bottom-right",
                 autoClose: 2000,
                 hideProgressBar: true,
@@ -233,7 +233,7 @@ const RegisterPage = () => {
                         Register
                     </button>
                 </form>
-                <ToastContainer />
+                <ToastContainer className={"select-none"} />
             </div>
         </div>
     )

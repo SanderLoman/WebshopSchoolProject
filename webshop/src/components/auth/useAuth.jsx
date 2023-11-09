@@ -63,9 +63,7 @@ const useAuth = () => {
                 }),
             })
 
-            const data = await res.json()
-
-            console.log("Registration response:", data)
+            await res.json()
 
             if (res.status === 201) {
                 return true // Registration successful
