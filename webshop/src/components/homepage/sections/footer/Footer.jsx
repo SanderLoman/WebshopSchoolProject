@@ -2,7 +2,7 @@ import React from "react"
 
 const Footer = () => {
     return (
-        <footer className="bg-white dark:bg-gray-900 dark:text-white p-4">
+        <footer className="bg-gray-200 dark:bg-gray-900 dark:text-white p-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-wrap justify-between items-center">
                     <div className="w-full md:w-1/4 mb-6 md:mb-auto">
@@ -12,7 +12,7 @@ const Footer = () => {
                         >
                             Webshop
                         </a>
-                        <p className="text-sm text-gray-400 dark:text-gray-300">
+                        <p className="text-sm text-gray-500 dark:text-gray-300">
                             Explore the latest in fashion, style, and home. Fast
                             shipping, effortless shopping. Thank you for
                             choosing us!

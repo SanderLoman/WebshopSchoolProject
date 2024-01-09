@@ -4,6 +4,7 @@ import HomePage from "./components/homepage/HomePage.jsx"
 import LoginPage from "./components/login/Login.jsx"
 import RegisterPage from "./components/login/Register.jsx"
 import AdminPage from "./components/admin/Admin.jsx"
+import Account from "./components/account/Account.jsx"
 import { ThemeProvider } from "./components/providers/ThemeProvider.jsx"
 import CartProvider from "./components/providers/CartProvider.jsx"
 import "flowbite"
@@ -23,6 +24,7 @@ function App() {
                                 element={<RegisterPage />}
                             />
                             <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/account" element={<Account />} />
                         </Routes>
                     </div>
                 </Router>

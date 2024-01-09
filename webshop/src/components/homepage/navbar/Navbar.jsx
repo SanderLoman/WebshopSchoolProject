@@ -20,6 +20,23 @@ const Navbar = () => {
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
 
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = ""
+        }
+
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = ""
+        }
+    }, [showModal])
+
+    const navigateHome = () => {
+        navigate("/")
+    }
+
     const navigateToLogin = () => {
         navigate("/login")
     }
@@ -28,12 +45,16 @@ const Navbar = () => {
         navigate("/admin")
     }
 
+    const navigateToAccount = () => {
+        navigate("/account")
+    }
+
     useEffect(() => {
         initFlowbite()
     }, [])
 
     return (
-        <nav className="bg-white dark:bg-gray-900">
+        <nav className="bg-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a
                     href="#"
@@ -42,38 +63,37 @@ const Navbar = () => {
                     Webshop
                 </a>
                 <div className="hidden md:block w-1/2 md:w-1/3">
-                    <ul className="flex justify-center flex-col font-medium p-4 md:p-0 mt-4 mx-auto border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <ul className="flex justify-center flex-col font-medium p-4 md:p-0 mt-4 mx-auto border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <a
-                                href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                                aria-current="page"
+                            <button
+                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                onClick={navigateHome}
                             >
                                 Home
+                            </button>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            >
+                                Link2
                             </a>
                         </li>
                         <li>
                             <a
                                 href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >
-                                Services
+                                Link3
                             </a>
                         </li>
                         <li>
                             <a
                                 href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >
-                                Pricing
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                            >
-                                Contact
+                                Link4
                             </a>
                         </li>
                     </ul>
@@ -81,7 +101,7 @@ const Navbar = () => {
 
                 <div className="w-1/2 md:w-1/3 flex justify-end">
                     <div
-                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-gray-100 rounded-full dark:bg-gray-600"
+                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600"
                         id="avatarButton"
                         type="button"
                         data-dropdown-toggle="userDropdown"
@@ -107,7 +127,7 @@ const Navbar = () => {
                     {/* <!-- Dropdown menu --> */}
                     <div
                         id="userDropdown"
-                        className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
                     >
                         {user && (
                             <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -119,7 +139,7 @@ const Navbar = () => {
                         )}
 
                         <ul
-                            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            className="py-2 text-sm text-gray-700 dark:text-zinc-200"
                             aria-labelledby="avatarButton"
                         >
                             {user && (
@@ -127,7 +147,7 @@ const Navbar = () => {
                                     {user.role === "admin" && (
                                         <li>
                                             <button
-                                                className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                className="block w-full text-left px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 onClick={navigateToAdmin}
                                             >
                                                 Admin
@@ -135,16 +155,16 @@ const Navbar = () => {
                                         </li>
                                     )}
                                     <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <button
+                                            className="block w-full text-left px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            onClick={navigateToAccount}
                                         >
                                             Account
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
                                         <button
-                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            className="block w-full text-left px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             onClick={() => setShowModal(true)}
                                         >
                                             Cart
@@ -160,7 +180,7 @@ const Navbar = () => {
                                         data-dropdown-toggle="doubleDropdown"
                                         data-dropdown-placement="right-start"
                                         type="button"
-                                        className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        className="flex items-center justify-between w-full px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                     >
                                         Themes
                                         <svg
@@ -181,10 +201,10 @@ const Navbar = () => {
                                     </button>
                                     <div
                                         id="doubleDropdown"
-                                        className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700"
                                     >
                                         <ul
-                                            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                            className=" text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby="doubleDropdownButton"
                                         >
                                             <li>
@@ -192,9 +212,9 @@ const Navbar = () => {
                                                     id="system"
                                                     className={`block text-left px-4 py-2 w-full ${
                                                         systemTheme === "system"
-                                                            ? "bg-gray-200 dark:bg-gray-600"
+                                                            ? "bg-zinc-300 dark:bg-gray-600"
                                                             : ""
-                                                    } hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
+                                                    } hover:bg-zinc-200 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
                                                     onClick={setSystemMode}
                                                 >
                                                     System
@@ -205,9 +225,9 @@ const Navbar = () => {
                                                     id="light"
                                                     className={`block text-left px-4 py-2 w-full ${
                                                         lightTheme === "light"
-                                                            ? "bg-gray-200 dark:bg-gray-600"
+                                                            ? "bg-zinc-300 dark:bg-gray-600"
                                                             : ""
-                                                    } hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
+                                                    } hover:bg-zinc-200 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
                                                     onClick={setLightMode}
                                                 >
                                                     Light
@@ -218,9 +238,9 @@ const Navbar = () => {
                                                     id="dark"
                                                     className={`block text-left px-4 py-2 w-full ${
                                                         systemTheme === "dark"
-                                                            ? "bg-gray-200 dark:bg-gray-600"
+                                                            ? "bg-zinc-300 dark:bg-gray-600"
                                                             : ""
-                                                    } hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
+                                                    } hover:bg-zinc-200 dark:hover:bg-gray-500 dark:text-gray-400 dark:hover:text-white`}
                                                     onClick={setDarkMode}
                                                 >
                                                     Dark
@@ -231,18 +251,18 @@ const Navbar = () => {
                                 </div>
                             </li>
                         </ul>
-                        <div className="py-1">
+                        <div className="">
                             {user ? (
                                 <button
                                     onClick={logout}
-                                    className="block w-full text-left rounded-b-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                 >
                                     Sign out
                                 </button>
                             ) : (
                                 <button
                                     onClick={navigateToLogin}
-                                    className="block w-full text-left rounded-b-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                 >
                                     Sign in
                                 </button>
