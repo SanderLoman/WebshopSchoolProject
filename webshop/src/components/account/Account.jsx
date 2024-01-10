@@ -49,91 +49,79 @@ const Account = () => {
     }
 
     useEffect(() => {
-        console.log("initFlowbite")
         initFlowbite()
     }, [])
 
     return (
         <>
-            <nav className="bg-gray-200 dark:bg-gray-900">
-                <div className="absolute top-4 left-4">
-                    <button
-                        type="button"
-                        onClick={navigateHome}
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                        <svg
-                            className="w-4 h-4 transform rotate-180"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 10"
+            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900">
+                <div className="max-w-screen-xl flex md:flex-wrap items-center md:justify-between mx-auto p-4">
+                    <div className="md:absolute top-4 left-4 md:w-1/3">
+                        <button
+                            type="button"
+                            onClick={navigateHome}
+                            className="text-white bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:active:ring-blue-800"
                         >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M1 5h12m0 0L9 1m4 4L9 9"
-                            />
-                        </svg>
-                        <span className="sr-only">Go back</span>
-                    </button>
-                </div>
-                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a
-                        href="#"
-                        className="flex items-center w-1/2 md:w-1/3 select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                    >
-                        Webshop
-                    </a>
-                    <div className="hidden md:block w-1/2 md:w-1/3">
-                        <div className="dark:border-gray-700">
-                            <ul
-                                className="flex flex-wrap justify-around -mb-px text-sm font-medium text-center"
-                                id="default-tab"
-                                data-tabs-toggle="#default-tab-content"
-                                role="tablist"
+                            <svg
+                                className="w-4 h-4 transform rotate-180"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 14 10"
                             >
-                                <li
-                                    className="me-2 text-lg"
-                                    role="presentation"
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                                />
+                            </svg>
+                            <span className="sr-only">Go back</span>
+                        </button>
+                    </div>
+                    <p className="xl:flex items-center hidden md:w-1/3 select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                        Webshop
+                    </p>
+                    <div className="block w-1/2 md:w-1/3">
+                        <ul
+                            className="flex flex-wrap justify-around -mb-px text-sm font-medium text-center"
+                            id="default-tab"
+                            data-tabs-toggle="#default-tab-content"
+                            role="tablist"
+                        >
+                            <li className="me-2 text-lg" role="presentation">
+                                <button
+                                    className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                    id="profile-tab"
+                                    data-tabs-target="#profile"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="profile"
+                                    aria-selected="false"
                                 >
-                                    <button
-                                        className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                                        id="profile-tab"
-                                        data-tabs-target="#profile"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="profile"
-                                        aria-selected="false"
-                                    >
-                                        Profile
-                                    </button>
-                                </li>
-                                <li
-                                    className="me-2 text-lg"
-                                    role="presentation"
+                                    Profile
+                                </button>
+                            </li>
+                            <li className="me-2 text-lg" role="presentation">
+                                <button
+                                    className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                    id="orders-tab"
+                                    data-tabs-target="#orders"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="orders"
+                                    aria-selected="false"
                                 >
-                                    <button
-                                        className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                                        id="dashboard-tab"
-                                        data-tabs-target="#dashboard"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="dashboard"
-                                        aria-selected="false"
-                                    >
-                                        Orders
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                                    Orders
+                                </button>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div className="w-1/2 md:w-1/3 flex justify-end">
+                    <div className="w-1/3 flex justify-end">
                         <div
-                            className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600 border border-gray-400"
+                            className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600 shadow-md active:shadow-sm"
                             id="avatarButton"
                             type="button"
                             data-dropdown-toggle="userDropdown"
@@ -159,7 +147,7 @@ const Account = () => {
                         {/* <!-- Dropdown menu --> */}
                         <div
                             id="userDropdown"
-                            className="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                            className="z-10 hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
                         >
                             {user && (
                                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -171,7 +159,7 @@ const Account = () => {
                             )}
 
                             <ul
-                                className="py-2 text-sm text-gray-700 dark:text-zinc-200"
+                                className="text-sm text-gray-700 dark:text-zinc-200"
                                 aria-labelledby="avatarButton"
                             >
                                 {user && (
@@ -313,75 +301,24 @@ const Account = () => {
                 </Cart>
             </nav>
 
-            <div className="h-screen w-screen bg-gray-200 dark:bg-gray-900">
-                <div id="default-tab-content">
+            {/* main div */}
+            <div className="flex justify-center items-center h-screen w-screen shadow-sm-light bg-neutral-200 dark:bg-gray-900">
+                <div id="default-tab-content" className="container">
                     <div
-                        className="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                        className="hidden p-4 border shadow-xl bg-white dark:bg-gray-800"
                         id="profile"
                         role="tabpanel"
                         aria-labelledby="profile-tab"
                     >
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            This is some placeholder content the{" "}
-                            <strong className="font-medium text-gray-800 dark:text-white">
-                                Profile tab's associated content
-                            </strong>
-                            . Clicking another tab will toggle the visibility of
-                            this one for the next. The tab JavaScript swaps
-                            classes to control the content visibility and
-                            styling.
-                        </p>
+                        profile
                     </div>
                     <div
-                        className="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-                        id="dashboard"
+                        className="hidden p-4 bg-white dark:bg-gray-800"
+                        id="orders"
                         role="tabpanel"
-                        aria-labelledby="dashboard-tab"
+                        aria-labelledby="orders-tab"
                     >
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            This is some placeholder content the{" "}
-                            <strong className="font-medium text-gray-800 dark:text-white">
-                                Dashboard tab's associated content
-                            </strong>
-                            . Clicking another tab will toggle the visibility of
-                            this one for the next. The tab JavaScript swaps
-                            classes to control the content visibility and
-                            styling.
-                        </p>
-                    </div>
-                    <div
-                        className="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-                        id="settings"
-                        role="tabpanel"
-                        aria-labelledby="settings-tab"
-                    >
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            This is some placeholder content the{" "}
-                            <strong className="font-medium text-gray-800 dark:text-white">
-                                Settings tab's associated content
-                            </strong>
-                            . Clicking another tab will toggle the visibility of
-                            this one for the next. The tab JavaScript swaps
-                            classes to control the content visibility and
-                            styling.
-                        </p>
-                    </div>
-                    <div
-                        className="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-                        id="contacts"
-                        role="tabpanel"
-                        aria-labelledby="contacts-tab"
-                    >
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            This is some placeholder content the{" "}
-                            <strong className="font-medium text-gray-800 dark:text-white">
-                                Contacts tab's associated content
-                            </strong>
-                            . Clicking another tab will toggle the visibility of
-                            this one for the next. The tab JavaScript swaps
-                            classes to control the content visibility and
-                            styling.
-                        </p>
+                        orders
                     </div>
                 </div>
             </div>

@@ -54,7 +54,7 @@ const Navbar = () => {
     }, [])
 
     return (
-        <nav className="bg-gray-200 dark:bg-gray-900">
+        <nav className="bg-neutral-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a
                     href="#"
@@ -66,7 +66,7 @@ const Navbar = () => {
                     <ul className="flex justify-center flex-col font-medium p-4 md:p-0 mt-4 mx-auto border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <button
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                                 onClick={navigateHome}
                             >
                                 Home
@@ -75,7 +75,7 @@ const Navbar = () => {
                         <li>
                             <a
                                 href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >
                                 Link2
                             </a>
@@ -83,7 +83,7 @@ const Navbar = () => {
                         <li>
                             <a
                                 href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >
                                 Link3
                             </a>
@@ -91,7 +91,7 @@ const Navbar = () => {
                         <li>
                             <a
                                 href="#"
-                                className="select-none block py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                className="select-none block pl-3 pr-4 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >
                                 Link4
                             </a>
@@ -101,7 +101,7 @@ const Navbar = () => {
 
                 <div className="w-1/2 md:w-1/3 flex justify-end">
                     <div
-                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600 border border-gray-400"
+                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600 shadow-md active:shadow-sm"
                         id="avatarButton"
                         type="button"
                         data-dropdown-toggle="userDropdown"
@@ -127,7 +127,7 @@ const Navbar = () => {
                     {/* <!-- Dropdown menu --> */}
                     <div
                         id="userDropdown"
-                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
                     >
                         {user && (
                             <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -139,7 +139,7 @@ const Navbar = () => {
                         )}
 
                         <ul
-                            className="py-2 text-sm text-gray-700 dark:text-zinc-200"
+                            className="text-sm text-gray-700 dark:text-zinc-200"
                             aria-labelledby="avatarButton"
                         >
                             {user && (

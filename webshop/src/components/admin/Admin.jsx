@@ -10,36 +10,37 @@ const Admin = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (user && user.role !== "admin") {
+        // Only proceed if the user exists and is an admin
+        if (user && user.role === "admin") {
+            fetch("http://localhost:4500/api/orders")
+                .then((res) => res.json())
+                .then((data) => {
+                    if (Array.isArray(data)) {
+                        // setOrders(data)
+                    } else {
+                        console.error("Invalid API response:", data)
+                    }
+                })
+                .catch((err) => {
+                    console.error("Failed to fetch orders:", err)
+                })
+        } else {
+            // Optionally handle the case when user is not admin or not logged in
+            // For example, navigate to an access denied page or perform some other action
             navigate("/access-denied")
         }
     }, [user, navigate])
 
-    useEffect(() => {
-        fetch("http://localhost:4500/api/orders")
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    // setOrders(data)
-                } else {
-                    console.error("Invalid API response:", data)
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to fetch orders:", err)
-            })
-    }, [])
+    // const navigateToLogin = () => {
+    //     navigate("/login")
+    // }
 
-    const navigateToLogin = () => {
-        navigate("/login")
-    }
-
-    const navigateToHome = () => {
-        navigate("/")
-    }
+    // const navigateToHome = () => {
+    //     navigate("/")
+    // }
 
     return (
-        <div>
+        <div className="bg-neutral-200 dark:bg-gray-900">
             <ToastContainer />
         </div>
     )

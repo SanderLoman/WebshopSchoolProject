@@ -17,23 +17,18 @@ function App() {
         <ThemeProvider>
             <CartProvider>
                 <Router>
-                    <div className="">
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route
-                                path="/register"
-                                element={<RegisterPage />}
-                            />
-                            <Route
-                                path="/access-denied"
-                                element={<AccessDenied />}
-                            />
-                            <Route path="/admin" element={<AdminPage />} />
-                            <Route path="/account" element={<Account />} />
-                            <Route path="*" element={<Page404 />} />
-                        </Routes>
-                    </div>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route
+                            path="/access-denied"
+                            element={<AccessDenied />}
+                        />
+                        <Route path="/admin" element={<AdminPage />} />
+                        <Route path="/account" element={<Account />} />
+                        <Route path="*" element={<Page404 />} />
+                    </Routes>
                 </Router>
             </CartProvider>
         </ThemeProvider>
