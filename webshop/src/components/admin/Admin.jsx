@@ -6,8 +6,14 @@ import useAuth from "../../components/auth/useAuth.jsx"
 import "./Admin.css"
 
 const Admin = () => {
-    const { user, logout } = useAuth()
+    const { user } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user && user.role !== "admin") {
+            navigate("/access-denied")
+        }
+    }, [user, navigate])
 
     useEffect(() => {
         fetch("http://localhost:4500/api/orders")
@@ -23,14 +29,6 @@ const Admin = () => {
                 console.error("Failed to fetch orders:", err)
             })
     }, [])
-
-    useEffect(() => {
-        console.log("User state has changed:", user)
-
-        if (user && user.role !== "admin") {
-            navigate("/login")
-        }
-    }, [user, navigate])
 
     const navigateToLogin = () => {
         navigate("/login")

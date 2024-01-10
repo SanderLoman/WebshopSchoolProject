@@ -5,6 +5,8 @@ import LoginPage from "./components/login/Login.jsx"
 import RegisterPage from "./components/login/Register.jsx"
 import AdminPage from "./components/admin/Admin.jsx"
 import Account from "./components/account/Account.jsx"
+import Page404 from "./components/errors/Page404.jsx"
+import AccessDenied from "./components/errors/AccessDenied.jsx"
 import { ThemeProvider } from "./components/providers/ThemeProvider.jsx"
 import CartProvider from "./components/providers/CartProvider.jsx"
 import "flowbite"
@@ -23,8 +25,13 @@ function App() {
                                 path="/register"
                                 element={<RegisterPage />}
                             />
+                            <Route
+                                path="/access-denied"
+                                element={<AccessDenied />}
+                            />
                             <Route path="/admin" element={<AdminPage />} />
                             <Route path="/account" element={<Account />} />
+                            <Route path="*" element={<Page404 />} />
                         </Routes>
                     </div>
                 </Router>

@@ -101,7 +101,7 @@ const Navbar = () => {
 
                 <div className="w-1/2 md:w-1/3 flex justify-end">
                     <div
-                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600"
+                        className="relative w-10 h-10 overflow-hidden cursor-pointer bg-white rounded-full dark:bg-gray-600 border border-gray-400"
                         id="avatarButton"
                         type="button"
                         data-dropdown-toggle="userDropdown"
@@ -274,7 +274,7 @@ const Navbar = () => {
             <Cart showModal={showModal} setShowModal={setShowModal}>
                 {/* Modal Content Here */}
             </Cart>
-            <ToastContainer />
+            <ToastContainer className={"select-none"} />
         </nav>
     )
 }
