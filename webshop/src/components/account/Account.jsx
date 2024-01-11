@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
-import Navbar from "../homepage/navbar/Navbar.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
 import useAuth from "../auth/useAuth.jsx"
-import axios from "axios"
 
 const Account = () => {
     const {
@@ -25,7 +23,7 @@ const Account = () => {
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
         setSelectedFile(file)
-        setImagePreview(URL.createObjectURL(file)) // Create a URL for preview
+        setImagePreview(URL.createObjectURL(file)) // URL for preview of the image
     }
 
     const handleSubmit = async (event) => {
@@ -35,20 +33,35 @@ const Account = () => {
         formData.append("email", user.email) // Include the user's email
 
         try {
-            const response = await axios.post(
+            const response = await fetch(
                 "http://localhost:4500/api/upload-profile-picture",
-                formData,
                 {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
+                    method: "POST",
+                    body: formData,
                 },
             )
-            console.log(response.data)
+
+            const result = await response.text()
+            console.log(result)
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`)
+            }
+
             // handle success (e.g., show a notification)
         } catch (error) {
             console.error("Error uploading file:", error)
-            // handle error (e.g., show an error message)
+            toast.error("Error updating profile", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                className:
+                    systemTheme === "dark" || systemTheme === "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
         }
     }
 
@@ -180,7 +193,7 @@ const Account = () => {
                         {/* <!-- Dropdown menu --> */}
                         <div
                             id="userDropdown"
-                            className="hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
+                            className="hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600 select-none"
                         >
                             {user && (
                                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -256,7 +269,7 @@ const Account = () => {
                                         </button>
                                         <div
                                             id="doubleDropdown"
-                                            className="z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700"
+                                            className="hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700"
                                         >
                                             <ul
                                                 className=" text-sm text-gray-700 dark:text-gray-200"
@@ -351,9 +364,9 @@ const Account = () => {
                             onSubmit={handleSubmit}
                         >
                             {/* <!-- User Image --> */}
-                            <div className="relative -top-16">
-                                <div className="flex justify-center">
-                                    <div className="relative drop-shadow-lg z-20 active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                            <div className=" -top-16 w-max mx-auto">
+                                <div className="flex justify-center bg-red-500">
+                                    <div className="relative drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                         {imagePreview ? (
                                             <img
                                                 src={imagePreview}
@@ -451,7 +464,7 @@ const Account = () => {
                             <div className="flex justify-center">
                                 <button
                                     type="submit"
-                                    className="relative w-1/2 md:w-1/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                    className="w-1/2 md:w-1/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 >
                                     Update Profile
                                 </button>

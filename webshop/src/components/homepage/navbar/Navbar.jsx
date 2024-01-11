@@ -56,12 +56,9 @@ const Navbar = () => {
     return (
         <nav className="bg-neutral-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a
-                    href="#"
-                    className="flex items-center w-1/2 md:w-1/3 select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                >
+                <p className="flex items-center w-1/2 md:w-1/3 select-none self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                     Webshop
-                </a>
+                </p>
                 <div className="hidden md:block w-1/2 md:w-1/3">
                     <ul className="flex justify-center flex-col font-medium p-4 md:p-0 mt-4 mx-auto border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
@@ -127,10 +124,10 @@ const Navbar = () => {
                     {/* <!-- Dropdown menu --> */}
                     <div
                         id="userDropdown"
-                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
+                        className="z-10 hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600 select-none"
                     >
                         {user && (
-                            <div className="px-4 py-3 text-sm text-gray-900 dark:text-white select-none">
+                            <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                                 <div>{`${user.firstName} ${user.lastName}`}</div>
                                 <div className="font-medium truncate">
                                     {user.email}

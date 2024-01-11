@@ -8,7 +8,7 @@ const auth = require("./auth.json")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./webshop/server/pfp/")
+        cb(null, "./pfp/")
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + "-" + Date.now())
@@ -154,9 +154,17 @@ app.post(
     "/api/upload-profile-picture",
     upload.single("profilePicture"),
     (req, res) => {
-        const filePath = req.file.path // Get the path of the uploaded file
+        // Check if the email is provided
+        if (!req.body.email) {
+            return res.status(400).send("Email is required.")
+        }
 
-        // Logic to find the user in the auth.json and update their pfp path
+        if (!req.file) {
+            return res.status(400).send("No file uploaded.")
+        }
+
+        const filePath = req.file.path
+
         fs.readFile(
             path.join(__dirname, "./auth.json"),
             "utf-8",
@@ -169,10 +177,10 @@ app.post(
                 const users = JSON.parse(data)
                 const userIndex = users.findIndex(
                     (user) => user.email === req.body.email,
-                ) // Assuming email is sent along with file
+                )
 
                 if (userIndex !== -1) {
-                    users[userIndex].pfp = filePath // Update pfp path
+                    users[userIndex].pfp = filePath
 
                     fs.writeFile(
                         path.join(__dirname, "./auth.json"),
