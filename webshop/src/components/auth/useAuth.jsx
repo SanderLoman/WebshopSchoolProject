@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
-import RegisterPage from "../login/Register.jsx"
 
 const useAuth = () => {
     const [user, setUser] = useState(

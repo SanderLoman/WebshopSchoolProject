@@ -2,8 +2,20 @@ const express = require("express")
 const cors = require("cors")
 const fs = require("fs")
 const path = require("path")
+const multer = require("multer")
 
 const auth = require("./auth.json")
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./webshop/server/pfp/")
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + "-" + Date.now())
+    },
+})
+
+const upload = multer({ storage: storage })
 
 const app = express()
 
@@ -137,6 +149,54 @@ const registerUser = (email, password, firstName, lastName, role) => {
         )
     })
 }
+
+app.post(
+    "/api/upload-profile-picture",
+    upload.single("profilePicture"),
+    (req, res) => {
+        const filePath = req.file.path // Get the path of the uploaded file
+
+        // Logic to find the user in the auth.json and update their pfp path
+        fs.readFile(
+            path.join(__dirname, "./auth.json"),
+            "utf-8",
+            (err, data) => {
+                if (err) {
+                    console.error("An error occurred:", err)
+                    return res.status(500).send("Internal Server Error")
+                }
+
+                const users = JSON.parse(data)
+                const userIndex = users.findIndex(
+                    (user) => user.email === req.body.email,
+                ) // Assuming email is sent along with file
+
+                if (userIndex !== -1) {
+                    users[userIndex].pfp = filePath // Update pfp path
+
+                    fs.writeFile(
+                        path.join(__dirname, "./auth.json"),
+                        JSON.stringify(users, null, 2),
+                        (err) => {
+                            if (err) {
+                                console.error("An error occurred:", err)
+                                return res
+                                    .status(500)
+                                    .send("Internal Server Error")
+                            }
+
+                            res.send(
+                                "File uploaded and path updated successfully",
+                            )
+                        },
+                    )
+                } else {
+                    res.status(404).send("User not found")
+                }
+            },
+        )
+    },
+)
 
 // Start the server
 app.listen(4500, () => {

@@ -6,6 +6,7 @@ import ThemeContext from "../providers/ThemeProvider.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
 import useAuth from "../auth/useAuth.jsx"
+import axios from "axios"
 
 const Account = () => {
     const {
@@ -18,6 +19,38 @@ const Account = () => {
     const { user, logout } = useAuth()
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
+
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0]
+        setSelectedFile(file)
+        setImagePreview(URL.createObjectURL(file)) // Create a URL for preview
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        const formData = new FormData()
+        formData.append("profilePicture", selectedFile)
+        formData.append("email", user.email) // Include the user's email
+
+        try {
+            const response = await axios.post(
+                "http://localhost:4500/api/upload-profile-picture",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                },
+            )
+            console.log(response.data)
+            // handle success (e.g., show a notification)
+        } catch (error) {
+            console.error("Error uploading file:", error)
+            // handle error (e.g., show an error message)
+        }
+    }
 
     useEffect(() => {
         if (showModal) {
@@ -56,7 +89,7 @@ const Account = () => {
         <>
             <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex md:flex-wrap items-center md:justify-between mx-auto p-4">
-                    <div className="md:absolute top-4 left-4 md:w-1/3">
+                    <div className="xl:absolute top-4 left-4 w-1/3">
                         <button
                             type="button"
                             onClick={navigateHome}
@@ -147,7 +180,7 @@ const Account = () => {
                         {/* <!-- Dropdown menu --> */}
                         <div
                             id="userDropdown"
-                            className="z-10 hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
+                            className="hidden bg-white divide-y divide-gray-100 shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600"
                         >
                             {user && (
                                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -304,14 +337,129 @@ const Account = () => {
             {/* main div */}
             <div className="flex justify-center items-center h-screen w-screen shadow-sm-light bg-neutral-200 dark:bg-gray-900">
                 <div id="default-tab-content" className="container">
+                    {/* <!-- Profile Section --> */}
                     <div
-                        className="hidden p-4 border shadow-xl bg-white dark:bg-gray-800"
+                        className="p-4 shadow-xl bg-white dark:bg-gray-800"
                         id="profile"
                         role="tabpanel"
                         aria-labelledby="profile-tab"
                     >
-                        profile
+                        {/* <!-- Profile Update Form --> */}
+                        <form
+                            id="profile-update-form"
+                            className="space-y-6"
+                            onSubmit={handleSubmit}
+                        >
+                            {/* <!-- User Image --> */}
+                            <div className="relative -top-16">
+                                <div className="flex justify-center">
+                                    <div className="relative drop-shadow-lg z-20 active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                        {imagePreview ? (
+                                            <img
+                                                src={imagePreview}
+                                                alt="Profile"
+                                                className="w-full h-full rounded-full"
+                                            />
+                                        ) : (
+                                            <svg
+                                                className="absolute w-32 h-32 text-gray-400 -left-4 -top-4"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                    clipRule="evenodd"
+                                                ></path>
+                                            </svg>
+                                        )}
+                                        <input
+                                            type="file"
+                                            className="absolute inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
+                                            onChange={handleFileSelect}
+                                        />
+                                    </div>
+                                </div>
+                                {/* <!-- User Name --> */}
+                                <div className="text-center my-4">
+                                    <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">
+                                        {user.firstName} {user.lastName}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <div className="grid gap-6 mb-6 md:grid-cols-2">
+                                <div>
+                                    <label
+                                        htmlFor="first_name"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        First name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="first_name"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder={user.firstName}
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="last_name"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Last name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="last_name"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder={user.lastName}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="•••••••••"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="confirm_password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Confirm password
+                                </label>
+                                <input
+                                    type="password"
+                                    id="confirm_password"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="•••••••••"
+                                />
+                            </div>
+
+                            <div className="flex justify-center">
+                                <button
+                                    type="submit"
+                                    className="relative w-1/2 md:w-1/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
                     </div>
+
+                    {/* <!-- Orders Section --> */}
                     <div
                         className="hidden p-4 bg-white dark:bg-gray-800"
                         id="orders"
@@ -322,6 +470,7 @@ const Account = () => {
                     </div>
                 </div>
             </div>
+
             <ToastContainer className={"select-none"} />
         </>
     )
