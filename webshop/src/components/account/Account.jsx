@@ -100,7 +100,7 @@ const Account = () => {
 
     return (
         <>
-            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900">
+            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900 z-10">
                 <div className="max-w-screen-xl flex md:flex-wrap items-center md:justify-between mx-auto p-4">
                     <div className="xl:absolute top-4 left-4 w-1/3">
                         <button
@@ -349,7 +349,7 @@ const Account = () => {
 
             {/* main div */}
             <div className="flex justify-center items-center h-screen w-screen shadow-sm-light bg-neutral-200 dark:bg-gray-900">
-                <div id="default-tab-content" className="container">
+                <div id="default-tab-content" className="container h-2/3 md:h-auto">
                     {/* <!-- Profile Section --> */}
                     <div
                         className="p-4 shadow-xl bg-white dark:bg-gray-800"
@@ -364,35 +364,35 @@ const Account = () => {
                             onSubmit={handleSubmit}
                         >
                             {/* <!-- User Image --> */}
-                            <div className=" -top-16 w-max mx-auto">
-                                <div className="flex justify-center bg-red-500">
-                                    <div className="relative drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                        {imagePreview ? (
-                                            <img
-                                                src={imagePreview}
-                                                alt="Profile"
-                                                className="w-full h-full rounded-full"
-                                            />
-                                        ) : (
-                                            <svg
-                                                className="absolute w-32 h-32 text-gray-400 -left-4 -top-4"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                                    clipRule="evenodd"
-                                                ></path>
-                                            </svg>
-                                        )}
-                                        <input
-                                            type="file"
-                                            className="absolute inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
-                                            onChange={handleFileSelect}
+                            <div className="relative bottom-16 w-max mx-auto z-5">
+                                {/* <div className="flex justify-center bg-red-500"> */}
+                                <div className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                    {imagePreview ? (
+                                        <img
+                                            src={imagePreview}
+                                            alt="Profile"
+                                            className="w-full h-full rounded-full"
                                         />
-                                    </div>
+                                    ) : (
+                                        <svg
+                                            className="absolute w-32 h-32 text-gray-400 -left-4 -top-4"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clipRule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <input
+                                        type="file"
+                                        className=" inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
+                                        onChange={handleFileSelect}
+                                    />
+                                    {/* </div> */}
                                 </div>
                                 {/* <!-- User Name --> */}
                                 <div className="text-center my-4">
