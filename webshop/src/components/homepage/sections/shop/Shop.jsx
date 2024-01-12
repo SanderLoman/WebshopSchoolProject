@@ -51,7 +51,7 @@ const Shop = () => {
 
     return (
         <div>
-            <div className="h-screen bg-gray-200 dark:bg-gray-900">shop</div>
+            <div className="h-screen bg-neutral-200 dark:bg-gray-900">shop</div>
         </div>
     )
 }

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import Navbar from "./navbar/Navbar.jsx"
 import Hero from "./sections/hero/Hero.jsx"
-import Shop from "./sections/main/Shop.jsx"
+import Shop from "./sections/shop/Shop.jsx"
 import Footer from "./sections/footer/Footer.jsx"
 import "./HomePage.css"
 

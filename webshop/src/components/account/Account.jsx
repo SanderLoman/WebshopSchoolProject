@@ -349,7 +349,10 @@ const Account = () => {
 
             {/* main div */}
             <div className="flex justify-center items-center h-screen w-screen shadow-sm-light bg-neutral-200 dark:bg-gray-900">
-                <div id="default-tab-content" className="container h-2/3 md:h-auto">
+                <div
+                    id="default-tab-content"
+                    className="container h-2/3 md:h-auto"
+                >
                     {/* <!-- Profile Section --> */}
                     <div
                         className="p-4 shadow-xl bg-white dark:bg-gray-800"

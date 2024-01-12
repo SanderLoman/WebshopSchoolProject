@@ -40,7 +40,7 @@ const Admin = () => {
     // }
 
     return (
-        <div className="bg-neutral-200 dark:bg-gray-900">
+        <div className="h-screen bg-neutral-200 dark:bg-gray-900">
             <ToastContainer />
         </div>
     )
