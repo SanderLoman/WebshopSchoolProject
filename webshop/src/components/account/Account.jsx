@@ -34,7 +34,7 @@ const Account = () => {
 
         try {
             const response = await fetch(
-                "http://localhost:4500/api/upload-profile-picture",
+                "http://127.0.0.1:4500/api/upload-profile-picture",
                 {
                     method: "POST",
                     body: formData,
@@ -100,7 +100,7 @@ const Account = () => {
 
     return (
         <>
-            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900 z-10">
+            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex md:flex-wrap items-center md:justify-between mx-auto p-4">
                     <div className="xl:absolute top-4 left-4 w-1/3">
                         <button
@@ -342,9 +342,6 @@ const Account = () => {
                         </div>
                     </div>
                 </div>
-                <Cart showModal={showModal} setShowModal={setShowModal}>
-                    {/* Modal Content Here */}
-                </Cart>
             </nav>
 
             {/* main div */}
@@ -367,8 +364,7 @@ const Account = () => {
                             onSubmit={handleSubmit}
                         >
                             {/* <!-- User Image --> */}
-                            <div className="relative bottom-16 w-max mx-auto z-5">
-                                {/* <div className="flex justify-center bg-red-500"> */}
+                            <div className="relative bottom-16 w-max mx-auto z-10">
                                 <div className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                     {imagePreview ? (
                                         <img
@@ -395,7 +391,6 @@ const Account = () => {
                                         className=" inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
                                         onChange={handleFileSelect}
                                     />
-                                    {/* </div> */}
                                 </div>
                                 {/* <!-- User Name --> */}
                                 <div className="text-center my-4">
@@ -416,10 +411,11 @@ const Account = () => {
                                     <input
                                         type="text"
                                         id="first_name"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder={user.firstName}
                                     />
                                 </div>
+
                                 <div>
                                     <label
                                         htmlFor="last_name"
@@ -430,7 +426,7 @@ const Account = () => {
                                     <input
                                         type="text"
                                         id="last_name"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder={user.lastName}
                                     />
                                 </div>
@@ -445,7 +441,7 @@ const Account = () => {
                                 <input
                                     type="password"
                                     id="password"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="•••••••••"
                                 />
                             </div>
@@ -459,7 +455,7 @@ const Account = () => {
                                 <input
                                     type="password"
                                     id="confirm_password"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="•••••••••"
                                 />
                             </div>
@@ -487,6 +483,9 @@ const Account = () => {
                 </div>
             </div>
 
+            <Cart showModal={showModal} setShowModal={setShowModal}>
+                {/* Modal Content Here */}
+            </Cart>
             <ToastContainer className={"select-none"} />
         </>
     )
