@@ -45,7 +45,7 @@ const useAuth = () => {
         }
     }
 
-    const register = async (email, password, firstName, lastName, role) => {
+    const register = async (email, password, firstName, lastName, role, pfp, cart) => {
         try {
             const res = await fetch("http://localhost:4500/api/register", {
                 method: "POST",
@@ -58,6 +58,8 @@ const useAuth = () => {
                     firstName,
                     lastName,
                     role,
+                    pfp,
+                    cart,
                 }),
             })
 

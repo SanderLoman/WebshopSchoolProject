@@ -30,24 +30,23 @@ const Account = () => {
         event.preventDefault()
         const formData = new FormData()
         formData.append("profilePicture", selectedFile)
-        formData.append("email", user.email) // Include the user's email
+        formData.append("email", user.email) // Incl/ude the user's email
 
         try {
             const response = await fetch(
-                "http://127.0.0.1:4500/api/upload-profile-picture",
+                "http://localhost:4500/api/update-profile",
                 {
                     method: "POST",
                     body: formData,
                 },
             )
 
-            const result = await response.text()
-            console.log(result)
-
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`)
             }
 
+            const result = await response.text()
+            console.log(result)
             // handle success (e.g., show a notification)
         } catch (error) {
             console.error("Error uploading file:", error)
@@ -92,6 +91,11 @@ const Account = () => {
 
     const navigateToAccount = () => {
         navigate("/account")
+    }
+
+    const handleLogout = () => {
+        logout()
+        navigate("/")
     }
 
     useEffect(() => {
@@ -325,7 +329,7 @@ const Account = () => {
                             <div className="">
                                 {user ? (
                                     <button
-                                        onClick={logout}
+                                        onClick={handleLogout}
                                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                     >
                                         Sign out

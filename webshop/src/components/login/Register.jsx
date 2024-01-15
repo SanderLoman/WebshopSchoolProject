@@ -16,6 +16,9 @@ const RegisterPage = () => {
     const [registrationError, setRegistrationError] = useState("")
     const navigate = useNavigate()
 
+    const [pfp, setPfp] = useState("")
+    const [cart, setCart] = useState([])
+
     const { register } = useAuth()
 
     const isValidEmail = (email) => {
@@ -61,6 +64,8 @@ const RegisterPage = () => {
             firstName,
             lastName,
             "customer",
+            pfp,
+            cart,
         )
 
         console.log("Registration success:", success)
