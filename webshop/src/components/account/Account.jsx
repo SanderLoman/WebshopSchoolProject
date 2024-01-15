@@ -368,7 +368,7 @@ const Account = () => {
                             onSubmit={handleSubmit}
                         >
                             {/* <!-- User Image --> */}
-                            <div className="relative bottom-16 w-max mx-auto z-10">
+                            <div className="lg:relative bottom-16 w-max mx-auto z-10">
                                 <div className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                     {imagePreview ? (
                                         <img
