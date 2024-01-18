@@ -22,15 +22,21 @@ const Account = () => {
 
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
-        setSelectedFile(file)
-        setImagePreview(URL.createObjectURL(file)) // URL for preview of the image
+        if (file) {
+            setSelectedFile(file)
+            setImagePreview(URL.createObjectURL(file)) // URL for preview of the image
+        } else {
+            // Handle the case where no file is selected (like cancelling the file upload)
+            setSelectedFile(null)
+            setImagePreview(null)
+        }
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         const formData = new FormData()
         formData.append("profilePicture", selectedFile)
-        formData.append("email", user.email) // Incl/ude the user's email
+        formData.append("email", user.email) // Include the user's email
 
         try {
             const response = await fetch(
@@ -392,7 +398,8 @@ const Account = () => {
                                     )}
                                     <input
                                         type="file"
-                                        className=" inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
+                                        accept=".jpg, .jpeg, .png"
+                                        className="inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
                                         onChange={handleFileSelect}
                                     />
                                 </div>
