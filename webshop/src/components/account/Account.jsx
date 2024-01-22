@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef, useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
+import ImageCropper from "./image-cropper/ImageCropper.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
 import useAuth from "../auth/useAuth.jsx"
 
 const Account = () => {
+    const fileInputRef = useRef(null)
+
     const {
         lightTheme,
         systemTheme,
@@ -14,29 +17,41 @@ const Account = () => {
         setDarkMode,
         setSystemMode,
     } = useContext(ThemeContext)
+
     const { user, logout } = useAuth()
+
     const navigate = useNavigate()
-    const [showModal, setShowModal] = useState(false)
+
+    const [showCart, setshowCart] = useState(false)
+
+    // States for the image cropper
+    const [isCropping, setIsCropping] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null)
     const [imagePreview, setImagePreview] = useState(null)
 
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
+        console.log("Selected file:", file)
+
         if (file) {
             setSelectedFile(file)
-            setImagePreview(URL.createObjectURL(file)) // URL for preview of the image
+            setIsCropping(true)
         } else {
-            // Handle the case where no file is selected (like cancelling the file upload)
             setSelectedFile(null)
             setImagePreview(null)
         }
+    }
+
+    const handleImageCropped = (croppedImage) => {
+        setImagePreview(croppedImage)
+        setIsCropping(false)
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         const formData = new FormData()
         formData.append("profilePicture", selectedFile)
-        formData.append("email", user.email) // Include the user's email
+        formData.append("email", user.email)
 
         try {
             const response = await fetch(
@@ -71,7 +86,7 @@ const Account = () => {
     }
 
     useEffect(() => {
-        if (showModal) {
+        if (showCart) {
             document.body.style.overflow = "hidden"
         } else {
             document.body.style.overflow = ""
@@ -81,7 +96,7 @@ const Account = () => {
         return () => {
             document.body.style.overflow = ""
         }
-    }, [showModal])
+    }, [showCart])
 
     const navigateHome = () => {
         navigate("/")
@@ -242,7 +257,7 @@ const Account = () => {
                                             <button
                                                 className="block w-full text-left px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 onClick={() =>
-                                                    setShowModal(true)
+                                                    setshowCart(true)
                                                 }
                                             >
                                                 Cart
@@ -375,7 +390,13 @@ const Account = () => {
                         >
                             {/* <!-- User Image --> */}
                             <div className="lg:relative bottom-16 w-max mx-auto z-10">
-                                <div className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                <div
+                                    className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
+                                    onClick={() =>
+                                        fileInputRef.current &&
+                                        fileInputRef.current.click()
+                                    }
+                                >
                                     {imagePreview ? (
                                         <img
                                             src={imagePreview}
@@ -396,11 +417,13 @@ const Account = () => {
                                             ></path>
                                         </svg>
                                     )}
+                                    {/* Trigger for Image Selection */}
                                     <input
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
-                                        className="inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
+                                        className="hidden inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
                                         onChange={handleFileSelect}
+                                        ref={fileInputRef}
                                     />
                                 </div>
                                 {/* <!-- User Name --> */}
@@ -423,6 +446,7 @@ const Account = () => {
                                         type="text"
                                         id="first_name"
                                         className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        autoComplete="first-name"
                                         placeholder={user.firstName}
                                     />
                                 </div>
@@ -438,6 +462,7 @@ const Account = () => {
                                         type="text"
                                         id="last_name"
                                         className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        autoComplete="family-name"
                                         placeholder={user.lastName}
                                     />
                                 </div>
@@ -453,6 +478,7 @@ const Account = () => {
                                     type="password"
                                     id="password"
                                     className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    autoComplete="new-password"
                                     placeholder="•••••••••"
                                 />
                             </div>
@@ -467,6 +493,7 @@ const Account = () => {
                                     type="password"
                                     id="confirm_password"
                                     className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    autoComplete="new-password"
                                     placeholder="•••••••••"
                                 />
                             </div>
@@ -494,7 +521,15 @@ const Account = () => {
                 </div>
             </div>
 
-            <Cart showModal={showModal} setShowModal={setShowModal}>
+            {/* Image Cropper Modal */}
+            {isCropping && selectedFile && (
+                <ImageCropper
+                    src={URL.createObjectURL(selectedFile)}
+                    onImageCropped={handleImageCropped}
+                />
+            )}
+
+            <Cart showCart={showCart} setshowCart={setshowCart}>
                 {/* Modal Content Here */}
             </Cart>
             <ToastContainer className={"select-none"} />

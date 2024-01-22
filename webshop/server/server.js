@@ -122,17 +122,16 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
         if (lastName) users[userIndex].lastName = lastName
 
         if (file) {
-            // Handle file upload
+            // Handle file (PFP) upload
             const filePath = file.path
-            users[userIndex].pfp = filePath // Assuming 'pfp' is the field for profile picture
+            users[userIndex].pfp = filePath
         }
 
         if (password) {
             if (password !== confirmPassword) {
                 return res.status(400).send("Passwords do not match")
             }
-            // Update password here (ensure you hash it if necessary)
-            users[userIndex].password = password // Assuming you're storing hashed passwords
+            users[userIndex].password = password
         }
 
         fs.writeFile(
