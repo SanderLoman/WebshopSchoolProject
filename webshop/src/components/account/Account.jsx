@@ -297,7 +297,7 @@ const Account = () => {
                                             className="hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-700"
                                         >
                                             <ul
-                                                className=" text-sm text-gray-700 dark:text-gray-200"
+                                                className="text-sm text-gray-700 dark:text-gray-200"
                                                 aria-labelledby="doubleDropdownButton"
                                             >
                                                 <li>
@@ -421,7 +421,7 @@ const Account = () => {
                                     <input
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
-                                        className="hidden inset-0 w-full h-full rounded-full opacity-0 cursor-pointer"
+                                        className="hidden w-full h-full rounded-full opacity-0 cursor-pointer"
                                         onChange={handleFileSelect}
                                         ref={fileInputRef}
                                     />
