@@ -121,17 +121,20 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
         if (firstName) users[userIndex].firstName = firstName
         if (lastName) users[userIndex].lastName = lastName
 
-        if (file) {
-            // Handle file (PFP) upload
-            const filePath = file.path
-            users[userIndex].pfp = filePath
-        }
-
         if (password) {
             if (password !== confirmPassword) {
                 return res.status(400).send("Passwords do not match")
             }
             users[userIndex].password = password
+        }
+
+        if (file) {
+            const originalExt = path.extname(file.originalname)
+            const newFilename = file.filename + originalExt
+            const newPath = path.join(file.destination, newFilename)
+
+            fs.renameSync(file.path, newPath)
+            users[userIndex].pfp = newPath
         }
 
         fs.writeFile(

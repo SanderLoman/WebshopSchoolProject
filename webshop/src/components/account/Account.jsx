@@ -42,16 +42,37 @@ const Account = () => {
         }
     }
 
-    const handleImageCropped = (croppedImage) => {
-        setImagePreview(croppedImage)
+    const handleImageCropped = (croppedImageUrl) => {
+        setImagePreview(croppedImageUrl)
+        // Convert Blob URL to File
+        fetch(croppedImageUrl)
+            .then((res) => res.blob())
+            .then((blob) => {
+                const file = new File([blob], `cropped-image-${Date.now()}`, {
+                    type: blob.type,
+                })
+                setSelectedFile(file)
+            })
         setIsCropping(false)
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         const formData = new FormData()
+
+        // Append updated user details to formData
         formData.append("profilePicture", selectedFile)
-        formData.append("email", user.email)
+        formData.append("email", user.email) // Assuming 'user' contains the current user's email
+        formData.append(
+            "firstName",
+            document.getElementById("first_name").value,
+        )
+        formData.append("lastName", document.getElementById("last_name").value)
+        formData.append("password", document.getElementById("password").value)
+        formData.append(
+            "confirmPassword",
+            document.getElementById("confirm_password").value,
+        )
 
         try {
             const response = await fetch(
@@ -536,6 +557,7 @@ const Account = () => {
             <Cart showCart={showCart} setshowCart={setshowCart}>
                 {/* Modal Content Here */}
             </Cart>
+
             <ToastContainer className={"select-none"} />
         </>
     )

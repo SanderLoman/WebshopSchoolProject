@@ -5,11 +5,6 @@ import "react-image-crop/dist/ReactCrop.css"
 const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     const [crop, setCrop] = useState({
         aspect: 1,
-        // unit: "%",
-        // width: 50,
-        // height: 50,
-        // x: 25,
-        // y: 25,
     })
     const [completedCrop, setCompletedCrop] = useState(null)
     const imgRef = useRef(null)
@@ -97,7 +92,7 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                             Close
                         </button>
                     </div>
-                    <div className="p-4 flex items-center justify-center">
+                    <div className="p-4 bg-white dark:bg-gray-700 mx-auto">
                         <ReactCrop
                             onImageLoaded={onLoad}
                             circularCrop
