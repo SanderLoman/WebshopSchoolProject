@@ -101,6 +101,7 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                         <ReactCrop
                             onImageLoaded={onLoad}
                             circularCrop
+                            aspect={1}
                             minHeight={100}
                             minWidth={100}
                             crop={crop}
