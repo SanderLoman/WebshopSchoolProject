@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
-import ImageCropper from "./image-cropper/ImageCropper.jsx"
+import ImageCropperModal from "./image-cropper/ImageCropper.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
 import useAuth from "../auth/useAuth.jsx"
@@ -519,15 +519,17 @@ const Account = () => {
                         aria-labelledby="orders-tab"
                     >
                         orders
+                        https://flowbite.com/docs/components/tables/#table-with-products
                     </div>
                 </div>
             </div>
 
             {/* Image Cropper Modal */}
             {isCropping && selectedFile && (
-                <ImageCropper
+                <ImageCropperModal
                     src={URL.createObjectURL(selectedFile)}
                     onImageCropped={handleImageCropped}
+                    onClose={() => setIsCropping(false)}
                 />
             )}
 
