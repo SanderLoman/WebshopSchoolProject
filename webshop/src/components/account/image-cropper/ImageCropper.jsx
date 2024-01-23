@@ -4,13 +4,7 @@ import "react-image-crop/dist/ReactCrop.css"
 
 const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     // testing around with this
-    const [crop, setCrop] = useState({
-        unit: "%", // Could also use 'px' or '%'
-        width: 50,
-        height: 50,
-        x: 50,
-        y: 50,
-    })
+    const [crop, setCrop] = useState()
     const [croppedImageUrl, setCroppedImageUrl] = useState(null)
     const [imageRef, setImageRef] = useState(null)
 
@@ -74,10 +68,13 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                             {/* Close button icon */}
                         </button>
                     </div>
-                    <div className="p-4">
+                    <div className="p-4 mx-auto w-full">
                         <ReactCrop
-                            src={src}
                             crop={crop}
+                            circularCrop
+                            keepSelection
+                            aspect={1}
+                            minWidth={150}
                             ruleOfThirds
                             onImageLoaded={onImageLoaded}
                             onComplete={onCropComplete}
@@ -85,7 +82,13 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                                 setCrop(newCrop)
                                 console.log(newCrop)
                             }}
-                        />
+                        >
+                            <img
+                                src={src}
+                                alt="PFP"
+                                className="rounded-xl border-2 border-gray-200 dark:border-gray-600"
+                            />
+                        </ReactCrop>
                     </div>
 
                     <div className="flex items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">

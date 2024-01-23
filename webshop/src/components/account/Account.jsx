@@ -418,13 +418,15 @@ const Account = () => {
                                         </svg>
                                     )}
                                     {/* Trigger for Image Selection */}
-                                    <input
-                                        type="file"
-                                        accept=".jpg, .jpeg, .png"
-                                        className="hidden w-full h-full rounded-full opacity-0 cursor-pointer"
-                                        onChange={handleFileSelect}
-                                        ref={fileInputRef}
-                                    />
+                                    <div className="w-full h-full rounded-full opacity-0 cursor-pointer">
+                                        <input
+                                            type="file"
+                                            accept=".jpg, .jpeg, .png"
+                                            className="hidden"
+                                            onChange={handleFileSelect}
+                                            ref={fileInputRef}
+                                        />
+                                    </div>
                                 </div>
                                 {/* <!-- User Name --> */}
                                 <div className="text-center my-4">

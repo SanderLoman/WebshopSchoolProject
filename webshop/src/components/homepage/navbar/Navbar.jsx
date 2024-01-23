@@ -18,10 +18,10 @@ const Navbar = () => {
     } = useContext(ThemeContext)
     const { user, logout } = useAuth()
     const navigate = useNavigate()
-    const [showModal, setShowModal] = useState(false)
+    const [showCart, setshowCart] = useState(false)
 
     useEffect(() => {
-        if (showModal) {
+        if (showCart) {
             document.body.style.overflow = "hidden"
         } else {
             document.body.style.overflow = ""
@@ -31,7 +31,7 @@ const Navbar = () => {
         return () => {
             document.body.style.overflow = ""
         }
-    }, [showModal])
+    }, [showCart])
 
     const navigateHome = () => {
         navigate("/")
@@ -162,7 +162,7 @@ const Navbar = () => {
                                     <li>
                                         <button
                                             className="block w-full text-left px-4 py-2 hover:bg-zinc-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            onClick={() => setShowModal(true)}
+                                            onClick={() => setshowCart(true)}
                                         >
                                             Cart
                                         </button>
@@ -268,7 +268,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <Cart showModal={showModal} setShowModal={setShowModal}>
+            <Cart showCart={showCart} setshowCart={setshowCart}>
                 {/* Modal Content Here */}
             </Cart>
             <ToastContainer className={"select-none"} />
