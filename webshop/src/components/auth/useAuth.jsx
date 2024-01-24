@@ -7,6 +7,11 @@ const useAuth = () => {
 
     const [authData, setAuthData] = useState([])
 
+    const updateProfile = (updatedUser) => {
+        setUser(updatedUser)
+        localStorage.setItem("user", JSON.stringify(updatedUser))
+    }
+
     useEffect(() => {
         const fetchAuthData = async () => {
             try {
@@ -45,7 +50,15 @@ const useAuth = () => {
         }
     }
 
-    const register = async (email, password, firstName, lastName, role, pfp, cart) => {
+    const register = async (
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+        pfp,
+        cart,
+    ) => {
         try {
             const res = await fetch("http://localhost:4500/api/register", {
                 method: "POST",
@@ -87,6 +100,7 @@ const useAuth = () => {
         login,
         register,
         logout,
+        updateProfile,
     }
 }
 

@@ -18,7 +18,7 @@ const Account = () => {
         setSystemMode,
     } = useContext(ThemeContext)
 
-    const { user, logout } = useAuth()
+    const { user, logout, updateProfile } = useAuth()
 
     const navigate = useNavigate()
 
@@ -75,7 +75,7 @@ const Account = () => {
         )
 
         try {
-            const response = await fetch(
+            const updateResponse = await fetch(
                 "http://localhost:4500/api/update-profile",
                 {
                     method: "POST",
@@ -83,13 +83,35 @@ const Account = () => {
                 },
             )
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`)
+            if (!updateResponse.ok) {
+                throw new Error(`HTTP error! Status: ${updateResponse.status}`)
             }
 
-            const result = await response.text()
-            console.log(result)
-            // handle success (e.g., show a notification)
+            // Assuming you have an endpoint like /api/user that returns the current user's data
+            const fetchUserResponse = await fetch(
+                `http://localhost:4500/api/user/${user.email}`,
+            )
+
+            if (!fetchUserResponse.ok) {
+                throw new Error(
+                    `Failed to fetch updated user data. Status: ${fetchUserResponse.status}`,
+                )
+            }
+
+            const updatedUser = await fetchUserResponse.json()
+            updateProfile(updatedUser) // Update the user information in state and localStorage
+
+            toast.success("Profile updated successfully", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                className:
+                    systemTheme === "dark" || systemTheme === "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
         } catch (error) {
             console.error("Error uploading file:", error)
             toast.error("Error updating profile", {

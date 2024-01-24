@@ -140,14 +140,42 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
         fs.writeFile(
             path.join(__dirname, "./auth.json"),
             JSON.stringify(users, null, 2),
-            (err) => {
-                if (err) {
-                    console.error("An error occurred:", err)
+            (writeErr) => {
+                if (writeErr) {
+                    console.error("An error occurred:", writeErr)
                     return res.status(500).send("Internal Server Error")
                 }
-                res.send("Profile updated successfully")
+                // Find and send back the updated user data
+                const updatedUser = users.find((user) => user.email === email)
+                if (updatedUser) {
+                    // Remove sensitive data before sending back to client
+                    delete updatedUser.password
+                    // Send back the updated user data
+                    res.json(updatedUser)
+                } else {
+                    res.status(404).send("User not found after update")
+                }
             },
         )
+    })
+})
+
+app.get("/api/user/:email", (req, res) => {
+    fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
+        if (err) {
+            console.error("An error occurred:", err)
+            return res.status(500).send("Internal Server Error")
+        }
+
+        let users = JSON.parse(data)
+        const user = users.find((u) => u.email === req.params.email)
+
+        if (user) {
+            // delete user.password
+            res.json(user)
+        } else {
+            res.status(404).send("User not found")
+        }
     })
 })
 
