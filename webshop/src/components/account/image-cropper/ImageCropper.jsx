@@ -1,97 +1,91 @@
-import React, { useState, useCallback, useEffect, useRef } from "react"
+import React, { useState, useCallback, useRef, useEffect } from "react"
 import ReactCrop from "react-image-crop"
 import "react-image-crop/dist/ReactCrop.css"
 
 const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
+    // Initialize the crop state with a default non-zero width and height.
     const [crop, setCrop] = useState({
+        unit: "%",
         aspect: 1,
-        unit: "px",
-        // These null values prevent errors from being thrown, and it works just the same
-        width: null,
-        height: null,
-        x: null,
-        y: null,
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0,
     })
+
     const imgRef = useRef(null)
-    const [completedCrop, setCompletedCrop] = useState(null)
-    const [croppedImageBlobUrl, setCroppedImageBlobUrl] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [croppedImageBlobUrl, setCroppedImageBlobUrl] = useState(null)
 
-    // Handles the loading of the image for cropping
     const onLoad = useCallback((img) => {
-        console.log("Image loaded", img)
         imgRef.current = img
-
-        const size = Math.min(img.width, img.height)
-
-        const x = (img.width - size) / 2
-        const y = (img.height - size) / 2
-
-        setCrop({
-            unit: "px",
-            width: size,
-            height: size,
-            x: x,
-            y: y,
-            aspect: 1,
-        })
     }, [])
 
-    // Handles the creation of the cropped image
-    useEffect(() => {
-        if (!completedCrop || !imgRef.current) {
-            console.log("useEffect skipped - invalid crop or image ref")
-            return
+    const onCropComplete = useCallback((crop) => {
+        console.log("Crop Complete with crop:", crop)
+        if (imgRef.current && crop.width && crop.height) {
+            setIsLoading(true)
+            getCroppedImg(imgRef.current, crop, "newFile.jpeg")
+                .then((url) => {
+                    console.log("Cropped image URL:", url)
+                    setCroppedImageBlobUrl(url)
+                    setIsLoading(false)
+                })
+                .catch((error) => {
+                    console.error("Error in cropping the image:", error)
+                    setIsLoading(false)
+                })
         }
+    }, [])
 
-        console.log("useEffect activated - creating blob URL")
+    // Function to crop the image and return a URL
+    const getCroppedImg = (image, crop, fileName) => {
+        console.log("Entering getCroppedImg")
 
-        setIsLoading(true) // Start loading
-
-        const image = imgRef.current
         const canvas = document.createElement("canvas")
-        const crop = completedCrop
+        const scaleX = image.naturalWidth / image.width
+        const scaleY = image.naturalHeight / image.height
+        canvas.width = crop.width
+        canvas.height = crop.height
 
-        if (crop.width && crop.height) {
-            canvas.width = crop.width
-            canvas.height = crop.height
-            const ctx = canvas.getContext("2d")
+        const ctx = canvas.getContext("2d")
 
-            ctx.drawImage(
-                image,
-                crop.x,
-                crop.y,
-                crop.width,
-                crop.height,
-                0,
-                0,
-                crop.width,
-                crop.height,
-            )
+        console.log(
+            `Canvas size: ${canvas.width}x${canvas.height}, Scale: ${scaleX}, ${scaleY}`,
+        )
 
-            console.log("Drawing on canvas complete - calling toBlob")
+        ctx.drawImage(
+            image,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height,
+        )
 
-            canvas.toBlob(
-                (blob) => {
-                    if (blob) {
-                        const blobUrl = URL.createObjectURL(blob)
-                        console.log("Blob created, setting URL:", blobUrl)
-                        setCroppedImageBlobUrl(blobUrl) // Update the state with the new Blob URL
-                    } else {
-                        console.error(
-                            "Blob could not be created from the canvas.",
-                        )
-                    }
-                    setIsLoading(false) // End loading
-                },
-                "image/jpeg",
-                1,
-            )
-        } else {
-            console.error("Invalid crop size:", crop)
-            setIsLoading(false)
-        }
-    }, [completedCrop])
+        return new Promise((resolve, reject) => {
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    console.error("Canvas is empty")
+                    reject(new Error("Canvas is empty"))
+                    return
+                }
+                console.log("Blob created:", blob)
+                const blobUrl = URL.createObjectURL(blob)
+                console.log("Blob URL:", blobUrl)
+                resolve(blobUrl)
+            }, "image/jpeg")
+        })
+    }
+
+    // Debug: Log state changes
+    useEffect(() => {
+        console.log("isLoading:", isLoading)
+        console.log("croppedImageBlobUrl:", croppedImageBlobUrl)
+    }, [isLoading, croppedImageBlobUrl])
 
     return (
         <div
@@ -117,17 +111,15 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                     </div>
                     <div className="p-4 flex items-center justify-center">
                         <ReactCrop
-                            onImageLoaded={onLoad}
+                            src={src}
+                            crop={crop}
                             circularCrop
                             aspect={1}
-                            minHeight={100}
                             minWidth={100}
-                            crop={crop}
+                            minHeight={100}
+                            onImageLoaded={onLoad}
+                            onComplete={onCropComplete}
                             onChange={(newCrop) => setCrop(newCrop)}
-                            onComplete={(c) => {
-                                console.log("Crop completed", c)
-                                setCompletedCrop(c)
-                            }}
                         >
                             <img
                                 src={src}
@@ -144,11 +136,9 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                                     onClose()
                                 }
                             }}
-                            disabled={!croppedImageBlobUrl || isLoading} // Disable button if loading or blob URL is not set
-                            className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer ${
-                                !completedCrop ||
-                                !completedCrop.width ||
-                                !completedCrop.height
+                            disabled={!croppedImageBlobUrl || isLoading}
+                            className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+                                !croppedImageBlobUrl || isLoading
                                     ? "opacity-50 cursor-not-allowed"
                                     : ""
                             }`}
