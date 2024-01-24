@@ -42,17 +42,22 @@ const Account = () => {
         }
     }
 
-    const handleImageCropped = (croppedImageUrl) => {
+    const handleImageCropped = async (croppedImageUrl) => {
         setImagePreview(croppedImageUrl)
-        // Convert Blob URL to File
-        fetch(croppedImageUrl)
-            .then((res) => res.blob())
-            .then((blob) => {
-                const file = new File([blob], `cropped-image-${Date.now()}`, {
-                    type: blob.type,
-                })
-                setSelectedFile(file)
+        console.log("Cropped image URL:", croppedImageUrl)
+
+        try {
+            const response = await fetch(croppedImageUrl)
+            const blob = await response.blob()
+            const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
+                type: blob.type,
             })
+
+            setSelectedFile(file)
+        } catch (error) {
+            console.error("Error creating file from blob URL:", error)
+        }
+
         setIsCropping(false)
     }
 
