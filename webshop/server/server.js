@@ -6,7 +6,11 @@ const path = require("path")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, "./pfp/"),
-    filename: (req, file, cb) => cb(null, file.fieldname + "-" + Date.now()),
+    filename: (req, file, cb) => {
+        const fileExt = path.extname(file.originalname)
+        const baseName = path.basename(file.originalname, fileExt)
+        cb(null, `${baseName}-${Date.now()}`)
+    },
 })
 
 const upload = multer({ storage: storage })
