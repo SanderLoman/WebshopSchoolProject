@@ -42,23 +42,23 @@ const Account = () => {
         }
     }
 
-    const handleImageCropped = async (croppedImageUrl) => {
+    const handleImageCropped = (croppedImageUrl) => {
         setImagePreview(croppedImageUrl)
         console.log("Cropped image URL:", croppedImageUrl)
 
-        try {
-            const response = await fetch(croppedImageUrl)
-            const blob = await response.blob()
-            const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
-                type: blob.type,
+        // Assuming croppedImageUrl is a blob URL, we need to convert it to a blob
+        fetch(croppedImageUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
+                    type: "image/jpeg",
+                })
+                setSelectedFile(file)
+                setIsCropping(false)
             })
-
-            setSelectedFile(file)
-        } catch (error) {
-            console.error("Error creating file from blob URL:", error)
-        }
-
-        setIsCropping(false)
+            .catch((error) => {
+                console.error("Error creating file from blob URL:", error)
+            })
     }
 
     const handleSubmit = async (event) => {

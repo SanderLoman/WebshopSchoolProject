@@ -17,13 +17,17 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [croppedImageBlobUrl, setCroppedImageBlobUrl] = useState(null)
 
+    // Issue could be in here since idk what its calling back to, for all i know its just using the same "useRef(null)" value
     const onLoad = useCallback((img) => {
+        console.log("Image loaded", img)
         imgRef.current = img
     }, [])
 
     const onCropComplete = useCallback((crop) => {
-        console.log("Crop Complete with crop:", crop)
+        console.log("onCropComplete called with crop:", crop)
+        console.log("imgRef.current:", imgRef.current)
         if (imgRef.current && crop.width && crop.height) {
+            console.log("Calling getCroppedImg")
             setIsLoading(true)
             getCroppedImg(imgRef.current, crop, "newFile.jpeg")
                 .then((url) => {
@@ -131,12 +135,12 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                     <div className="flex items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button
                             onClick={() => {
-                                if (croppedImageBlobUrl) {
-                                    onImageCropped(croppedImageBlobUrl)
-                                    onClose()
-                                }
+                                // if (croppedImageBlobUrl) {
+                                onImageCropped(croppedImageBlobUrl)
+                                onClose()
+                                // }
                             }}
-                            disabled={!croppedImageBlobUrl || isLoading}
+                            // disabled={!croppedImageBlobUrl || isLoading}
                             className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
                                 !croppedImageBlobUrl || isLoading
                                     ? "opacity-50 cursor-not-allowed"
