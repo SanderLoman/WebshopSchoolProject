@@ -119,14 +119,14 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
                             crop={crop}
                             circularCrop
                             aspect={1}
-                            minWidth={100}
                             minHeight={100}
-                            onImageLoaded={onLoad}
-                            onComplete={onCropComplete}
+                            minWidth={100}
                             onChange={(newCrop) => setCrop(newCrop)}
+                            onComplete={onCropComplete}
                         >
                             <img
                                 src={src}
+                                ref={imgRef}
                                 alt="PFP"
                                 className="border-2 border-gray-200 dark:border-gray-600 select-none"
                             />
