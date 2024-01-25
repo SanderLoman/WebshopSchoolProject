@@ -2,7 +2,7 @@
     "products": [
         {
             "id": 1,
-            "name": "Hemp Seed",
+            "name": "Hemp Seed Oil",
             "price": 5.99,
             "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
         },

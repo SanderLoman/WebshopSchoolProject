@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
+import useAuth from "../auth/useAuth"
 
 // Create a context for the cart
 export const CartContext = createContext()
@@ -8,21 +9,51 @@ export const CartProvider = ({ children }) => {
     // State to hold cart items
     const [cartItems, setCartItems] = useState([])
 
-    // Function to add an item to the cart
+    const updateCartFromAuth = (cartFromAuth) => {
+        setCartItems(cartFromAuth)
+    }
+
+    const { user } = useAuth(updateCartFromAuth)
+
     const addToCart = (item) => {
         setCartItems((prevItems) => {
-            // Check if the item already exists
-            const itemIndex = prevItems.findIndex((i) => i.id === item.id)
-            if (itemIndex > -1) {
-                // If exists, update the quantity
-                const newItems = [...prevItems]
-                newItems[itemIndex].quantity += item.quantity
-                return newItems
+            let newCartItems
+            const existingItemIndex = prevItems.findIndex(
+                (i) => i.id === item.id,
+            )
+
+            if (existingItemIndex > -1) {
+                // Update quantity for existing product
+                newCartItems = prevItems.map((i, index) =>
+                    index === existingItemIndex
+                        ? { ...i, quantity: i.quantity + item.quantity }
+                        : i,
+                )
             } else {
-                // If not, add the new item
-                return [...prevItems, item]
+                // Add new product to cart
+                newCartItems = [...prevItems, item]
             }
+
+            // Send the updated cart to the server
+            updateCartOnServer(newCartItems)
+            return newCartItems
         })
+    }
+
+    const updateCartOnServer = async (cartItems) => {
+        await fetch("http://localhost:4500/api/update-cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: user.email, // Ensure 'user.email' is correctly sourced from your user state or context
+                cartItems,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.error("Error:", error))
     }
 
     // Function to remove an item from the cart
@@ -53,7 +84,15 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         updateItemQuantity,
         clearCart,
+        updateCartFromAuth, // Add this function to your context
     }
+
+    useEffect(() => {
+        if (user) {
+            // Assuming `user` has a `cart` property that contains the cart items
+            setCartItems(user.cart)
+        }
+    }, [user])
 
     return (
         // Provide the context to children

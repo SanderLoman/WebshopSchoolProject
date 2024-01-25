@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { CartContext } from "../../../providers/CartProvider"
 
 const Shop = () => {
     const [products, setProducts] = useState([])
+    const { addToCart } = useContext(CartContext)
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -30,8 +32,7 @@ const Shop = () => {
 
     const handleAddToCart = (product, quantity) => {
         console.log(`Added ${quantity} of ${product.name} to the cart.`)
-        // Implement the logic to add the item to the cart
-        // This could include updating the cart state or sending a POST request to your API
+        addToCart({ ...product, quantity: parseInt(quantity) }) // Call addToCart with the product and quantity
     }
 
     const updateQuantity = (productId, action) => {

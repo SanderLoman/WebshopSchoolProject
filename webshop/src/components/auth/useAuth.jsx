@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const useAuth = () => {
+const useAuth = (updateCartFromAuth) => {
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null,
     )
@@ -44,9 +44,10 @@ const useAuth = () => {
         if (foundUser) {
             setUser(foundUser)
             localStorage.setItem("user", JSON.stringify(foundUser))
-            return true // Login successful
+            updateCartFromAuth(foundUser.cart)
+            return true
         } else {
-            return false // Login failed
+            return false
         }
     }
 

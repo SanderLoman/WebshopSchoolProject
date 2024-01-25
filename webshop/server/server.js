@@ -46,37 +46,38 @@ app.get("/api/products", (req, res) => {
     )
 })
 
-// app.get("/api/reset-products/", (req, res) => {
-//     fs.readFile(
-//         path.join(__dirname, "./products.json"),
-//         "utf-8",
-//         (err, data) => {
-//             if (err) {
-//                 console.error("An error occurred:", err)
-//                 res.status(500).send("Internal Server Error")
-//                 return
-//             }
-//             const products = JSON.parse(data)
-//             res.json(products.reset_products || {})
-//         },
-//     )
-// })
+app.post("/api/update-cart", (req, res) => {
+    const { email, cartItems } = req.body
 
-// app.get("/api/orders", (req, res) => {
-//     fs.readFile(
-//         path.join(__dirname, "./products.json"),
-//         "utf-8",
-//         (err, data) => {
-//             if (err) {
-//                 console.error("An error occurred:", err)
-//                 res.status(500).send("Internal Server Error")
-//                 return
-//             }
-//             const products = JSON.parse(data)
-//             res.json(products.orders || {})
-//         },
-//     )
-// })
+    fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
+        if (err) {
+            console.error("An error occurred:", err)
+            return res.status(500).send("Internal Server Error")
+        }
+
+        let users = JSON.parse(data)
+        const userIndex = users.findIndex((user) => user.email === email)
+
+        if (userIndex === -1) {
+            return res.status(404).send("User not found")
+        }
+
+        // Update the user's cart
+        users[userIndex].cart = cartItems
+
+        fs.writeFile(
+            path.join(__dirname, "./auth.json"),
+            JSON.stringify(users, null, 2),
+            (writeErr) => {
+                if (writeErr) {
+                    console.error("An error occurred:", writeErr)
+                    return res.status(500).send("Internal Server Error")
+                }
+                res.status(200).send("Cart updated successfully")
+            },
+        )
+    })
+})
 
 app.post("/api/register", async (req, res) => {
     const { email, password, firstName, lastName, role, pfp, cart } = req.body

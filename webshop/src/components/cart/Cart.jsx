@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
 
 const Cart = ({ showCart, setshowCart }) => {
-    // Use the CartContext
     const { cartItems, clearCart } = useContext(CartContext)
 
     if (!showCart) return null
@@ -11,16 +10,19 @@ const Cart = ({ showCart, setshowCart }) => {
         e.stopPropagation()
     }
 
-    // NOTE: we need to make a checkout function
     const handleCheckout = () => {
         setshowCart(false)
     }
 
-    // NOTE: maybe improve this later
     const handleClearCart = () => {
         clearCart()
         setshowCart(false)
     }
+
+    // Calculate total price
+    const totalPrice = cartItems.reduce((acc, item) => {
+        return acc + item.price * item.quantity
+    }, 0)
 
     return (
         <div
@@ -42,35 +44,95 @@ const Cart = ({ showCart, setshowCart }) => {
                         </h3>
                         <button
                             type="button"
-                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            onClick={() => setshowCart(false)}
-                        ></button>
-                    </div>
-                    {/* Map over cartItems to list them */}
-                    <div className="p-6 space-y-6">
-                        {cartItems.map((item) => (
-                            <div key={item.id}>
-                                {/* Render cart item */}
-                                {item.name} - Quantity: {item.quantity}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        {/* Checkout button */}
-                        <button
-                            type="button"
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            onClick={handleCheckout}
-                        >
-                            Go To Checkout!
-                        </button>
-                        {/* Decline button */}
-                        <button
-                            type="button"
-                            className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                            className="text-gray-400 bg-transparent hover:text-gray-900 rounded-lg h-8 ml-auto inline-flex justify-center items-center dark:hover:text-white"
                             onClick={() => setshowCart(false)}
                         >
                             Close
+                        </button>
+                    </div>
+                    {/* Table View */}
+                    {cartItems.length > 0 ? (
+                        <div className="relative overflow-x-auto max-h-[calc(50vh)] overflow-y-auto">
+                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">
+                                            Image
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Product
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Qty
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Price
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {cartItems.map((item) => (
+                                        <tr
+                                            key={item.id}
+                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                        >
+                                            <td className="p-4">
+                                                <img
+                                                    src={item.imageUrl}
+                                                    alt={item.name}
+                                                    className="w-20 h-20 object-cover"
+                                                />
+                                            </td>
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                {item.name}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {item.quantity}
+                                            </td>
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                ${item.price.toFixed(2)}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="text-center py-6">
+                            <p className="text-lg text-gray-700 dark:text-gray-300">
+                                Your cart is empty.
+                            </p>
+                        </div>
+                    )}
+                    {/* Checkout button */}
+                    <div className="flex items-center justify-between p-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        {/* Total Price Display */}
+                        <div className="p-4">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-right">
+                                Total: ${totalPrice.toFixed(2)}
+                            </h3>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={handleCheckout}
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Go To Checkout
+                            <svg
+                                class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 14 10"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                                />
+                            </svg>
                         </button>
                     </div>
                 </div>
