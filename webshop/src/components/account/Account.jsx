@@ -24,7 +24,6 @@ const Account = () => {
 
     const [showCart, setshowCart] = useState(false)
 
-    // States for the image cropper
     const [isCropping, setIsCropping] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null)
     const [imagePreview, setImagePreview] = useState(null)
@@ -54,25 +53,18 @@ const Account = () => {
         }
     }
 
-    // This function is called when the image has been cropped
     const handleImageCropped = (croppedImageUrl) => {
-        // Set the preview URL so the image can be displayed on the page
         setImagePreview(croppedImageUrl)
         console.log("Cropped image URL:", croppedImageUrl)
 
-        // Convert the blob URL to a blob object
         fetch(croppedImageUrl)
             .then((response) => response.blob())
             .then((blob) => {
-                // Create a new file object from the blob to send to the server
                 const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
                     type: "image/jpeg",
                 })
-                // Set the file object to the selectedFile state, so it can be uploaded
                 setSelectedFile(file)
-                // Indicate that cropping is done
                 setIsCropping(false)
-                // Set the image as updated to use the preview as the main profile picture until the server updates
                 setIsImageUpdated(true)
             })
             .catch((error) => {
@@ -80,17 +72,12 @@ const Account = () => {
             })
     }
 
-    // This function is called when the form is submitted
     const handleSubmit = async (event) => {
-        // Prevent the default form submission behavior
         event.preventDefault()
-        // Initialize FormData to send the file in a POST request
         const formData = new FormData()
 
-        // Append the selected file to the FormData object
         formData.append("profilePicture", selectedFile)
-        // Append other user details to the FormData object
-        formData.append("email", user.email) // Assuming 'user' contains the current user's email
+        formData.append("email", user.email)
         formData.append(
             "firstName",
             document.getElementById("first_name").value,
@@ -103,7 +90,6 @@ const Account = () => {
         )
 
         try {
-            // Make a POST request to update the user profile
             const updateResponse = await fetch(
                 "http://localhost:4500/api/update-profile",
                 {
@@ -112,12 +98,10 @@ const Account = () => {
                 },
             )
 
-            // Check if the request was successful
             if (!updateResponse.ok) {
                 throw new Error(`HTTP error! Status: ${updateResponse.status}`)
             }
 
-            // Fetch the updated user data from the server
             const fetchUserResponse = await fetch(
                 `http://localhost:4500/api/user/${user.email}`,
             )
@@ -128,12 +112,9 @@ const Account = () => {
                 )
             }
 
-            // Get the updated user data in JSON format
             const updatedUser = await fetchUserResponse.json()
-            // Update the user state with the new details
             updateProfile(updatedUser)
 
-            // Display a success message
             toast.success("Profile updated successfully", {
                 position: "bottom-right",
                 autoClose: 2000,
@@ -146,12 +127,9 @@ const Account = () => {
                         : "bg-gray-100 text-black",
             })
 
-            // Update the image preview with the new profile picture URL
             setImagePreview(updatedUser.pfp)
-            // Reset the image updated state to indicate that the image has been successfully uploaded
             setIsImageUpdated(false)
         } catch (error) {
-            // Log and display an error if the request failed
             console.error("Error uploading file:", error)
             toast.error("Error updating profile", {
                 position: "bottom-right",
@@ -174,7 +152,6 @@ const Account = () => {
             document.body.style.overflow = ""
         }
 
-        // Cleanup function to reset overflow when component unmounts
         return () => {
             document.body.style.overflow = ""
         }
