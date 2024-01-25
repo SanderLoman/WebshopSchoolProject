@@ -33,6 +33,27 @@ const Shop = () => {
         // Implement the logic to add the item to the cart
         // This could include updating the cart state or sending a POST request to your API
     }
+
+    const updateQuantity = (productId, action) => {
+        setProducts(
+            products.map((product) => {
+                if (product.id === productId) {
+                    let newQuantity = parseInt(
+                        document.getElementById(`quantity-${productId}`).value,
+                    )
+                    if (action === "increment") {
+                        newQuantity++
+                    } else if (action === "decrement" && newQuantity > 1) {
+                        newQuantity--
+                    }
+                    document.getElementById(`quantity-${productId}`).value =
+                        newQuantity
+                }
+                return product
+            }),
+        )
+    }
+
     return (
         <div className="p-4 md:p-8 lg:p-12 xl:p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8 lg:gap-12 xl:gap-16 bg-neutral-200 dark:bg-gray-900">
             {Array.isArray(products) &&
@@ -52,65 +73,69 @@ const Shop = () => {
                         <p className="mb-2 text-gray-700 dark:text-gray-400">
                             ${product.price.toFixed(2)}
                         </p>
-                        <div className="flex mb-2">
-                            <div class="flex items-center">
-                                <button
-                                    class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                    type="button"
+                        <div class="flex items-center mb-4">
+                            <button
+                                class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                onClick={() =>
+                                    updateQuantity(product.id, "decrement")
+                                }
+                                type="button"
+                            >
+                                <span class="sr-only">Quantity button</span>
+                                <svg
+                                    class="w-3 h-3"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 18 2"
                                 >
-                                    <span class="sr-only">Quantity button</span>
-                                    <svg
-                                        class="w-3 h-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 18 2"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M1 1h16"
-                                        />
-                                    </svg>
-                                </button>
-                                <div>
-                                    <input
-                                        type="number"
-                                        id={`quantity-${product.id}`}
-                                        class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
-                                        min="1"
-                                        defaultValue="1"
-                                        required
+                                    <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M1 1h16"
                                     />
-                                </div>
-                                <button
-                                    class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                    type="button"
-                                >
-                                    <span class="sr-only">Quantity button</span>
-                                    <svg
-                                        class="w-3 h-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 18 18"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 1v16M1 9h16"
-                                        />
-                                    </svg>
-                                </button>
+                                </svg>
+                            </button>
+                            <div>
+                                <input
+                                    type="number"
+                                    id={`quantity-${product.id}`}
+                                    class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center"
+                                    min="1"
+                                    defaultValue="1"
+                                    required
+                                />
                             </div>
+                            <button
+                                class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                onClick={() =>
+                                    updateQuantity(product.id, "increment")
+                                }
+                                type="button"
+                            >
+                                <span class="sr-only">Quantity button</span>
+                                <svg
+                                    class="w-3 h-3"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 18 18"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 1v16M1 9h16"
+                                    />
+                                </svg>
+                            </button>
                         </div>
                         <button
                             type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-2"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-4"
                             onClick={() => {
                                 const quantity = document.getElementById(
                                     `quantity-${product.id}`,
