@@ -590,7 +590,7 @@ const Account = () => {
                         aria-labelledby="orders-tab"
                     >
                         {user.cart.length > 0 ? (
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800 h-1/2">
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-neutral-100 dark:bg-gray-800 h-1/2">
                                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
@@ -609,7 +609,7 @@ const Account = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <tr class="bg-neutral-100 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td class="p-4">
                                                 Image
                                                 {/* Put the image a a certain product here */}
