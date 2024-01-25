@@ -31,6 +31,16 @@ const Account = () => {
 
     const [isImageUpdated, setIsImageUpdated] = useState(false)
 
+    const [totalCost, setTotalCost] = useState(0)
+
+    useEffect(() => {
+        let total = 0
+        user.cart.forEach((item) => {
+            total += item.price * item.quantity
+        })
+        setTotalCost(total)
+    }, [user.cart])
+
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
         console.log("Selected file:", file)
@@ -197,7 +207,7 @@ const Account = () => {
 
     return (
         <>
-            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900">
+            <nav className="fixed w-full bg-neutral-200 dark:bg-gray-900 z-10">
                 <div className="max-w-screen-xl flex md:flex-wrap items-center md:justify-between mx-auto p-4">
                     <div className="xl:absolute top-4 left-4 w-1/3">
                         <button
@@ -455,7 +465,7 @@ const Account = () => {
                 >
                     {/* <!-- Profile Section --> */}
                     <div
-                        className="p-4 shadow-xl bg-white dark:bg-gray-800"
+                        className="p-4 xl:w-1/2 md:mx-auto"
                         id="profile"
                         role="tabpanel"
                         aria-labelledby="profile-tab"
@@ -467,7 +477,7 @@ const Account = () => {
                             onSubmit={handleSubmit}
                         >
                             {/* <!-- User Image --> */}
-                            <div className="lg:relative bottom-16 w-max mx-auto z-10">
+                            <div className="w-max mx-auto z-10">
                                 <div
                                     className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
                                     onClick={() =>
@@ -597,13 +607,59 @@ const Account = () => {
 
                     {/* <!-- Orders Section --> */}
                     <div
-                        className="hidden p-4 bg-white dark:bg-gray-800"
+                        className="hidden p-4 h-full"
                         id="orders"
                         role="tabpanel"
                         aria-labelledby="orders-tab"
                     >
-                        orders
-                        https://flowbite.com/docs/components/tables/#table-with-products
+                        {user.cart.length > 0 ? (
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800 h-1/2">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Image
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Product
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Qty
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Price
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td class="p-4">
+                                                Image
+                                                {/* Put the image a a certain product here */}
+                                            </td>
+                                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                Watch
+                                                {/* Put the name of a certain product here */}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                2
+                                                {/* Put the QTY of a certain product here */}
+                                            </td>
+                                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                $200
+                                                {/* Put the the price of a certain product here */}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <div class="text-center py-10">
+                                <p class="text-lg text-gray-700 dark:text-gray-300">
+                                    You don't have any orders yet.
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
