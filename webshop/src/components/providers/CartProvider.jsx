@@ -1,12 +1,9 @@
 import React, { createContext, useState, useEffect } from "react"
 import useAuth from "../auth/useAuth"
 
-// Create a context for the cart
 export const CartContext = createContext()
 
-// Create a provider component
 export const CartProvider = ({ children }) => {
-    // State to hold cart items
     const [cartItems, setCartItems] = useState([])
 
     const updateCartFromAuth = (cartFromAuth) => {
@@ -58,9 +55,13 @@ export const CartProvider = ({ children }) => {
 
     // Function to remove an item from the cart
     const removeFromCart = (itemId) => {
-        setCartItems((prevItems) =>
-            prevItems.filter((item) => item.id !== itemId),
-        )
+        setCartItems((prevItems) => {
+            const updatedCartItems = prevItems.filter(
+                (item) => item.id !== itemId,
+            )
+            updateCartOnServer(updatedCartItems) // Update the cart on the server after removing an item
+            return updatedCartItems
+        })
     }
 
     // Function to update the quantity of an item in the cart
@@ -77,6 +78,28 @@ export const CartProvider = ({ children }) => {
         setCartItems([])
     }
 
+    useEffect(() => {
+        const fetchCartData = async () => {
+            if (user?.email) {
+                try {
+                    const response = await fetch(
+                        `http://localhost:4500/api/user/${user.email}`,
+                    )
+                    const userData = await response.json()
+                    if (response.ok) {
+                        setCartItems(userData.cart || [])
+                    } else {
+                        throw new Error("Failed to fetch cart data")
+                    }
+                } catch (error) {
+                    console.error("Error fetching cart data:", error)
+                }
+            }
+        }
+
+        fetchCartData()
+    }, [user])
+
     // The value that will be supplied to any descendants of this provider
     const contextValue = {
         cartItems,
@@ -84,15 +107,8 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         updateItemQuantity,
         clearCart,
-        updateCartFromAuth, // Add this function to your context
+        updateCartFromAuth,
     }
-
-    useEffect(() => {
-        if (user) {
-            // Assuming `user` has a `cart` property that contains the cart items
-            setCartItems(user.cart)
-        }
-    }, [user])
 
     return (
         // Provide the context to children

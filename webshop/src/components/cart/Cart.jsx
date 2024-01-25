@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
 
 const Cart = ({ showCart, setshowCart }) => {
-    const { cartItems, clearCart } = useContext(CartContext)
+    const { cartItems, clearCart, removeFromCart } = useContext(CartContext)
 
     if (!showCart) return null
 
@@ -52,7 +52,7 @@ const Cart = ({ showCart, setshowCart }) => {
                     </div>
                     {/* Table View */}
                     {cartItems.length > 0 ? (
-                        <div className="relative overflow-y-auto max-h-[calc(50vh)]">
+                        <div className="relative overflow-y-auto h-[calc(50vh)]">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
@@ -90,7 +90,21 @@ const Cart = ({ showCart, setshowCart }) => {
                                                 {item.quantity}
                                             </td>
                                             <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                ${item.price.toFixed(2)}
+                                                $
+                                                {(
+                                                    item.price * item.quantity
+                                                ).toFixed(2)}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        removeFromCart(item.id)
+                                                    }
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                                >
+                                                    Remove
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -98,8 +112,8 @@ const Cart = ({ showCart, setshowCart }) => {
                             </table>
                         </div>
                     ) : (
-                        <div className="text-center py-6">
-                            <p className="text-lg text-gray-700 dark:text-gray-300">
+                        <div className="text-center py-6 h-[calc(50vh)]">
+                            <p className="flex justify-center items-center h-full text-lg text-gray-700 dark:text-gray-300">
                                 Your cart is empty.
                             </p>
                         </div>
