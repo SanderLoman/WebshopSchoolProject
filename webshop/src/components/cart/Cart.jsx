@@ -14,11 +14,6 @@ const Cart = ({ showCart, setshowCart }) => {
         setshowCart(false)
     }
 
-    const handleClearCart = () => {
-        clearCart()
-        setshowCart(false)
-    }
-
     // Calculate total price
     const totalPrice = cartItems.reduce((acc, item) => {
         return acc + item.price * item.quantity
