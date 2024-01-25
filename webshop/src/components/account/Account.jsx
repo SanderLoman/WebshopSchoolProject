@@ -29,6 +29,8 @@ const Account = () => {
     const [selectedFile, setSelectedFile] = useState(null)
     const [imagePreview, setImagePreview] = useState(null)
 
+    const [isImageUpdated, setIsImageUpdated] = useState(false)
+
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
         console.log("Selected file:", file)
@@ -42,31 +44,42 @@ const Account = () => {
         }
     }
 
+    // This function is called when the image has been cropped
     const handleImageCropped = (croppedImageUrl) => {
+        // Set the preview URL so the image can be displayed on the page
         setImagePreview(croppedImageUrl)
         console.log("Cropped image URL:", croppedImageUrl)
 
-        // Assuming croppedImageUrl is a blob URL, we need to convert it to a blob
+        // Convert the blob URL to a blob object
         fetch(croppedImageUrl)
             .then((response) => response.blob())
             .then((blob) => {
+                // Create a new file object from the blob to send to the server
                 const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
                     type: "image/jpeg",
                 })
+                // Set the file object to the selectedFile state, so it can be uploaded
                 setSelectedFile(file)
+                // Indicate that cropping is done
                 setIsCropping(false)
+                // Set the image as updated to use the preview as the main profile picture until the server updates
+                setIsImageUpdated(true)
             })
             .catch((error) => {
                 console.error("Error creating file from blob URL:", error)
             })
     }
 
+    // This function is called when the form is submitted
     const handleSubmit = async (event) => {
+        // Prevent the default form submission behavior
         event.preventDefault()
+        // Initialize FormData to send the file in a POST request
         const formData = new FormData()
 
-        // Append updated user details to formData
+        // Append the selected file to the FormData object
         formData.append("profilePicture", selectedFile)
+        // Append other user details to the FormData object
         formData.append("email", user.email) // Assuming 'user' contains the current user's email
         formData.append(
             "firstName",
@@ -80,6 +93,7 @@ const Account = () => {
         )
 
         try {
+            // Make a POST request to update the user profile
             const updateResponse = await fetch(
                 "http://localhost:4500/api/update-profile",
                 {
@@ -88,11 +102,12 @@ const Account = () => {
                 },
             )
 
+            // Check if the request was successful
             if (!updateResponse.ok) {
                 throw new Error(`HTTP error! Status: ${updateResponse.status}`)
             }
 
-            // Assuming you have an endpoint like /api/user that returns the current user's data
+            // Fetch the updated user data from the server
             const fetchUserResponse = await fetch(
                 `http://localhost:4500/api/user/${user.email}`,
             )
@@ -103,9 +118,12 @@ const Account = () => {
                 )
             }
 
+            // Get the updated user data in JSON format
             const updatedUser = await fetchUserResponse.json()
-            updateProfile(updatedUser) // Update the user information in state and localStorage
+            // Update the user state with the new details
+            updateProfile(updatedUser)
 
+            // Display a success message
             toast.success("Profile updated successfully", {
                 position: "bottom-right",
                 autoClose: 2000,
@@ -117,7 +135,13 @@ const Account = () => {
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
             })
+
+            // Update the image preview with the new profile picture URL
+            setImagePreview(updatedUser.pfp)
+            // Reset the image updated state to indicate that the image has been successfully uploaded
+            setIsImageUpdated(false)
         } catch (error) {
+            // Log and display an error if the request failed
             console.error("Error uploading file:", error)
             toast.error("Error updating profile", {
                 position: "bottom-right",
@@ -245,22 +269,28 @@ const Account = () => {
                             type="button"
                             data-dropdown-toggle="userDropdown"
                             data-dropdown-placement="bottom-start"
-                            src="/docs/images/people/profile-picture-5.jpg"
                             alt="User dropdown"
                         >
-                            {/* Account Icon */}
-                            <svg
-                                className="absolute w-12 h-12 text-gray-400 -left-1"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                    clipRule="evenodd"
-                                ></path>
-                            </svg>
+                            {user && user.pfp ? (
+                                <img
+                                    src={user.pfp}
+                                    alt="User"
+                                    className="w-full h-full rounded-full"
+                                />
+                            ) : (
+                                <svg
+                                    className="absolute w-12 h-12 text-gray-400 -left-1"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                            )}
                         </div>
 
                         {/* <!-- Dropdown menu --> */}
@@ -445,11 +475,17 @@ const Account = () => {
                                         fileInputRef.current.click()
                                     }
                                 >
-                                    {imagePreview ? (
+                                    {isImageUpdated ? (
                                         <img
                                             src={imagePreview}
                                             alt="Profile"
-                                            className="w-full h-full rounded-full"
+                                            className="w-full h-full rounded-full cursor-pointer active:opacity-70"
+                                        />
+                                    ) : user && user.pfp ? (
+                                        <img
+                                            src={user.pfp}
+                                            alt="Profile"
+                                            className="w-full h-full rounded-full cursor-pointer active:opacity-70"
                                         />
                                     ) : (
                                         <svg

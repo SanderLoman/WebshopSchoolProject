@@ -24,6 +24,8 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use("/pfp", express.static(path.join(__dirname, "pfp")))
+
 app.get("/api/authData", (req, res) => {
     res.sendFile(path.join(__dirname, "./auth.json"))
 })
@@ -138,7 +140,12 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
             const newPath = path.join(file.destination, newFilename)
 
             fs.renameSync(file.path, newPath)
-            users[userIndex].pfp = newPath
+
+            // Create an absolute URL
+            const imageURL = `${req.protocol}://${req.get("host")}/pfp/${
+                file.filename
+            }${originalExt}`
+            users[userIndex].pfp = imageURL
         }
 
         fs.writeFile(
