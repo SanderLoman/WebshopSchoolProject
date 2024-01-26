@@ -5,141 +5,145 @@ export const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
+    const { user } = useAuth()
 
-    const updateCartFromAuth = (cartFromAuth) => {
-        // Temp
-        console.log("Cart updated from auth:", cartFromAuth)
-
-        setCartItems(cartFromAuth)
+    // Helper function to manage local storage
+    const saveCartToLocalStorage = (items) => {
+        if (user?.email) {
+            localStorage.setItem(`cart_${user.email}`, JSON.stringify(items))
+        }
     }
 
-    const { user } = useAuth(updateCartFromAuth)
+    useEffect(() => {
+        // Load or clear cart items depending on the user state
+        if (user?.email) {
+            const localCartData = localStorage.getItem(`cart_${user.email}`)
+            if (localCartData) {
+                setCartItems(JSON.parse(localCartData))
+            } else {
+                fetchCartData()
+            }
+        } else {
+            setCartItems([])
+        }
+    }, [user])
 
-    const addToCart = (item) => {
-        // Temp
-        console.log("Before adding to cart, cartItems:", cartItems)
-        console.log("Adding to cart:", item)
+    // Fetch cart data from the server
+    const fetchCartData = async () => {
+        if (user?.email) {
+            console.log("Fetching cart data for user:", user.email)
+            try {
+                const response = await fetch(
+                    `http://localhost:4500/api/user/${user.email}`,
+                )
+                if (!response.ok) {
+                    throw new Error("Failed to fetch cart data")
+                }
+                const userData = await response.json()
+                setCartItems(userData.cart || [])
+                saveCartToLocalStorage(userData.cart || [])
+            } catch (error) {
+                console.error("Error fetching cart data:", error)
+            }
+        }
+    }
 
-        setCartItems((prevItems) => {
-            let newCartItems
-            const existingItemIndex = prevItems.findIndex(
-                (i) => i.id === item.id,
+    // Update cart on server and in local storage
+    useEffect(() => {
+        updateCartOnServer(cartItems)
+    }, [cartItems])
+
+    // Function to add item to cart
+    const addToCart = (newItem) => {
+        setCartItems((currentItems) => {
+            const itemIndex = currentItems.findIndex(
+                (item) => item.id === newItem.id,
             )
+            let newCart = []
 
-            if (existingItemIndex > -1) {
-                // Update quantity for existing product
-                newCartItems = prevItems.map((i, index) =>
-                    index === existingItemIndex
-                        ? { ...i, quantity: i.quantity + item.quantity }
-                        : i,
+            if (itemIndex > -1) {
+                newCart = currentItems.map((item) =>
+                    item.id === newItem.id
+                        ? {
+                              ...item,
+                              quantity: item.quantity + newItem.quantity,
+                          }
+                        : item,
                 )
             } else {
-                // Add new product to cart
-                newCartItems = [...prevItems, item]
+                newCart = [...currentItems, { ...newItem, quantity: 1 }]
             }
 
-            // Temp
-            console.log("After adding to cart, newCartItems:", newCartItems)
-
-            // Send the updated cart to the server
-            updateCartOnServer(newCartItems)
-            return newCartItems
+            return newCart
         })
     }
 
-    const updateCartOnServer = async (cartItems) => {
-        // Temp
-        console.log("Updating cart on server with items:", cartItems)
-
-        await fetch("http://localhost:4500/api/update-cart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: user.email,
-                cartItems,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => console.log("Fetched data:", data))
-            .catch((error) => console.error("Error:", error))
-    }
-
-    // Function to remove an item from the cart
+    // Function to remove item from cart
     const removeFromCart = (itemId) => {
-        // Temp
-        console.log("Removing item from cart, itemId:", itemId)
-
-        setCartItems((prevItems) => {
-            const updatedCartItems = prevItems.filter(
-                (item) => item.id !== itemId,
-            )
-            // Temp
-            console.log("After removing, updatedCartItems:", updatedCartItems)
-
-            updateCartOnServer(updatedCartItems) // Update the cart on the server after removing an item
-            return updatedCartItems
+        setCartItems((currentItems) => {
+            const newCart = currentItems.filter((item) => item.id !== itemId)
+            return newCart
         })
     }
 
-    // Function to update the quantity of an item in the cart
+    // Function to update item quantity in the cart
     const updateItemQuantity = (itemId, quantity) => {
-        // Temp
-        console.log(
-            `Updating item quantity, itemId: ${itemId}, quantity: ${quantity}`,
-        )
-
-        setCartItems((prevItems) => {
-            return prevItems.map((item) =>
-                item.id === itemId ? { ...item, quantity } : item,
+        setCartItems((currentItems) => {
+            const newCart = currentItems.map((item) =>
+                item.id === itemId ? { ...item, quantity: quantity } : item,
             )
+            return newCart
         })
     }
 
     // Function to clear the cart
     const clearCart = () => {
-        // Temp
-        console.log("Clearing cart")
-
         setCartItems([])
+        if (user?.email) {
+            localStorage.removeItem(`cart_${user.email}`)
+        }
     }
 
-    useEffect(() => {
-        async function fetchCartData() {
-            if (user?.email) {
-                console.log("Fetching cart data for user:", user.email)
-
-                try {
-                    const response = await fetch(
-                        `http://localhost:4500/api/user/${user.email}`,
-                    )
-                    if (!response.ok) {
-                        throw new Error("Failed to fetch cart data")
-                    }
-                    const userData = await response.json()
-                    setCartItems(userData.cart)
-                } catch (error) {
-                    console.error("Error fetching cart data:", error)
+    // Function to update cart on the server
+    const updateCartOnServer = async (newCartItems) => {
+        // Update the server with new cart data
+        if (user?.email) {
+            try {
+                const response = await fetch(
+                    "http://localhost:4500/api/update-cart",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            email: user.email,
+                            cartItems: newCartItems,
+                        }),
+                    },
+                )
+                if (!response.ok) {
+                    throw new Error("Failed to update cart on server")
                 }
+                await response.json()
+            } catch (error) {
+                console.error("Error updating cart on server:", error)
             }
         }
+    }
 
-        fetchCartData()
-    }, [user?.email, setCartItems]) // Added setCartItems to dependency array as a best practice
+    // Make sure to call updateCartOnServer whenever the cart is modified
+    useEffect(() => {
+        updateCartOnServer(cartItems)
+    }, [cartItems])
 
-    // The value that will be supplied to any descendants of this provider
     const contextValue = {
         cartItems,
         addToCart,
         removeFromCart,
         updateItemQuantity,
         clearCart,
-        updateCartFromAuth,
     }
 
     return (
-        // Provide the context to children
         <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>

@@ -19,7 +19,7 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     const onCropComplete = useCallback((crop) => {
         if (imgRef.current && crop.width && crop.height) {
             setIsLoading(true)
-            getCroppedImg(imgRef.current, crop, "newFile.jpeg")
+            getCroppedImg(imgRef.current, crop)
                 .then((url) => {
                     setCroppedImageBlobUrl(url)
                     setIsLoading(false)
@@ -32,7 +32,7 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     }, [])
 
     // Function to crop the image and return a URL
-    const getCroppedImg = (image, crop, fileName) => {
+    const getCroppedImg = (image, crop) => {
         const canvas = document.createElement("canvas")
         const scaleX = image.naturalWidth / image.width
         const scaleY = image.naturalHeight / image.height

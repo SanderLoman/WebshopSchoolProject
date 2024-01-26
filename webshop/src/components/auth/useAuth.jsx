@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const useAuth = (updateCartFromAuth = () => {}) => {
+const useAuth = () => {
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null,
     )
@@ -32,7 +32,7 @@ const useAuth = (updateCartFromAuth = () => {}) => {
             }
         }
         fetchAuthData()
-    }, [1000])
+    }, [])
 
     const login = (email, password) => {
         if (!authData) {
@@ -49,7 +49,6 @@ const useAuth = (updateCartFromAuth = () => {}) => {
 
             setUser(foundUser)
             localStorage.setItem("user", JSON.stringify(foundUser))
-            updateCartFromAuth(foundUser.cart)
             return true
         } else {
             return false
