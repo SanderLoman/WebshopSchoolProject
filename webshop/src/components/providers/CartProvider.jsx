@@ -7,12 +7,19 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
 
     const updateCartFromAuth = (cartFromAuth) => {
+        // Temp
+        console.log("Cart updated from auth:", cartFromAuth)
+
         setCartItems(cartFromAuth)
     }
 
     const { user } = useAuth(updateCartFromAuth)
 
     const addToCart = (item) => {
+        // Temp
+        console.log("Before adding to cart, cartItems:", cartItems)
+        console.log("Adding to cart:", item)
+
         setCartItems((prevItems) => {
             let newCartItems
             const existingItemIndex = prevItems.findIndex(
@@ -31,6 +38,9 @@ export const CartProvider = ({ children }) => {
                 newCartItems = [...prevItems, item]
             }
 
+            // Temp
+            console.log("After adding to cart, newCartItems:", newCartItems)
+
             // Send the updated cart to the server
             updateCartOnServer(newCartItems)
             return newCartItems
@@ -38,27 +48,36 @@ export const CartProvider = ({ children }) => {
     }
 
     const updateCartOnServer = async (cartItems) => {
+        // Temp
+        console.log("Updating cart on server with items:", cartItems)
+
         await fetch("http://localhost:4500/api/update-cart", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: user.email, // Ensure 'user.email' is correctly sourced from your user state or context
+                email: user.email,
                 cartItems,
             }),
         })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => console.log("Fetched data:", data))
             .catch((error) => console.error("Error:", error))
     }
 
     // Function to remove an item from the cart
     const removeFromCart = (itemId) => {
+        // Temp
+        console.log("Removing item from cart, itemId:", itemId)
+
         setCartItems((prevItems) => {
             const updatedCartItems = prevItems.filter(
                 (item) => item.id !== itemId,
             )
+            // Temp
+            console.log("After removing, updatedCartItems:", updatedCartItems)
+
             updateCartOnServer(updatedCartItems) // Update the cart on the server after removing an item
             return updatedCartItems
         })
@@ -66,6 +85,11 @@ export const CartProvider = ({ children }) => {
 
     // Function to update the quantity of an item in the cart
     const updateItemQuantity = (itemId, quantity) => {
+        // Temp
+        console.log(
+            `Updating item quantity, itemId: ${itemId}, quantity: ${quantity}`,
+        )
+
         setCartItems((prevItems) => {
             return prevItems.map((item) =>
                 item.id === itemId ? { ...item, quantity } : item,
@@ -75,22 +99,26 @@ export const CartProvider = ({ children }) => {
 
     // Function to clear the cart
     const clearCart = () => {
+        // Temp
+        console.log("Clearing cart")
+
         setCartItems([])
     }
 
     useEffect(() => {
-        const fetchCartData = async () => {
+        async function fetchCartData() {
             if (user?.email) {
+                console.log("Fetching cart data for user:", user.email)
+
                 try {
                     const response = await fetch(
                         `http://localhost:4500/api/user/${user.email}`,
                     )
-                    const userData = await response.json()
-                    if (response.ok) {
-                        setCartItems(userData.cart || [])
-                    } else {
+                    if (!response.ok) {
                         throw new Error("Failed to fetch cart data")
                     }
+                    const userData = await response.json()
+                    setCartItems(userData.cart)
                 } catch (error) {
                     console.error("Error fetching cart data:", error)
                 }
@@ -98,7 +126,7 @@ export const CartProvider = ({ children }) => {
         }
 
         fetchCartData()
-    }, [user])
+    }, [user?.email, setCartItems]) // Added setCartItems to dependency array as a best practice
 
     // The value that will be supplied to any descendants of this provider
     const contextValue = {

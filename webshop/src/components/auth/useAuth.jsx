@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react"
 
-const useAuth = (updateCartFromAuth) => {
+const useAuth = (updateCartFromAuth = () => {}) => {
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null,
     )
-
     const [authData, setAuthData] = useState([])
 
     const updateProfile = (updatedUser) => {
+        // Temp
+        console.log("Updating user profile:", updatedUser)
+
         setUser(updatedUser)
         localStorage.setItem("user", JSON.stringify(updatedUser))
     }
@@ -42,6 +44,9 @@ const useAuth = (updateCartFromAuth) => {
         )
 
         if (foundUser) {
+            // Temp
+            console.log("Found user:", foundUser)
+
             setUser(foundUser)
             localStorage.setItem("user", JSON.stringify(foundUser))
             updateCartFromAuth(foundUser.cart)

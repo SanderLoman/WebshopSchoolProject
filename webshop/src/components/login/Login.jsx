@@ -20,6 +20,8 @@ const LoginPage = () => {
     }
 
     const handleLogin = async () => {
+        console.log("Attempting login with:", email, password)
+
         if (isValidEmail(email)) {
             const loginSuccess = login(email, password)
             if (loginSuccess) {

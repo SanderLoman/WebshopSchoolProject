@@ -9,6 +9,7 @@ import Page404 from "./components/errors/Page404.jsx"
 import AccessDenied from "./components/errors/AccessDenied.jsx"
 import { ThemeProvider } from "./components/providers/ThemeProvider.jsx"
 import CartProvider from "./components/providers/CartProvider.jsx"
+import Checkout from "./components/checkout/Checkout.jsx"
 import "flowbite"
 import "./App.css"
 
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/admin" element={<AdminPage />} />
                         <Route path="/account" element={<Account />} />
                         <Route path="*" element={<Page404 />} />
+                        <Route path="/checkout" element={<Checkout />} />
                     </Routes>
                 </Router>
             </CartProvider>

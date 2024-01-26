@@ -1,8 +1,14 @@
 import React, { useContext } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
+import { useNavigate } from "react-router-dom"
+import "./Cart.css"
 
 const Cart = ({ showCart, setshowCart }) => {
     const { cartItems, clearCart, removeFromCart } = useContext(CartContext)
+    const navigate = useNavigate()
+
+    // Temp
+    console.log("Rendering Cart component, cart items:", cartItems)
 
     if (!showCart) return null
 
@@ -12,6 +18,7 @@ const Cart = ({ showCart, setshowCart }) => {
 
     const handleCheckout = () => {
         setshowCart(false)
+        navigate("/checkout")
     }
 
     // Calculate total price
@@ -62,6 +69,9 @@ const Cart = ({ showCart, setshowCart }) => {
                                         </th>
                                         <th scope="col" className="px-6 py-3">
                                             Price
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            {" "}
                                         </th>
                                     </tr>
                                 </thead>
@@ -128,7 +138,7 @@ const Cart = ({ showCart, setshowCart }) => {
                         >
                             Go To Checkout
                             <svg
-                                class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                                className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -136,9 +146,9 @@ const Cart = ({ showCart, setshowCart }) => {
                             >
                                 <path
                                     stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="M1 5h12m0 0L9 1m4 4L9 9"
                                 />
                             </svg>
