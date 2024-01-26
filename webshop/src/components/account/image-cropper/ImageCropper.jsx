@@ -3,7 +3,6 @@ import ReactCrop from "react-image-crop"
 import "react-image-crop/dist/ReactCrop.css"
 
 const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
-    // Initialize the crop state with a default non-zero width and height.
     const [crop, setCrop] = useState({
         unit: "%",
         aspect: 1,
@@ -18,14 +17,10 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
     const [croppedImageBlobUrl, setCroppedImageBlobUrl] = useState(null)
 
     const onCropComplete = useCallback((crop) => {
-        console.log("onCropComplete called with crop:", crop)
-        console.log("imgRef.current:", imgRef.current)
         if (imgRef.current && crop.width && crop.height) {
-            console.log("Calling getCroppedImg")
             setIsLoading(true)
             getCroppedImg(imgRef.current, crop, "newFile.jpeg")
                 .then((url) => {
-                    console.log("Cropped image URL:", url)
                     setCroppedImageBlobUrl(url)
                     setIsLoading(false)
                 })
@@ -38,8 +33,6 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
 
     // Function to crop the image and return a URL
     const getCroppedImg = (image, crop, fileName) => {
-        console.log("Entering getCroppedImg")
-
         const canvas = document.createElement("canvas")
         const scaleX = image.naturalWidth / image.width
         const scaleY = image.naturalHeight / image.height
@@ -47,10 +40,6 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
         canvas.height = crop.height
 
         const ctx = canvas.getContext("2d")
-
-        console.log(
-            `Canvas size: ${canvas.width}x${canvas.height}, Scale: ${scaleX}, ${scaleY}`,
-        )
 
         ctx.drawImage(
             image,
@@ -67,23 +56,14 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
         return new Promise((resolve, reject) => {
             canvas.toBlob((blob) => {
                 if (!blob) {
-                    console.error("Canvas is empty")
                     reject(new Error("Canvas is empty"))
                     return
                 }
-                console.log("Blob created:", blob)
                 const blobUrl = URL.createObjectURL(blob)
-                console.log("Blob URL:", blobUrl)
                 resolve(blobUrl)
             }, "image/jpeg")
         })
     }
-
-    // Debug: Log state changes
-    useEffect(() => {
-        console.log("isLoading:", isLoading)
-        console.log("croppedImageBlobUrl:", croppedImageBlobUrl)
-    }, [isLoading, croppedImageBlobUrl])
 
     return (
         <div
