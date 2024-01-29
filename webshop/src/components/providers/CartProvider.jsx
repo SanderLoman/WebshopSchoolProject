@@ -8,28 +8,28 @@ export const CartProvider = ({ children }) => {
 
     const { user } = useAuth()
 
-    useEffect(() => {
-        async function fetchCartData() {
-            if (user && user.email) {
-                console.log("Fetching cart data for user:", user.email)
+    // useEffect(() => {
+    //     async function fetchCartData() {
+    //         if (user && user.email) {
+    //             console.log("Fetching cart data for user:", user.email)
 
-                try {
-                    const response = await fetch(
-                        `http://localhost:4500/api/user/${user.email}`,
-                    )
-                    if (!response.ok) {
-                        throw new Error("Failed to fetch cart data")
-                    }
-                    const userData = await response.json()
-                    setCartItems(userData.cart)
-                } catch (error) {
-                    console.error("Error fetching cart data:", error)
-                }
-            }
-        }
+    //             try {
+    //                 const response = await fetch(
+    //                     `http://localhost:4500/api/user/${user.email}`,
+    //                 )
+    //                 if (!response.ok) {
+    //                     throw new Error("Failed to fetch cart data")
+    //                 }
+    //                 const userData = await response.json()
+    //                 setCartItems(userData.cart)
+    //             } catch (error) {
+    //                 console.error("Error fetching cart data:", error)
+    //             }
+    //         }
+    //     }
 
-        fetchCartData()
-    }, [user, user?.email])
+    //     fetchCartData()
+    // }, [user, user?.email])
 
     const addToCart = (item) => {
         // Temp
@@ -124,6 +124,7 @@ export const CartProvider = ({ children }) => {
     // The value that will be supplied to any descendants of this provider
     const contextValue = {
         cartItems,
+        setCartItems,
         addToCart,
         removeFromCart,
         updateItemQuantity,

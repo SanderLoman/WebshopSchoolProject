@@ -1,16 +1,40 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
 import { useNavigate } from "react-router-dom"
+import useAuth from "../auth/useAuth.jsx"
 import "./Cart.css"
 
 const Cart = ({ showCart, setshowCart }) => {
-    const { cartItems, removeFromCart } = useContext(CartContext)
+    const { cartItems, setCartItems, removeFromCart } = useContext(CartContext)
     const navigate = useNavigate()
+
+    const { user } = useAuth()
 
     // Temp
     console.log("Rendering Cart component, cart items:", cartItems)
 
-    if (!showCart) return null
+    useEffect(() => {
+        async function fetchCartData() {
+            if (user && user.email) {
+                console.log("Fetching cart data for user:", user.email)
+
+                try {
+                    const response = await fetch(
+                        `http://localhost:4500/api/user/${user.email}`,
+                    )
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch cart data")
+                    }
+                    const userData = await response.json()
+                    setCartItems(userData.cart)
+                } catch (error) {
+                    console.error("Error fetching cart data:", error)
+                }
+            }
+        }
+
+        fetchCartData()
+    }, [user, user?.email])
 
     const handleContentClick = (e) => {
         e.stopPropagation()
@@ -25,6 +49,8 @@ const Cart = ({ showCart, setshowCart }) => {
     const totalPrice = cartItems.reduce((acc, item) => {
         return acc + item.price * item.quantity
     }, 0)
+
+    if (!showCart) return null
 
     return (
         <div

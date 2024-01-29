@@ -73,7 +73,7 @@ app.post("/api/update-cart", (req, res) => {
                     console.error("An error occurred:", writeErr)
                     return res.status(500).send("Internal Server Error")
                 }
-                res.status(200).send("Cart updated successfully")
+                res.status(200).json({ message: "Cart updated successfully" })
             },
         )
     })
