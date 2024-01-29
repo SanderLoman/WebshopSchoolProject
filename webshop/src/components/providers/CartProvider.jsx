@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react"
+import React, { createContext, useState } from "react"
 import useAuth from "../auth/useAuth"
 
 export const CartContext = createContext()
@@ -7,29 +7,6 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
 
     const { user } = useAuth()
-
-    // useEffect(() => {
-    //     async function fetchCartData() {
-    //         if (user && user.email) {
-    //             console.log("Fetching cart data for user:", user.email)
-
-    //             try {
-    //                 const response = await fetch(
-    //                     `http://localhost:4500/api/user/${user.email}`,
-    //                 )
-    //                 if (!response.ok) {
-    //                     throw new Error("Failed to fetch cart data")
-    //                 }
-    //                 const userData = await response.json()
-    //                 setCartItems(userData.cart)
-    //             } catch (error) {
-    //                 console.error("Error fetching cart data:", error)
-    //             }
-    //         }
-    //     }
-
-    //     fetchCartData()
-    // }, [user, user?.email])
 
     const addToCart = (item) => {
         // Temp
