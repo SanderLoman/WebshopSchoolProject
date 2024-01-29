@@ -590,39 +590,39 @@ const Account = () => {
                         aria-labelledby="orders-tab"
                     >
                         {user.cart.length > 0 ? (
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-neutral-100 dark:bg-gray-800 h-1/2">
-                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-neutral-100 dark:bg-gray-800 h-1/2">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">
+                                            <th scope="col" className="px-6 py-3">
                                                 Image
                                             </th>
-                                            <th scope="col" class="px-6 py-3">
+                                            <th scope="col" className="px-6 py-3">
                                                 Product
                                             </th>
-                                            <th scope="col" class="px-6 py-3">
+                                            <th scope="col" className="px-6 py-3">
                                                 Qty
                                             </th>
-                                            <th scope="col" class="px-6 py-3">
+                                            <th scope="col" className="px-6 py-3">
                                                 Price
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="bg-neutral-100 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td class="p-4">
+                                        <tr className="bg-neutral-100 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td className="p-4">
                                                 Image
                                                 {/* Put the image a a certain product here */}
                                             </td>
-                                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                 Watch
                                                 {/* Put the name of a certain product here */}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td className="px-6 py-4">
                                                 2
                                                 {/* Put the QTY of a certain product here */}
                                             </td>
-                                            <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                 $200
                                                 {/* Put the the price of a certain product here */}
                                             </td>
@@ -631,8 +631,8 @@ const Account = () => {
                                 </table>
                             </div>
                         ) : (
-                            <div class="text-center py-10">
-                                <p class="text-lg text-gray-700 dark:text-gray-300">
+                            <div className="text-center py-10">
+                                <p className="text-lg text-gray-700 dark:text-gray-300">
                                     You don't have any orders yet.
                                 </p>
                             </div>
