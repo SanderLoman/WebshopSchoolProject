@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useEffect, useContext } from "react"
+import { UserContext } from "../providers/UserContext.jsx"
 import { useNavigate } from "react-router-dom"
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import useAuth from "../../components/auth/useAuth.jsx"
 import "./Admin.css"
 
 const Admin = () => {
-    const { user } = useAuth()
+    const { user } = useContext(UserContext)
     const navigate = useNavigate()
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import useAuth from "../auth/useAuth.jsx"
+import { UserContext } from "../providers/UserContext.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
@@ -8,11 +8,10 @@ import "./Login.css"
 
 const LoginPage = () => {
     const { systemTheme } = useContext(ThemeContext)
+    const { login } = useContext(UserContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
-
-    const { login } = useAuth()
 
     const isValidEmail = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

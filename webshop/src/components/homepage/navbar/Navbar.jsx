@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import useAuth from "../../auth/useAuth"
+import { UserContext } from "../../providers/UserContext.jsx"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -16,7 +16,7 @@ const Navbar = () => {
         setDarkMode,
         setSystemMode,
     } = useContext(ThemeContext)
-    const { user, logout } = useAuth()
+    const { user, logout } = useContext(UserContext)
     const navigate = useNavigate()
     const [showCart, setshowCart] = useState(false)
 

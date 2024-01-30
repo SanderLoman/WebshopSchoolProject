@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
 import { useNavigate } from "react-router-dom"
-import useAuth from "../auth/useAuth.jsx"
+import { UserContext } from "../providers/UserContext.jsx"
 import "./Cart.css"
 
 const Cart = ({ showCart, setshowCart }) => {
     const { cartItems, setCartItems, removeFromCart } = useContext(CartContext)
     const navigate = useNavigate()
 
-    const { user } = useAuth()
+    const { user } = useContext(UserContext)
 
     // Temp
     console.log("Rendering Cart component, cart items:", cartItems)
@@ -109,7 +109,7 @@ const Cart = ({ showCart, setshowCart }) => {
                                             Price
                                         </th>
                                         <th scope="col" className="px-6 py-3">
-                                            {" "}
+                                            {/* Add een remove all knop */}
                                         </th>
                                     </tr>
                                 </thead>

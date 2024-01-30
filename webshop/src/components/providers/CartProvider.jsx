@@ -1,12 +1,12 @@
-import React, { createContext, useState } from "react"
-import useAuth from "../auth/useAuth"
+import React, { createContext, useState, useContext } from "react"
+import { UserContext } from "./UserContext"
 
 export const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
 
-    const { user } = useAuth()
+    const { user } = useContext(UserContext)
 
     const addToCart = (item) => {
         // Temp

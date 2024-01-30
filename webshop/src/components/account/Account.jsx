@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
+import { UserContext } from "../providers/UserContext.jsx"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
 import ImageCropperModal from "./image-cropper/ImageCropper.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
-import useAuth from "../auth/useAuth.jsx"
 
 const Account = () => {
     const fileInputRef = useRef(null)
@@ -18,7 +18,7 @@ const Account = () => {
         setSystemMode,
     } = useContext(ThemeContext)
 
-    const { user, logout, updateProfile } = useAuth()
+    const { user, logout, updateProfile } = useContext(UserContext)
 
     const navigate = useNavigate()
 
@@ -594,16 +594,28 @@ const Account = () => {
                                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3">
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
                                                 Image
                                             </th>
-                                            <th scope="col" className="px-6 py-3">
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
                                                 Product
                                             </th>
-                                            <th scope="col" className="px-6 py-3">
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
                                                 Qty
                                             </th>
-                                            <th scope="col" className="px-6 py-3">
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
                                                 Price
                                             </th>
                                         </tr>
