@@ -134,7 +134,7 @@ const Footer = () => {
                 </div>
                 <div className="border-t border-gray-700 pt-4 mt-4">
                     <p className="text-xs text-gray-400 text-center">
-                        © 2022-2023 Webshop™. All Rights Reserved.
+                        © 2023-2024 Webshop™. All Rights Reserved.
                     </p>
                 </div>
             </div>
