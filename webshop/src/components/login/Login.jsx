@@ -22,7 +22,7 @@ const LoginPage = () => {
         console.log("Attempting login with:", email, password)
 
         if (isValidEmail(email)) {
-            const loginSuccess = login(email, password)
+            const loginSuccess = await login(email, password)
             if (loginSuccess) {
                 navigate("/")
                 setTimeout(() => {

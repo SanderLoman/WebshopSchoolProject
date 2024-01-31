@@ -16,27 +16,27 @@ export const UserProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(updatedUser))
     }
 
-    useEffect(() => {
-        const fetchAuthData = async () => {
-            try {
-                const response = await fetch(
-                    "http://localhost:4500/api/authData",
-                )
-                if (response.ok) {
-                    const data = await response.json()
-                    console.log("Auth data:", data)
-                    setAuthData(data)
-                } else {
-                    console.error("Failed to fetch auth data")
-                }
-            } catch (error) {
-                console.error("An error occurred:", error)
+    // useEffect(() => {
+    const fetchAuthData = async () => {
+        try {
+            const response = await fetch("http://localhost:4500/api/authData")
+            if (response.ok) {
+                const data = await response.json()
+                console.log("Auth data:", data)
+                setAuthData(data)
+            } else {
+                console.error("Failed to fetch auth data")
             }
+        } catch (error) {
+            console.error("An error occurred:", error)
         }
-        fetchAuthData()
-    }, [])
+    }
+    // fetchAuthData()
+    // }, [])
 
-    const login = (email, password) => {
+    const login = async (email, password) => {
+        await fetchAuthData()
+
         if (!authData) {
             return false // Data not yet available
         }
@@ -86,6 +86,7 @@ export const UserProvider = ({ children }) => {
             await res.json()
 
             if (res.status === 201) {
+                fetchAuthData()
                 return true // Registration successful
             } else if (res.status === 409) {
                 return false // User already exists
