@@ -254,9 +254,8 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <Cart showCart={showCart} setshowCart={setshowCart}>
-                {/* Modal Content Here */}
-            </Cart>
+            <Cart showCart={showCart} setshowCart={setshowCart} />
+
             <ToastContainer className={"select-none"} />
         </nav>
     )
