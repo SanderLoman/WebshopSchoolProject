@@ -16,7 +16,6 @@ export const UserProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(updatedUser))
     }
 
-    // useEffect(() => {
     const fetchAuthData = async () => {
         try {
             const response = await fetch("http://localhost:4500/api/authData")
@@ -31,8 +30,10 @@ export const UserProvider = ({ children }) => {
             console.error("An error occurred:", error)
         }
     }
-    // fetchAuthData()
-    // }, [])
+
+    useEffect(() => {
+        fetchAuthData()
+    }, [])
 
     const login = async (email, password) => {
         await fetchAuthData()
