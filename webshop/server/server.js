@@ -201,7 +201,6 @@ app.get("/api/user/:email", (req, res) => {
     })
 })
 
-// Route to handle order submission
 app.post("/api/submit-order", (req, res) => {
     const { email, orderItems } = req.body
 
@@ -218,8 +217,21 @@ app.post("/api/submit-order", (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        // Add the new order
-        users[userIndex].boughtProducts.push(...orderItems)
+        // Update or add the order items in boughtProducts
+        orderItems.forEach((orderedItem) => {
+            const existingItemIndex = users[userIndex].boughtProducts.findIndex(
+                (item) => item.id === orderedItem.id,
+            )
+
+            if (existingItemIndex >= 0) {
+                // Update quantity if item already exists
+                users[userIndex].boughtProducts[existingItemIndex].quantity +=
+                    orderedItem.quantity
+            } else {
+                // Add new item if it doesn't exist
+                users[userIndex].boughtProducts.push(orderedItem)
+            }
+        })
 
         // Clear the user's cart
         users[userIndex].cart = []
