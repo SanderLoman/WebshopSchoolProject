@@ -96,6 +96,8 @@ export const CartProvider = ({ children }) => {
         console.log("Clearing cart")
 
         setCartItems([])
+
+        updateCartOnServer([])
     }
 
     // The value that will be supplied to any descendants of this provider

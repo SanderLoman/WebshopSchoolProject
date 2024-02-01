@@ -5,7 +5,8 @@ import { UserContext } from "../providers/UserContext.jsx"
 import "./Cart.css"
 
 const Cart = ({ showCart, setshowCart }) => {
-    const { cartItems, setCartItems, removeFromCart } = useContext(CartContext)
+    const { cartItems, setCartItems, clearCart, removeFromCart } =
+        useContext(CartContext)
     const navigate = useNavigate()
 
     const { user } = useContext(UserContext)
@@ -108,10 +109,15 @@ const Cart = ({ showCart, setshowCart }) => {
                                         <th scope="col" className="px-6 py-3">
                                             Price
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3"
-                                        ></th>
+                                        <th scope="col" className="px-6 py-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => clearCart()}
+                                                className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                            >
+                                                Remove All
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
