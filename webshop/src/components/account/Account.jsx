@@ -608,7 +608,7 @@ const Account = () => {
                         role="tabpanel"
                         aria-labelledby="orders-tab"
                     >
-                        <div className="bg-white dark:bg-gray-800 dark:border-gray-700  flex items-start justify-between p-4 border-b rounded-t">
+                        <div className="bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t-lg">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
                                 Your Orders
                             </h3>
@@ -616,7 +616,7 @@ const Account = () => {
                         {orders && orders.length > 0 ? (
                             <div className="relative overflow-y-auto h-[calc(50vh)]">
                                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0">
                                         <tr>
                                             <th
                                                 scope="col"
@@ -678,7 +678,7 @@ const Account = () => {
                                 </p>
                             </div>
                         )}
-                        <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-b border-t dark:border-gray-600">
+                        <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg">
                             <tr>
                                 <th
                                     scope="col"
