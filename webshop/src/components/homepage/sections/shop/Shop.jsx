@@ -37,8 +37,6 @@ const Shop = () => {
         console.log(`Added ${quantity} of ${product.name} to the cart.`)
         addToCart({ ...product, quantity: parseInt(quantity) })
 
-        toast.dismiss()
-
         toast.success(
             `Successfully added ${quantity} of ${product.name} to the cart!`,
             {
