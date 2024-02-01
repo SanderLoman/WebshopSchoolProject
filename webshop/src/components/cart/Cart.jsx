@@ -108,9 +108,10 @@ const Cart = ({ showCart, setshowCart }) => {
                                         <th scope="col" className="px-6 py-3">
                                             Price
                                         </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            {/* Add een remove all knop */}
-                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3"
+                                        ></th>
                                     </tr>
                                 </thead>
                                 <tbody>
