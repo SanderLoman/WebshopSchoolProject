@@ -18,6 +18,7 @@ const RegisterPage = () => {
 
     const [pfp, setPfp] = useState("")
     const [cart, setCart] = useState([])
+    const [boughtProducts, setBoughtProducts] = useState([])
 
     const isValidEmail = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -64,6 +65,7 @@ const RegisterPage = () => {
             "customer",
             pfp,
             cart,
+            boughtProducts,
         )
 
         console.log("Registration success:", success)

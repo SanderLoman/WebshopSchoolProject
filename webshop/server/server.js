@@ -80,7 +80,16 @@ app.post("/api/update-cart", (req, res) => {
 })
 
 app.post("/api/register", async (req, res) => {
-    const { email, password, firstName, lastName, role, pfp, cart } = req.body
+    const {
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+        pfp,
+        cart,
+        boughtProducts,
+    } = req.body
     try {
         const status = await registerUser(
             email,
@@ -90,6 +99,7 @@ app.post("/api/register", async (req, res) => {
             role,
             pfp,
             cart,
+            boughtProducts,
         )
         if (status.success) {
             res.status(201).json({ message: "User successfully registered" })
@@ -191,6 +201,45 @@ app.get("/api/user/:email", (req, res) => {
     })
 })
 
+// Route to handle order submission
+app.post("/api/submit-order", (req, res) => {
+    const { email, orderItems } = req.body
+
+    fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
+        if (err) {
+            console.error("An error occurred:", err)
+            return res.status(500).send("Internal Server Error")
+        }
+
+        let users = JSON.parse(data)
+        const userIndex = users.findIndex((user) => user.email === email)
+
+        if (userIndex === -1) {
+            return res.status(404).send("User not found")
+        }
+
+        // Add the new order
+        users[userIndex].boughtProducts.push(...orderItems)
+
+        // Clear the user's cart
+        users[userIndex].cart = []
+
+        fs.writeFile(
+            path.join(__dirname, "./auth.json"),
+            JSON.stringify(users, null, 2),
+            (writeErr) => {
+                if (writeErr) {
+                    console.error("An error occurred:", writeErr)
+                    return res.status(500).send("Internal Server Error")
+                }
+                res.status(200).json({
+                    message: "Order submitted successfully",
+                })
+            },
+        )
+    })
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")
@@ -204,6 +253,7 @@ const registerUser = (
     role,
     pfp,
     cart,
+    boughtProducts,
 ) => {
     return new Promise((resolve, reject) => {
         fs.readFile(
@@ -216,7 +266,7 @@ const registerUser = (
                     return
                 }
 
-                const users = JSON.parse(data)
+                let users = JSON.parse(data)
                 const existingUser = users.find((user) => user.email === email)
 
                 if (existingUser) {
@@ -224,6 +274,7 @@ const registerUser = (
                     return
                 }
 
+                // Add a new user with bought-products as an empty array
                 users.push({
                     email,
                     password,
@@ -232,14 +283,15 @@ const registerUser = (
                     role,
                     pfp,
                     cart,
+                    boughtProducts,
                 })
 
                 fs.writeFile(
                     path.join(__dirname, "./auth.json"),
                     JSON.stringify(users, null, 2),
-                    (err) => {
-                        if (err) {
-                            console.error("An error occurred:", err)
+                    (writeErr) => {
+                        if (writeErr) {
+                            console.error("An error occurred:", writeErr)
                             reject({ message: "An error occurred" })
                             return
                         }

@@ -30,14 +30,16 @@ const Account = () => {
 
     const [isImageUpdated, setIsImageUpdated] = useState(false)
 
-    const [totalCost, setTotalCost] = useState(0)
+    const [orders, setOrders] = useState([])
+
+    let [totalCost, setTotalCost] = useState(0)
 
     useEffect(() => {
-        let total = 0
+        totalCost = 0
         user.cart.forEach((item) => {
-            total += item.price * item.quantity
+            totalCost += item.price * item.quantity
         })
-        setTotalCost(total)
+        setTotalCost(totalCost)
     }, [user.cart])
 
     const handleFileSelect = (event) => {
@@ -156,6 +158,23 @@ const Account = () => {
             document.body.style.overflow = ""
         }
     }, [showCart])
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:4500/api/user/${user.email}`,
+                )
+                const userData = await response.json()
+                // Assuming userData contains the orders
+                setOrders(userData.orders)
+            } catch (error) {
+                console.error("Error fetching orders:", error)
+            }
+        }
+
+        fetchOrders()
+    }, [user.email])
 
     const navigateHome = () => {
         navigate("/")

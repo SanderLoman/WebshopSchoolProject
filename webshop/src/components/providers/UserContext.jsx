@@ -66,6 +66,7 @@ export const UserProvider = ({ children }) => {
         role,
         pfp,
         cart,
+        boughtProducts,
     ) => {
         try {
             const res = await fetch("http://localhost:4500/api/register", {
@@ -81,6 +82,7 @@ export const UserProvider = ({ children }) => {
                     role,
                     pfp,
                     cart,
+                    boughtProducts,
                 }),
             })
 
