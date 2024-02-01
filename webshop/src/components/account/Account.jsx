@@ -167,7 +167,7 @@ const Account = () => {
                 )
                 const userData = await response.json()
                 // Assuming userData contains the orders
-                setOrders(userData.orders)
+                setOrders(userData.boughtProducts)
             } catch (error) {
                 console.error("Error fetching orders:", error)
             }
@@ -608,66 +608,110 @@ const Account = () => {
                         role="tabpanel"
                         aria-labelledby="orders-tab"
                     >
-                        {user.cart.length > 0 ? (
-                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-neutral-100 dark:bg-gray-800 h-1/2">
-                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <div className="bg-white dark:bg-gray-800 dark:border-gray-700  flex items-start justify-between p-4 border-b rounded-t">
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
+                                Your Orders
+                            </h3>
+                        </div>
+                        {orders && orders.length > 0 ? (
+                            <div className="relative overflow-y-auto h-[calc(50vh)]">
+                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3"
+                                                className="text-center w-1/4 px-4 py-3"
                                             >
                                                 Image
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3"
+                                                className="text-center w-1/4 px-6 py-3"
                                             >
                                                 Product
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3"
+                                                className="text-center w-1/4 px-6 py-3"
                                             >
                                                 Qty
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3"
+                                                className="text-center w-1/4 px-6 py-3"
                                             >
                                                 Price
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className="bg-neutral-100 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td className="p-4">
-                                                Image
-                                                {/* Put the image a a certain product here */}
-                                            </td>
-                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                Watch
-                                                {/* Put the name of a certain product here */}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                2
-                                                {/* Put the QTY of a certain product here */}
-                                            </td>
-                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                $200
-                                                {/* Put the the price of a certain product here */}
-                                            </td>
-                                        </tr>
+                                        {orders.map((item) => (
+                                            <tr
+                                                key={item.id}
+                                                className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                            >
+                                                <td className="p-4 flex justify-center">
+                                                    <img
+                                                        src={item.imageUrl}
+                                                        alt={item.name}
+                                                        className="w-20 h-20 object-cover"
+                                                    />
+                                                </td>
+                                                <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                    {item.name}
+                                                </td>
+                                                <td className="text-center px-6 py-4">
+                                                    {item.quantity}
+                                                </td>
+                                                <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                    ${item.price.toFixed(2)}
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
                         ) : (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-700 dark:text-gray-300">
+                            <div className="text-center py-6 h-[calc(50vh)]">
+                                <p className="flex justify-center items-center h-full text-lg text-gray-700 dark:text-gray-300">
                                     You don't have any orders yet.
                                 </p>
                             </div>
                         )}
+                        <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-b border-t dark:border-gray-600">
+                            <tr>
+                                <th
+                                    scope="col"
+                                    className="text-center w-1/4 px-4 py-3"
+                                >
+                                    Total:
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="w-1/4 px-6 py-3"
+                                ></th>
+                                <th
+                                    scope="col"
+                                    className="w-1/4 px-6 py-3"
+                                ></th>
+                                <th scope="col" className="w-1/4 px-6 py-3">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-semibold text-gray-900 dark:text-white w-full text-center">
+                                            $
+                                            {orders
+                                                .reduce(
+                                                    (acc, item) =>
+                                                        acc +
+                                                        item.price *
+                                                            item.quantity,
+                                                    0,
+                                                )
+                                                .toFixed(2)}
+                                        </span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -174,7 +174,7 @@ const Checkout = () => {
                     <span className="sr-only">Go back</span>
                 </button>
             </div>
-            <div className="relative w-full max-w-2xl mx-auto">
+            <div className="relative w-full max-w-2xl mx-auto my-14">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
@@ -229,7 +229,7 @@ const Checkout = () => {
                                     {cartItems.map((item) => (
                                         <tr
                                             key={item.id}
-                                            className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 "
+                                            className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                         >
                                             <td className="p-4">
                                                 <img
