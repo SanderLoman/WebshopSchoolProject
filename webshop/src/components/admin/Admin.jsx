@@ -25,19 +25,9 @@ const Admin = () => {
                     console.error("Failed to fetch orders:", err)
                 })
         } else {
-            // Optionally handle the case when user is not admin or not logged in
-            // For example, navigate to an access denied page or perform some other action
             navigate("/access-denied")
         }
     }, [user, navigate])
-
-    // const navigateToLogin = () => {
-    //     navigate("/login")
-    // }
-
-    // const navigateToHome = () => {
-    //     navigate("/")
-    // }
 
     return (
         <div className="h-screen bg-neutral-200 dark:bg-gray-900">
