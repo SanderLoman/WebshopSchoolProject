@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import Datepicker from "tailwind-datepicker-react"
+import ThemeContext from "../providers/ThemeProvider.jsx"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import { UserContext } from "../providers/UserContext.jsx"
 import { CartContext } from "../providers/CartProvider.jsx"
 import "./Checkout.css"
@@ -8,11 +11,14 @@ import "./Checkout.css"
 const Checkout = () => {
     const { cartItems, clearCart, setCartItems, removeFromCart } =
         useContext(CartContext)
+    const { systemTheme } = useContext(ThemeContext)
     const { user } = useContext(UserContext)
     const [show, setShow] = useState(false)
     const navigate = useNavigate()
     const datepickerRef = useRef(null)
     const [showModal, setShowModal] = useState(false)
+    const [deliveryDate, setDeliveryDate] = useState(new Date())
+    const [deliveryAddress, setDeliveryAddress] = useState("")
 
     useEffect(() => {
         async function fetchCartData() {
@@ -43,6 +49,7 @@ const Checkout = () => {
 
     const handleChange = (date) => {
         console.log(date)
+        setDeliveryDate(date)
     }
 
     const handleOrder = async () => {
@@ -156,7 +163,7 @@ const Checkout = () => {
     }
 
     return (
-        <div className="flex flex-col h-max md:h-screen w-screen justify-center items-center bg-neutral-200 dark:bg-gray-800 p-4">
+        <div className="flex flex-col h-max md:h-screen w-screen justify-center items-center bg-neutral-200 dark:bg-gray-900 p-4">
             <div className="absolute top-4 left-4 z-50">
                 <button
                     type="button"
@@ -193,7 +200,7 @@ const Checkout = () => {
                         {cartItems.length > 0 ? (
                             <div className="relative overflow-y-auto h-[calc(50vh)]">
                                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-600 dark:text-gray-400">
                                         <tr>
                                             <th
                                                 scope="col"
@@ -237,7 +244,7 @@ const Checkout = () => {
                                         {cartItems.map((item) => (
                                             <tr
                                                 key={item.id}
-                                                className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                                className="bg-white border-t dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
                                             >
                                                 <td className="p-4">
                                                     <img
@@ -333,6 +340,9 @@ const Checkout = () => {
                                     id="address"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="1234 Main St"
+                                    onChange={(e) =>
+                                        setDeliveryAddress(e.target.value)
+                                    }
                                     required
                                 />
                             </div>
@@ -374,12 +384,38 @@ const Checkout = () => {
                                 <button
                                     type="submit"
                                     className={`w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:col-span-2 ${
-                                        cartItems.length > 0
+                                        cartItems.length > 0 &&
+                                        deliveryAddress &&
+                                        deliveryDate
                                             ? ""
                                             : "opacity-50 cursor-not-allowed"
                                     }`}
-                                    disabled={cartItems.length === 0}
-                                    onClick={handleOrder}
+                                    onClick={() => {
+                                        if (
+                                            cartItems.length > 0 &&
+                                            deliveryAddress &&
+                                            deliveryDate
+                                        ) {
+                                            handleOrder()
+                                        } else {
+                                            toast.error(
+                                                "Please select a delivery date and address or make sure your cart is not empty!",
+                                                {
+                                                    position: "bottom-right",
+                                                    autoClose: 2000,
+                                                    hideProgressBar: true,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    className:
+                                                        systemTheme ===
+                                                            "dark" ||
+                                                        systemTheme === "system"
+                                                            ? "bg-gray-800 text-white"
+                                                            : "bg-gray-100 text-black",
+                                                },
+                                            )
+                                        }
+                                    }}
                                 >
                                     Order now!
                                 </button>
@@ -391,10 +427,10 @@ const Checkout = () => {
                 <div
                     tabindex="-1"
                     aria-hidden="true"
-                    class="mx-auto my-auto overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full"
+                    class="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto overflow-x-hidden"
                 >
                     <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                        <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                        <div class="relative p-4 text-center bg-white rounded-lg shadow-lg dark:bg-gray-700 sm:p-5">
                             <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
                                 <svg
                                     aria-hidden="true"
@@ -412,15 +448,17 @@ const Checkout = () => {
                                 <span class="sr-only">Success</span>
                             </div>
                             <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-                                Successfully removed product.
+                                Order was successful!
                             </p>
-                            <div class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg">
-                                Text here
-                            </div>
+                            <p class="mb-4 text-sm text-gray-700 dark:text-gray-300">
+                                delivering order at {deliveryAddress} on{" "}
+                                {deliveryDate.toLocaleDateString()}
+                            </p>
                         </div>
                     </div>
                 </div>
             )}
+            <ToastContainer className={"select-none"} />
         </div>
     )
 }

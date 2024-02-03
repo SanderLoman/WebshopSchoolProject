@@ -673,41 +673,43 @@ const Account = () => {
                                     </table>
                                 </div>
                                 <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-b border-t dark:border-gray-600">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="text-center w-1/4 px-4 py-3"
-                                        >
-                                            Total:
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="w-1/4 px-6 py-3"
-                                        ></th>
-                                        <th
-                                            scope="col"
-                                            className="w-1/4 px-6 py-3"
-                                        ></th>
-                                        <th
-                                            scope="col"
-                                            className="w-1/4 px-6 py-3"
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <span className="font-semibold text-gray-900 dark:text-white w-full text-center">
-                                                    $
-                                                    {orders
-                                                        .reduce(
-                                                            (acc, item) =>
-                                                                acc +
-                                                                item.price *
-                                                                    item.quantity,
-                                                            0,
-                                                        )
-                                                        .toFixed(2)}
-                                                </span>
-                                            </div>
-                                        </th>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                className="text-center w-1/4 px-4 py-3"
+                                            >
+                                                Total:
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="w-1/4 px-6 py-3"
+                                            ></th>
+                                            <th
+                                                scope="col"
+                                                className="w-1/4 px-6 py-3"
+                                            ></th>
+                                            <th
+                                                scope="col"
+                                                className="w-1/4 px-6 py-3"
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <span className="font-semibold text-gray-900 dark:text-white w-full text-center">
+                                                        $
+                                                        {orders
+                                                            .reduce(
+                                                                (acc, item) =>
+                                                                    acc +
+                                                                    item.price *
+                                                                        item.quantity,
+                                                                0,
+                                                            )
+                                                            .toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </>
                         ) : (
