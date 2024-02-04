@@ -665,14 +665,18 @@ const Account = () => {
                                                         {item.quantity}
                                                     </td>
                                                     <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                        ${item.price.toFixed(2)}
+                                                        $
+                                                        {(
+                                                            item.price *
+                                                            item.quantity
+                                                        ).toFixed(2)}
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
-                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-b border-t dark:border-gray-600">
+                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg">
                                     <tbody>
                                         <tr>
                                             <th
