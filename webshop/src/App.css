@@ -17,3 +17,11 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+/* #root {
+    scroll-behavior: smooth;
+} */
+
+html {
+    scroll-behavior: smooth;
+}

@@ -37,7 +37,7 @@ const LoginPage = () => {
                                 ? "bg-gray-800 text-white"
                                 : "bg-gray-100 text-black",
                     })
-                }, 0)
+                }, 1)
             } else {
                 toast.error("Invalid email or password", {
                     position: "bottom-right",

@@ -1,0 +1,3 @@
+.accordion-collapse {
+    transition: height 0.5s ease;
+}
