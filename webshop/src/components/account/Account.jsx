@@ -239,7 +239,7 @@ const Account = () => {
                             data-tabs-toggle="#default-tab-content"
                             role="tablist"
                         >
-                            <li className="me-2 text-lg" role="presentation">
+                            <li className="me-2 text-md" role="presentation">
                                 <button
                                     className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                                     id="profile-tab"
@@ -252,7 +252,7 @@ const Account = () => {
                                     Profile
                                 </button>
                             </li>
-                            <li className="me-2 text-lg" role="presentation">
+                            <li className="me-2 text-md" role="presentation">
                                 <button
                                     className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                                     id="orders-tab"
