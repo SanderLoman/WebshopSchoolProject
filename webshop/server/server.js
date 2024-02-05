@@ -252,6 +252,24 @@ app.post("/api/submit-order", (req, res) => {
     })
 })
 
+app.get("/api/users", (req, res) => {
+    fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
+        if (err) {
+            console.error("An error occurred:", err)
+            return res.status(500).send("Internal Server Error")
+        }
+
+        let users = JSON.parse(data)
+        // You might want to remove sensitive information like passwords
+        users = users.map((user) => {
+            delete user.password
+            return user
+        })
+
+        res.json(users)
+    })
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")

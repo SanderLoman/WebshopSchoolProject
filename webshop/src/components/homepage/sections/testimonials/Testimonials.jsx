@@ -4,11 +4,11 @@ import "./Testimonials.css"
 const Testimonials = () => {
     return (
         <>
-            <section id="testimonials" class="h-max flex justify-center items-center flex-wrap bg-neutral-200 dark:bg-gray-900">
-                <div class="w-full md:w-1/2 px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
-                    <figure class="max-w-screen-md mx-auto">
+            <section id="testimonials" className="h-max flex justify-center items-center flex-wrap bg-neutral-200 dark:bg-gray-900">
+                <div className="w-full md:w-1/2 px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+                    <figure className="max-w-screen-md mx-auto">
                         <svg
-                            class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+                            className="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
                             viewBox="0 0 24 27"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@ const Testimonials = () => {
                             />
                         </svg>
                         <blockquote>
-                            <p class="text-2xl font-medium text-gray-900 dark:text-white">
+                            <p className="text-2xl font-medium text-gray-900 dark:text-white">
                                 "Absolutely love this webshop! The range of
                                 products is fantastic, and everything I've
                                 ordered has been of superb quality. Their
@@ -27,27 +27,27 @@ const Testimonials = () => {
                                 friendly and helpful. Highly recommended!"
                             </p>
                         </blockquote>
-                        <figcaption class="flex items-center justify-center mt-6 space-x-3">
+                        <figcaption className="flex items-center justify-center mt-6 space-x-3">
                             <img
-                                class="w-6 h-6 rounded-full"
+                                className="w-6 h-6 rounded-full"
                                 src="http://localhost:4500/pfp/profile-pic-1706827333553-1706827339185.jpg"
                                 alt="profile picture"
                             />
-                            <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                                <div class="pr-3 font-medium text-gray-900 dark:text-white">
+                            <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
+                                <div className="pr-3 font-medium text-gray-900 dark:text-white">
                                     Ethan Reynolds
                                 </div>
-                                <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
+                                <div className="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
                                     Customer
                                 </div>
                             </div>
                         </figcaption>
                     </figure>
                 </div>
-                <div class="w-full md:w-1/2  px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
-                    <figure class="max-w-screen-md mx-auto">
+                <div className="w-full md:w-1/2  px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+                    <figure className="max-w-screen-md mx-auto">
                         <svg
-                            class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+                            className="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
                             viewBox="0 0 24 27"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const Testimonials = () => {
                             />
                         </svg>
                         <blockquote>
-                            <p class="text-2xl font-medium text-gray-900 dark:text-white">
+                            <p className="text-2xl font-medium text-gray-900 dark:text-white">
                                 "I've been a regular customer for over a year
                                 now, and I've never been disappointed. The
                                 selection is great, prices are reasonable, and
@@ -66,27 +66,27 @@ const Testimonials = () => {
                                 eco-friendly packaging is a big plus for me!"
                             </p>
                         </blockquote>
-                        <figcaption class="flex items-center justify-center mt-6 space-x-3">
+                        <figcaption className="flex items-center justify-center mt-6 space-x-3">
                             <img
-                                class="w-6 h-6 rounded-full"
+                                className="w-6 h-6 rounded-full"
                                 src="http://localhost:4500/pfp/profile-pic-1707069538033-1707069539405.jpg"
                                 alt="profile picture"
                             />
-                            <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                                <div class="pr-3 font-medium text-gray-900 dark:text-white">
+                            <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
+                                <div className="pr-3 font-medium text-gray-900 dark:text-white">
                                     Zoe Bennett
                                 </div>
-                                <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
+                                <div className="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
                                     Customer
                                 </div>
                             </div>
                         </figcaption>
                     </figure>
                 </div>
-                <div class="w-full md:w-1/2  px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
-                    <figure class="max-w-screen-md mx-auto">
+                <div className="w-full md:w-1/2  px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+                    <figure className="max-w-screen-md mx-auto">
                         <svg
-                            class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+                            className="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
                             viewBox="0 0 24 27"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ const Testimonials = () => {
                             />
                         </svg>
                         <blockquote>
-                            <p class="text-2xl font-medium text-gray-900 dark:text-white">
+                            <p className="text-2xl font-medium text-gray-900 dark:text-white">
                                 "This webshop is a hidden gem! I've found so
                                 many unique items here that aren't available
                                 anywhere else. The website is user-friendly, and
@@ -105,17 +105,17 @@ const Testimonials = () => {
                                 for special gifts."
                             </p>
                         </blockquote>
-                        <figcaption class="flex items-center justify-center mt-6 space-x-3">
+                        <figcaption className="flex items-center justify-center mt-6 space-x-3">
                             <img
-                                class="w-6 h-6 rounded-full"
+                                className="w-6 h-6 rounded-full"
                                 src="http://localhost:4500/pfp/profile-pic-1707120890036-1707120894127.jpg"
                                 alt="profile picture"
                             />
-                            <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                                <div class="pr-3 font-medium text-gray-900 dark:text-white">
+                            <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
+                                <div className="pr-3 font-medium text-gray-900 dark:text-white">
                                     Aiden Clarke
                                 </div>
-                                <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
+                                <div className="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
                                     Customer
                                 </div>
                             </div>
@@ -124,8 +124,8 @@ const Testimonials = () => {
                 </div>
             </section>
             {/* <div className="bg-neutral-200 dark:bg-gray-900">
-                <hr class="border-b-1 w-2/3 pb-2 mx-auto border-gray-700 bg-neutral-200 dark:bg-gray-900" />
-                <hr class=" w-2/3 mx-auto border-gray-700 bg-neutral-200 dark:bg-gray-900" />
+                <hr className="border-b-1 w-2/3 pb-2 mx-auto border-gray-700 bg-neutral-200 dark:bg-gray-900" />
+                <hr className=" w-2/3 mx-auto border-gray-700 bg-neutral-200 dark:bg-gray-900" />
             </div> */}
         </>
     )

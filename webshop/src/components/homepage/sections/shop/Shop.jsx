@@ -82,7 +82,7 @@ const Shop = () => {
                 products.map((product) => (
                     <div
                         key={product.id}
-                        className="flex flex-col items-center bg-neutral-100 dark:bg-gray-800 dark:text-white text-black w-full max-w-smborder border-gray-200 rounded-lg shadow dark:border-gray-700"
+                        className="flex flex-col items-center bg-neutral-100 dark:bg-gray-800 dark:text-white text-black w-full max-w-sm rounded-lg shadow"
                     >
                         <img
                             className="max-w-full rounded-t-lg"
