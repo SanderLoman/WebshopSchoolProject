@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
-    const [name, setName] = useState("")
-    const [price, setPrice] = useState("")
-    const [imageUrl, setImageUrl] = useState("")
+const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
+    const [name, setName] = useState(product ? product.name : "")
+    const [price, setPrice] = useState(product ? product.price : "")
+    const [imageUrl, setImageUrl] = useState(product ? product.imageUrl : "")
 
     const handleClose = () => {
         setIsOpen(false)
@@ -17,11 +17,27 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const parsedPrice = parseFloat(price)
-        if (!isNaN(parsedPrice)) {
-            onAdd({ name, price: parsedPrice, imageUrl })
-        } else {
-            console.error("Price must be a number")
+
+        // Prepare the update object with only the fields that have changed
+        let updatedProduct = {}
+        if (name !== product.name) updatedProduct.name = name
+        if (imageUrl !== product.imageUrl) updatedProduct.imageUrl = imageUrl
+
+        // Parse price only if it's provided and different
+        if (price !== "" && parseFloat(price) !== product.price) {
+            const parsedPrice = parseFloat(price)
+            if (!isNaN(parsedPrice)) {
+                updatedProduct.price = parsedPrice
+            } else {
+                console.error("Price must be a number")
+                return
+            }
+        }
+
+        // Call onEdit with the updated product
+        if (Object.keys(updatedProduct).length > 0) {
+            onEdit({ id: product.id, ...updatedProduct })
+            handleClose()
         }
     }
 
@@ -45,7 +61,7 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                     {/* <!-- Modal header --> */}
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Add a New Product
+                            Edit Product
                         </h3>
                         <button
                             type="button"
@@ -87,7 +103,6 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                                     id="name"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product name"
-                                    required
                                 />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
@@ -104,7 +119,6 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                                     id="price"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product price"
-                                    required
                                 />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
@@ -129,18 +143,21 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                             className="flex justify-center w-full text-white items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             <svg
-                                className="me-1 -ms-1 w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
+                                className="w-5 h-5 text-gray-800 dark:text-white me-1"
+                                aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
                             >
                                 <path
-                                    fillRule="evenodd"
-                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                    clipRule="evenodd"
-                                ></path>
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M17.7 7.7A7.1 7.1 0 0 0 5 10.8M18 4v4h-4m-7.7 8.3A7.1 7.1 0 0 0 19 13.2M6 20v-4h4"
+                                />
                             </svg>
-                            Add new product
+                            Update Product
                         </button>
                     </form>
                 </div>
@@ -149,4 +166,4 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
     )
 }
 
-export default AddModal
+export default EditModal

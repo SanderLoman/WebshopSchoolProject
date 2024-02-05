@@ -402,6 +402,50 @@ app.post("/api/products", (req, res) => {
     )
 })
 
+app.put("/api/products/:id", (req, res) => {
+    const productId = parseInt(req.params.id)
+    const updates = req.body // This now contains only the updated fields
+
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("Error reading file:", err)
+                return res.status(500).send("Internal Server Error")
+            }
+
+            let productsData = JSON.parse(data)
+
+            // Find the product and update it
+            const productIndex = productsData.products.findIndex(
+                (p) => p.id === productId,
+            )
+            if (productIndex === -1) {
+                return res.status(404).send("Product not found")
+            }
+
+            // Update only the provided fields
+            productsData.products[productIndex] = {
+                ...productsData.products[productIndex],
+                ...updates,
+            }
+
+            fs.writeFile(
+                path.join(__dirname, "./products.json"),
+                JSON.stringify(productsData, null, 2),
+                (writeErr) => {
+                    if (writeErr) {
+                        console.error("Error writing file:", writeErr)
+                        return res.status(500).send("Internal Server Error")
+                    }
+                    res.status(200).json(productsData.products[productIndex])
+                },
+            )
+        },
+    )
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")

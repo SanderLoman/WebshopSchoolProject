@@ -1,162 +1,150 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "Hemp Seed Oil",
-            "price": 5.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
-        },
-        {
-            "id": 2,
-            "name": "White Shoes",
-            "price": 39.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-        },
-        {
-            "id": 3,
-            "name": "White Bag",
-            "price": 24.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
-        },
-        {
-            "id": 4,
-            "name": "Wall Decoration",
-            "price": 19.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
-        },
-        {
-            "id": 5,
-            "name": "Digital Watch",
-            "price": 59.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
-        },
-        {
-            "id": 6,
-            "name": "Blue Shoes",
-            "price": 29.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
-        },
-        {
-            "id": 7,
-            "name": "Creme Bottle",
-            "price": 9.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
-        },
-        {
-            "id": 8,
-            "name": "Premium White Bag",
-            "price": 49.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
-        },
-        {
-            "id": 9,
-            "name": "Lamp",
-            "price": 34.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
-        },
-        {
-            "id": 10,
-            "name": "Shampoo",
-            "price": 14.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
-        },
-        {
-            "id": 11,
-            "name": "Console Controller",
-            "price": 54.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
-        },
-        {
-            "id": 12,
-            "name": "Backpack",
-            "price": 44.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
-        },
-        {
-            "id": 13,
-            "name": "Ferrari",
-            "price": 784000,
-            "imageUrl": "http://localhost:4500/pfp/profile-pic-1706710430311-1706710435481.jpg"
-        },
-        {
-            "id": 14,
-            "name": "Test",
-            "price": 123123,
-            "imageUrl": ""
-        }
-    ],
-    "reset-products": [
-        {
-            "id": 1,
-            "name": "Hemp Seed Oil",
-            "price": 5.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
-        },
-        {
-            "id": 2,
-            "name": "White Shoes",
-            "price": 39.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-        },
-        {
-            "id": 3,
-            "name": "White Bag",
-            "price": 24.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
-        },
-        {
-            "id": 4,
-            "name": "Wall Decoration",
-            "price": 19.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
-        },
-        {
-            "id": 5,
-            "name": "Digital Watch",
-            "price": 59.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
-        },
-        {
-            "id": 6,
-            "name": "Blue Shoes",
-            "price": 29.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
-        },
-        {
-            "id": 7,
-            "name": "Creme Bottle",
-            "price": 9.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
-        },
-        {
-            "id": 8,
-            "name": "Premium White Bag",
-            "price": 49.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
-        },
-        {
-            "id": 9,
-            "name": "Lamp",
-            "price": 34.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
-        },
-        {
-            "id": 10,
-            "name": "Shampoo",
-            "price": 14.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
-        },
-        {
-            "id": 11,
-            "name": "Console Controller",
-            "price": 54.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
-        },
-        {
-            "id": 12,
-            "name": "Backpack",
-            "price": 44.99,
-            "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
-        }
-    ]
+  "products": [
+    {
+      "id": 1,
+      "name": "Hemp Seed Oil",
+      "price": 5.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+    },
+    {
+      "id": 2,
+      "name": "White Shoes",
+      "price": 39.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+    },
+    {
+      "id": 3,
+      "name": "White Bag",
+      "price": 24.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Wall Decoration",
+      "price": 19.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Digital Watch",
+      "price": 59.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Blue Shoes",
+      "price": 29.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Creme Bottle",
+      "price": 9.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Premium White Bag",
+      "price": 49.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Lamp",
+      "price": 34.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Shampoo",
+      "price": 14.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Console Controller",
+      "price": 54.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Backpack",
+      "price": 44.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
+    }
+  ],
+  "reset-products": [
+    {
+      "id": 1,
+      "name": "Hemp Seed Oil",
+      "price": 5.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+    },
+    {
+      "id": 2,
+      "name": "White Shoes",
+      "price": 39.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+    },
+    {
+      "id": 3,
+      "name": "White Bag",
+      "price": 24.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Wall Decoration",
+      "price": 19.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Digital Watch",
+      "price": 59.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Blue Shoes",
+      "price": 29.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Creme Bottle",
+      "price": 9.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Premium White Bag",
+      "price": 49.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Lamp",
+      "price": 34.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Shampoo",
+      "price": 14.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
+    },
+    {
+      "id": 11,
+      "name": "Console Controller",
+      "price": 54.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
+    },
+    {
+      "id": 12,
+      "name": "Backpack",
+      "price": 44.99,
+      "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
+    }
+  ]
 }

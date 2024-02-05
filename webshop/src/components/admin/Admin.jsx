@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { initFlowbite } from "flowbite"
 import { ToastContainer } from "react-toastify"
 import DeleteModal from "./modals/DeleteModal.jsx"
+import EditModal from "./modals/EditModal.jsx"
 import AddModal from "./modals/AddModal.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Admin.css"
@@ -33,6 +34,9 @@ const Admin = () => {
     const [deleteProductId, setDeleteProductId] = useState(null)
 
     const [isAddModalOpen, setisAddModalOpen] = useState(false)
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [editProduct, setEditProduct] = useState(null)
 
     useEffect(() => {
         if (user && user.role === "admin") {
@@ -135,8 +139,40 @@ const Admin = () => {
         }
     }
 
-    const handleEditProduct = () => {
-        // PUT request to edit product
+    const handleEditClick = (product) => {
+        setEditProduct(product)
+        setIsEditModalOpen(true)
+    }
+
+    const handleEditProduct = async (updatedProduct) => {
+        try {
+            const response = await fetch(
+                `http://localhost:4500/api/products/${updatedProduct.id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updatedProduct),
+                },
+            )
+            const data = await response.json()
+            if (response.ok) {
+                // Update the products state with the updated product
+                setProducts(
+                    products.map((p) =>
+                        p.id === updatedProduct.id ? data : p,
+                    ),
+                )
+                setIsEditModalOpen(false) // Close the modal
+            } else {
+                console.error("Failed to update product:", data)
+                // Optionally show an error message to the user
+            }
+        } catch (error) {
+            console.error("Error updating product:", error)
+            // Optionally show an error message to the user
+        }
     }
 
     const handleDeleteClick = (productId) => {
@@ -510,7 +546,14 @@ const Admin = () => {
                                                         ${item.price.toFixed(2)}
                                                     </td>
                                                     <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white space-x-4">
-                                                        <button className="text-blue-500">
+                                                        <button
+                                                            className="text-blue-500"
+                                                            onClick={() =>
+                                                                handleEditClick(
+                                                                    item,
+                                                                )
+                                                            }
+                                                        >
                                                             Edit
                                                         </button>
                                                         <button
@@ -752,6 +795,13 @@ const Admin = () => {
                 setIsOpen={setisDeleteModalOpen}
                 onDelete={handleDeleteProduct}
                 productId={deleteProductId}
+            />
+
+            <EditModal
+                isOpen={isEditModalOpen}
+                setIsOpen={setIsEditModalOpen}
+                onEdit={handleEditProduct}
+                product={editProduct}
             />
 
             <AddModal
