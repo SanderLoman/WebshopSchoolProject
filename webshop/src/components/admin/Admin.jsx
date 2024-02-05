@@ -28,6 +28,9 @@ const Admin = () => {
 
     const [products, setProducts] = useState([])
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [deleteProductId, setDeleteProductId] = useState(null)
+
     useEffect(() => {
         if (user && user.role === "admin") {
             fetch("http://localhost:4500/api/users")
@@ -114,8 +117,18 @@ const Admin = () => {
         // PUT request to edit product
     }
 
-    const handleDeleteProduct = () => {
-        // DELETE request to delete product
+    const handleDeleteClick = (productId) => {
+        setDeleteProductId(productId)
+        setIsModalOpen(true)
+    }
+
+    const handleDeleteProduct = async () => {
+        await fetch(`http://localhost:4500/api/products/${deleteProductId}`, {
+            method: "DELETE",
+        })
+        setProducts(
+            products.filter((product) => product.id !== deleteProductId),
+        )
     }
 
     const handleResetProducts = async () => {
@@ -470,7 +483,14 @@ const Admin = () => {
                                                         <button className="text-blue-500">
                                                             Edit
                                                         </button>
-                                                        <button className="text-red-500">
+                                                        <button
+                                                            className="text-red-500"
+                                                            onClick={() =>
+                                                                handleDeleteClick(
+                                                                    item.id,
+                                                                )
+                                                            }
+                                                        >
                                                             Delete
                                                         </button>
                                                     </td>
@@ -642,8 +662,12 @@ const Admin = () => {
                 </div>
             </div>
 
-            <DeleteModal />
-
+            <DeleteModal
+                isOpen={isModalOpen}
+                setIsOpen={setIsModalOpen}
+                onDelete={handleDeleteProduct}
+                productId={deleteProductId}
+            />
             <Cart showCart={showCart} setshowCart={setshowCart}>
                 {/* Modal Content Here */}
             </Cart>

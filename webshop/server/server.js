@@ -304,6 +304,48 @@ app.post("/api/reset-products", (req, res) => {
     )
 })
 
+app.delete("/api/products/:id", (req, res) => {
+    const productId = parseInt(req.params.id)
+
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("Error reading file:", err)
+                return res.status(500).send("Internal Server Error")
+            }
+
+            let productsData = JSON.parse(data)
+
+            // Find the index of the product to be deleted
+            const productIndex = productsData.products.findIndex(
+                (p) => p.id === productId,
+            )
+
+            if (productIndex === -1) {
+                return res.status(404).send("Product not found")
+            }
+
+            // Remove the product from the array
+            productsData.products.splice(productIndex, 1)
+
+            // Write the updated products array back to the file
+            fs.writeFile(
+                path.join(__dirname, "./products.json"),
+                JSON.stringify(productsData, null, 2),
+                (writeErr) => {
+                    if (writeErr) {
+                        console.error("Error writing file:", writeErr)
+                        return res.status(500).send("Internal Server Error")
+                    }
+                    res.status(200).send("Product deleted successfully")
+                },
+            )
+        },
+    )
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")
