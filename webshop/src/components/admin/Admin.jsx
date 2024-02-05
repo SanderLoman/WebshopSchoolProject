@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { initFlowbite } from "flowbite"
 import { ToastContainer } from "react-toastify"
 import DeleteModal from "./modals/DeleteModal.jsx"
+import AddModal from "./modals/AddModal.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Admin.css"
 
@@ -28,8 +29,10 @@ const Admin = () => {
 
     const [products, setProducts] = useState([])
 
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isDeleteModalOpen, setisDeleteModalOpen] = useState(false)
     const [deleteProductId, setDeleteProductId] = useState(null)
+
+    const [isAddModalOpen, setisAddModalOpen] = useState(false)
 
     useEffect(() => {
         if (user && user.role === "admin") {
@@ -109,8 +112,27 @@ const Admin = () => {
         navigate("/account")
     }
 
-    const handleAddProduct = () => {
-        // POST request to add a new product
+    const handleAddProduct = async (productData) => {
+        try {
+            const response = await fetch("http://localhost:4500/api/products", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(productData),
+            })
+            const data = await response.json()
+            if (response.ok) {
+                setProducts([...products, data]) // Update local state
+                setisAddModalOpen(false) // Close the modal
+            } else {
+                console.error("Failed to add product:", data)
+                // Optionally show an error message to the user
+            }
+        } catch (error) {
+            console.error("Error adding product:", error)
+            // Optionally show an error message to the user
+        }
     }
 
     const handleEditProduct = () => {
@@ -119,7 +141,7 @@ const Admin = () => {
 
     const handleDeleteClick = (productId) => {
         setDeleteProductId(productId)
-        setIsModalOpen(true)
+        setisDeleteModalOpen(true)
     }
 
     const handleDeleteProduct = async () => {
@@ -505,7 +527,35 @@ const Admin = () => {
                                             <th
                                                 scope="col"
                                                 className="text-center w-1/4 px-4 py-3"
-                                            ></th>
+                                            >
+                                                <div className="flex justify-center items-center w-full">
+                                                    <button
+                                                        className="text-blue-500 mr-2"
+                                                        onClick={() =>
+                                                            setisAddModalOpen(
+                                                                true,
+                                                            )
+                                                        }
+                                                    >
+                                                        Add A Product
+                                                    </button>
+                                                    <svg
+                                                        class="w-6 h-6 text-blue-500 dark:text-white"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </th>
                                             <th
                                                 scope="col"
                                                 className="w-1/4 px-6 py-3"
@@ -518,15 +568,30 @@ const Admin = () => {
                                                 scope="col"
                                                 className="w-1/4 px-6 py-3"
                                             >
-                                                <div className="flex items-center justify-between">
+                                                <div className="flex justify-center items-center w-full">
                                                     <button
                                                         onClick={
                                                             handleResetProducts
                                                         }
-                                                        className="font-semibold text-emerald-500 w-full text-center"
+                                                        className="text-emerald-500 mr-2"
                                                     >
                                                         Reset Products
                                                     </button>
+                                                    <svg
+                                                        className="w-5 h-5 text-emerald-500 dark:text-white"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 20 18"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="m1 14 3-3m-3 3 3 3m-3-3h16v-3m2-7-3 3m3-3-3-3m3 3H3v3"
+                                                        />
+                                                    </svg>
                                                 </div>
                                             </th>
                                         </tr>
@@ -663,14 +728,19 @@ const Admin = () => {
             </div>
 
             <DeleteModal
-                isOpen={isModalOpen}
-                setIsOpen={setIsModalOpen}
+                isOpen={isDeleteModalOpen}
+                setIsOpen={setisDeleteModalOpen}
                 onDelete={handleDeleteProduct}
                 productId={deleteProductId}
             />
-            <Cart showCart={showCart} setshowCart={setshowCart}>
-                {/* Modal Content Here */}
-            </Cart>
+
+            <AddModal
+                isOpen={isAddModalOpen}
+                setIsOpen={setisAddModalOpen}
+                onAdd={handleAddProduct}
+            />
+
+            <Cart showCart={showCart} setshowCart={setshowCart} />
 
             <ToastContainer className={"select-none"} />
         </>

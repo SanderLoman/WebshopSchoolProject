@@ -346,6 +346,51 @@ app.delete("/api/products/:id", (req, res) => {
     )
 })
 
+// POST route to add a new product
+app.post("/api/products", (req, res) => {
+    const { name, price, imageUrl } = req.body
+
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("Error reading file:", err)
+                return res.status(500).send("Internal Server Error")
+            }
+
+            let productsData = JSON.parse(data)
+
+            // Find the maximum ID and ensure it's at least 13
+            let maxId = Math.max(13, ...productsData.products.map((p) => p.id))
+
+            // Create a new product object
+            const newProduct = {
+                id: maxId + 1,
+                name,
+                price,
+                imageUrl: imageUrl || "default-image-url", // Use a default image URL if not provided
+            }
+
+            // Add the new product
+            productsData.products.push(newProduct)
+
+            // Write the updated products array back to the file
+            fs.writeFile(
+                path.join(__dirname, "./products.json"),
+                JSON.stringify(productsData, null, 2),
+                (writeErr) => {
+                    if (writeErr) {
+                        console.error("Error writing file:", writeErr)
+                        return res.status(500).send("Internal Server Error")
+                    }
+                    res.status(201).json(newProduct)
+                },
+            )
+        },
+    )
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")
