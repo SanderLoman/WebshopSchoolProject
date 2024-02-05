@@ -361,15 +361,26 @@ app.post("/api/products", (req, res) => {
 
             let productsData = JSON.parse(data)
 
-            // Find the maximum ID and ensure it's at least 13
-            let maxId = Math.max(13, ...productsData.products.map((p) => p.id))
+            // Sort existing product IDs
+            let ids = productsData.products
+                .map((p) => p.id)
+                .sort((a, b) => a - b)
+
+            // Find the first available ID
+            let newId = 1
+            for (let i = 0; i < ids.length; i++) {
+                if (ids[i] > newId) {
+                    break
+                }
+                newId = ids[i] + 1
+            }
 
             // Create a new product object
             const newProduct = {
-                id: maxId + 1,
+                id: newId,
                 name,
                 price,
-                imageUrl: imageUrl || "default-image-url", // Use a default image URL if not provided
+                imageUrl: imageUrl,
             }
 
             // Add the new product

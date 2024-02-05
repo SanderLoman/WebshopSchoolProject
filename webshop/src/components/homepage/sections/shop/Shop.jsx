@@ -100,11 +100,19 @@ const Shop = () => {
                         key={product.id}
                         className="flex flex-col items-center mx-auto bg-neutral-100 dark:bg-gray-800 dark:text-white text-black w-full max-w-sm rounded-lg shadow"
                     >
-                        <img
-                            className="max-w-full rounded-t-lg"
-                            src={product.imageUrl}
-                            alt={product.name}
-                        />
+                        {product.imageUrl ? (
+                            <img
+                                className="max-w-full rounded-t-lg h-96 w-96 object-cover object-center"
+                                src={product.imageUrl}
+                                alt={product.name}
+                            />
+                        ) : (
+                            <div className="flex items-center justify-center h-96 w-96 rounded-t-lg bg-gray-200 dark:bg-gray-700">
+                                <span className="text-gray-500">
+                                    No Image Found
+                                </span>
+                            </div>
+                        )}
                         <h3 className="mt-2 text-lg font-bold">
                             {product.name}
                         </h3>

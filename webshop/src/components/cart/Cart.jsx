@@ -141,12 +141,18 @@ const Cart = ({ showCart, setshowCart }) => {
                                             key={item.id}
                                             className="bg-white border-t dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 "
                                         >
-                                            <td className="p-4">
-                                                <img
-                                                    src={item.imageUrl}
-                                                    alt={item.name}
-                                                    className="w-20 h-20 object-cover"
-                                                />
+                                            <td className="p-4 flex justify-center text-center">
+                                                {item.imageUrl ? (
+                                                    <img
+                                                        src={item.imageUrl}
+                                                        alt={item.name}
+                                                        className="w-20 h-20 object-cover"
+                                                    />
+                                                ) : (
+                                                    <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
+                                                        No Image Found
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                 {item.name}
@@ -187,7 +193,7 @@ const Cart = ({ showCart, setshowCart }) => {
                     <div className="flex items-center justify-between p-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                         {/* Total Price Display */}
                         <div className="p-4">
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-right">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-right truncate">
                                 Total: ${totalPrice.toFixed(2)}
                             </h3>
                         </div>

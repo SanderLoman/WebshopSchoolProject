@@ -246,12 +246,18 @@ const Checkout = () => {
                                                 key={item.id}
                                                 className="bg-white border-t dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
                                             >
-                                                <td className="p-4">
-                                                    <img
-                                                        src={item.imageUrl}
-                                                        alt={item.name}
-                                                        className="w-20 h-20 object-cover"
-                                                    />
+                                                <td className="p-4 flex justify-center text-center">
+                                                    {item.imageUrl ? (
+                                                        <img
+                                                            src={item.imageUrl}
+                                                            alt={item.name}
+                                                            className="w-20 h-20 object-cover"
+                                                        />
+                                                    ) : (
+                                                        <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
+                                                            No Image Found
+                                                        </span>
+                                                    )}
                                                 </td>
                                                 <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                     {item.name}

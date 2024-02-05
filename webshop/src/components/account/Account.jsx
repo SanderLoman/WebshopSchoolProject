@@ -609,13 +609,13 @@ const Account = () => {
                         aria-labelledby="orders-tab"
                     >
                         {orders && orders.length > 0 ? (
-                            <div className=" flex justify-center items-center flex-col">
+                            <div className="flex justify-center items-center flex-col">
                                 <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700  flex items-start justify-between p-4 border-b rounded-t">
                                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
                                         Your Orders
                                     </h3>
                                 </div>
-                                <div className="relative overflow-y-auto w-full max-h-96">
+                                <div className="relative overflow-y-auto w-full bg-white dark:bg-gray-800 h-[calc(50vh)]">
                                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>

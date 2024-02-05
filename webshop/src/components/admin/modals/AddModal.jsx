@@ -18,8 +18,13 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // Call the onAdd function passed from the parent, or directly make a POST request here
-        onAdd({ name, price, imageUrl })
+        const parsedPrice = parseFloat(price)
+        if (!isNaN(parsedPrice)) {
+            onAdd({ name, price: parsedPrice, imageUrl })
+        } else {
+            console.error("Price must be a number")
+            // Optionally show an error message to the user
+        }
     }
 
     return (
@@ -42,12 +47,11 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                     {/* <!-- Modal header --> */}
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            Create New Product
+                            Add a New Product
                         </h3>
                         <button
                             type="button"
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-toggle="crud-modal"
                             onClick={handleClose}
                         >
                             <svg
@@ -59,9 +63,9 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                             >
                                 <path
                                     stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                 />
                             </svg>
@@ -73,14 +77,15 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <label
-                                    for="name"
+                                    htmlFor="name"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Name
                                 </label>
                                 <input
                                     type="text"
-                                    name="name"
+                                    onChange={(e) => setName(e.target.value)}
+                                    // name="name"
                                     id="name"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product name"
@@ -89,14 +94,15 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label
-                                    for="price"
+                                    htmlFor="price"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Price
                                 </label>
                                 <input
                                     type="number"
-                                    name="price"
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    // name="price"
                                     id="price"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product price"
@@ -105,13 +111,16 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label
-                                    for="category"
+                                    htmlFor="category"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Image URL
                                 </label>
                                 <input
                                     id="category"
+                                    onChange={(e) =>
+                                        setImageUrl(e.target.value)
+                                    }
                                     placeholder="https://example.com/image.jpg"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 ></input>
@@ -128,9 +137,9 @@ const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
                                 xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                    clip-rule="evenodd"
+                                    clipRule="evenodd"
                                 ></path>
                             </svg>
                             Add new product

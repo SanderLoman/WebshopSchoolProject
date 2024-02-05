@@ -447,12 +447,12 @@ const Admin = () => {
                     >
                         {products && (
                             <div className="flex justify-center items-center flex-col">
-                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
+                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t-lg">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full h-8">
                                         Products overview
                                     </h3>
                                 </div>
-                                <div className="relative overflow-y-auto w-full max-h-96">
+                                <div className="relative overflow-y-auto w-full bg-white h-[calc(50vh)]">
                                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
@@ -488,12 +488,20 @@ const Admin = () => {
                                                     key={item.id}
                                                     className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                 >
-                                                    <td className="p-4 flex justify-center">
-                                                        <img
-                                                            src={item.imageUrl}
-                                                            alt={item.name}
-                                                            className="w-20 h-20 object-cover"
-                                                        />
+                                                    <td className="p-4 flex justify-center text-center">
+                                                        {item.imageUrl ? (
+                                                            <img
+                                                                src={
+                                                                    item.imageUrl
+                                                                }
+                                                                alt={item.name}
+                                                                className="w-20 h-20 object-cover"
+                                                            />
+                                                        ) : (
+                                                            <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
+                                                                No Image Found
+                                                            </span>
+                                                        )}
                                                     </td>
                                                     <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                         {item.name}
@@ -521,7 +529,7 @@ const Admin = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg">
+                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg h-16">
                                     <tbody>
                                         <tr>
                                             <th
@@ -541,7 +549,7 @@ const Admin = () => {
                                                             Add A Product
                                                         </span>
                                                         <svg
-                                                            className="w-6 h-6 text-blue-500 dark:text-white"
+                                                            className="w-0 h-0 md:w-4 md:h-4 text-blue-500"
                                                             aria-hidden="true"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"
@@ -549,9 +557,9 @@ const Admin = () => {
                                                         >
                                                             <path
                                                                 stroke="currentColor"
-                                                                stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                stroke-width="2"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
                                                                 d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                                             />
                                                         </svg>
@@ -581,7 +589,7 @@ const Admin = () => {
                                                             Reset Products
                                                         </span>
                                                         <svg
-                                                            className="w-5 h-5 text-emerald-500 dark:text-white"
+                                                            className="md:w-4 md:h-4 text-emerald-500"
                                                             aria-hidden="true"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"
@@ -589,9 +597,9 @@ const Admin = () => {
                                                         >
                                                             <path
                                                                 stroke="currentColor"
-                                                                stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                stroke-width="2"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
                                                                 d="m1 14 3-3m-3 3 3 3m-3-3h16v-3m2-7-3 3m3-3-3-3m3 3H3v3"
                                                             />
                                                         </svg>
@@ -614,12 +622,12 @@ const Admin = () => {
                     >
                         {orders && orders.length > 0 ? (
                             <>
-                                <div className="bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
+                                <div className="bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t-lg">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full h-8">
                                         All previous orders
                                     </h3>
                                 </div>
-                                <div className="relative overflow-y-auto h-[calc(50vh)]">
+                                <div className="relative overflow-y-auto bg-white dark:bg-gray-800 h-[calc(50vh)]">
                                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
@@ -655,12 +663,20 @@ const Admin = () => {
                                                     key={item.id}
                                                     className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                 >
-                                                    <td className="p-4 flex justify-center">
-                                                        <img
-                                                            src={item.imageUrl}
-                                                            alt={item.name}
-                                                            className="w-20 h-20 object-cover"
-                                                        />
+                                                    <td className="p-4 flex justify-center text-center">
+                                                        {item.imageUrl ? (
+                                                            <img
+                                                                src={
+                                                                    item.imageUrl
+                                                                }
+                                                                alt={item.name}
+                                                                className="w-20 h-20 object-cover"
+                                                            />
+                                                        ) : (
+                                                            <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
+                                                                No Image Found
+                                                            </span>
+                                                        )}
                                                     </td>
                                                     <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                         {item.name}
@@ -680,7 +696,7 @@ const Admin = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg">
+                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg h-16">
                                     <tbody>
                                         <tr>
                                             <th
