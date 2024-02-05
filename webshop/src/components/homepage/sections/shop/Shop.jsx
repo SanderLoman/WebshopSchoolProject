@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react"
-import ThemeContext from "../../../providers/ThemeProvider"
-import { CartContext } from "../../../providers/CartProvider"
+import ThemeContext from "../../../providers/ThemeProvider.jsx"
+import { CartContext } from "../../../providers/CartProvider.jsx"
+import { UserContext } from "../../../providers/UserContext.jsx"
 import { toast } from "react-toastify"
 
 const Shop = () => {
     const [products, setProducts] = useState([])
     const { addToCart } = useContext(CartContext)
     const { systemTheme } = useContext(ThemeContext)
+    const { user } = useContext(UserContext)
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -34,12 +36,26 @@ const Shop = () => {
     }, [])
 
     const handleAddToCart = (product, quantity) => {
-        console.log(`Added ${quantity} of ${product.name} to the cart.`)
-        addToCart({ ...product, quantity: parseInt(quantity) })
+        if (user) {
+            console.log(`Added ${quantity} of ${product.name} to the cart.`)
+            addToCart({ ...product, quantity: parseInt(quantity) })
 
-        toast.success(
-            `Successfully added ${quantity} of ${product.name} to the cart!`,
-            {
+            toast.success(
+                `Successfully added ${quantity} of ${product.name} to the cart!`,
+                {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    className:
+                        systemTheme === "dark" || systemTheme === "system"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-100 text-black",
+                },
+            )
+        } else {
+            toast.info("You need to log in to add items to your cart.", {
                 position: "bottom-right",
                 autoClose: 2000,
                 hideProgressBar: true,
@@ -49,8 +65,8 @@ const Shop = () => {
                     systemTheme === "dark" || systemTheme === "system"
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-black",
-            },
-        )
+            })
+        }
     }
 
     const updateQuantity = (productId, action) => {
@@ -82,7 +98,7 @@ const Shop = () => {
                 products.map((product) => (
                     <div
                         key={product.id}
-                        className="flex flex-col items-center bg-neutral-100 dark:bg-gray-800 dark:text-white text-black w-full max-w-sm rounded-lg shadow"
+                        className="flex flex-col items-center mx-auto bg-neutral-100 dark:bg-gray-800 dark:text-white text-black w-full max-w-sm rounded-lg shadow"
                     >
                         <img
                             className="max-w-full rounded-t-lg"

@@ -446,8 +446,8 @@ const Admin = () => {
                         aria-labelledby="products-tab"
                     >
                         {products && (
-                            <div className=" flex justify-center items-center flex-col">
-                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700  flex items-start justify-between p-4 border-b rounded-t">
+                            <div className="flex justify-center items-center flex-col">
+                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t">
                                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
                                         Products overview
                                     </h3>
@@ -530,30 +530,32 @@ const Admin = () => {
                                             >
                                                 <div className="flex justify-center items-center w-full">
                                                     <button
-                                                        className="text-blue-500 mr-2"
+                                                        className="text-blue-500 flex justify-center items-center"
                                                         onClick={() =>
                                                             setisAddModalOpen(
                                                                 true,
                                                             )
                                                         }
                                                     >
-                                                        Add A Product
+                                                        <span className="mr-2">
+                                                            Add A Product
+                                                        </span>
+                                                        <svg
+                                                            className="w-6 h-6 text-blue-500 dark:text-white"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                            />
+                                                        </svg>
                                                     </button>
-                                                    <svg
-                                                        class="w-6 h-6 text-blue-500 dark:text-white"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                                        />
-                                                    </svg>
                                                 </div>
                                             </th>
                                             <th
@@ -573,25 +575,27 @@ const Admin = () => {
                                                         onClick={
                                                             handleResetProducts
                                                         }
-                                                        className="text-emerald-500 mr-2"
+                                                        className="text-emerald-500 flex justify-center items-center"
                                                     >
-                                                        Reset Products
+                                                        <span className="mr-2">
+                                                            Reset Products
+                                                        </span>
+                                                        <svg
+                                                            className="w-5 h-5 text-emerald-500 dark:text-white"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 20 18"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="m1 14 3-3m-3 3 3 3m-3-3h16v-3m2-7-3 3m3-3-3-3m3 3H3v3"
+                                                            />
+                                                        </svg>
                                                     </button>
-                                                    <svg
-                                                        className="w-5 h-5 text-emerald-500 dark:text-white"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 20 18"
-                                                    >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="m1 14 3-3m-3 3 3 3m-3-3h16v-3m2-7-3 3m3-3-3-3m3 3H3v3"
-                                                        />
-                                                    </svg>
                                                 </div>
                                             </th>
                                         </tr>

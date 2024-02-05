@@ -113,7 +113,7 @@ const Checkout = () => {
         icons: {
             prev: () => (
                 <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -130,7 +130,7 @@ const Checkout = () => {
             ),
             next: () => (
                 <svg
-                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -427,14 +427,14 @@ const Checkout = () => {
                 <div
                     tabindex="-1"
                     aria-hidden="true"
-                    class="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto overflow-x-hidden"
+                    className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto overflow-x-hidden"
                 >
-                    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                        <div class="relative p-4 text-center bg-white rounded-lg shadow-lg dark:bg-gray-700 sm:p-5">
-                            <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+                    <div className="relative p-4 w-full max-w-md h-full md:h-auto">
+                        <div className="relative p-4 text-center bg-white rounded-lg shadow-lg dark:bg-gray-700 sm:p-5">
+                            <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
                                 <svg
                                     aria-hidden="true"
-                                    class="w-8 h-8 text-green-500 dark:text-green-400"
+                                    className="w-8 h-8 text-green-500 dark:text-green-400"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -445,12 +445,12 @@ const Checkout = () => {
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                <span class="sr-only">Success</span>
+                                <span className="sr-only">Success</span>
                             </div>
-                            <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+                            <p className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
                                 Order was successful!
                             </p>
-                            <p class="mb-4 text-sm text-gray-700 dark:text-gray-300">
+                            <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
                                 delivering order at {deliveryAddress} on{" "}
                                 {deliveryDate.toLocaleDateString()}
                             </p>
