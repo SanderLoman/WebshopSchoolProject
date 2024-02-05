@@ -270,6 +270,40 @@ app.get("/api/users", (req, res) => {
     })
 })
 
+app.post("/api/reset-products", (req, res) => {
+    fs.readFile(
+        path.join(__dirname, "./products.json"),
+        "utf-8",
+        (err, data) => {
+            if (err) {
+                console.error("An error occurred:", err)
+                return res.status(500).send("Internal Server Error")
+            }
+            const jsonData = JSON.parse(data)
+            const resetProducts = jsonData["reset-products"]
+
+            // Overwriting the 'products' key with 'reset-products'
+            jsonData.products = resetProducts
+
+            fs.writeFile(
+                path.join(__dirname, "./products.json"),
+                JSON.stringify(jsonData, null, 2),
+                (writeErr) => {
+                    if (writeErr) {
+                        console.error("An error occurred:", writeErr)
+                        return res.status(500).send("Internal Server Error")
+                    }
+                    res.json({
+                        success: true,
+                        products: resetProducts,
+                        message: "Products reset successfully",
+                    })
+                },
+            )
+        },
+    )
+})
+
 // For handling not found routes
 app.use((req, res) => {
     res.status(404).send("Route not found")

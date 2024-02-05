@@ -6,6 +6,7 @@ import Cart from "../cart/Cart.jsx"
 import { useNavigate } from "react-router-dom"
 import { initFlowbite } from "flowbite"
 import { ToastContainer } from "react-toastify"
+import DeleteModal from "./modals/DeleteModal.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Admin.css"
 
@@ -117,8 +118,27 @@ const Admin = () => {
         // DELETE request to delete product
     }
 
-    const handleResetProducts = () => {
-        // POST/PUT request to reset products
+    const handleResetProducts = async () => {
+        try {
+            const response = await fetch(
+                "http://localhost:4500/api/reset-products",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            )
+            const data = await response.json()
+            if (data.success) {
+                setProducts(data.products)
+                console.log("Products reset successfully")
+            } else {
+                console.error("Failed to reset products:", data.message)
+            }
+        } catch (error) {
+            console.error("Error resetting products:", error)
+        }
     }
 
     useEffect(() => {
@@ -479,7 +499,14 @@ const Admin = () => {
                                                 className="w-1/4 px-6 py-3"
                                             >
                                                 <div className="flex items-center justify-between">
-                                                    <span className="font-semibold text-gray-900 dark:text-white w-full text-center"></span>
+                                                    <button
+                                                        onClick={
+                                                            handleResetProducts
+                                                        }
+                                                        className="font-semibold text-emerald-500 w-full text-center"
+                                                    >
+                                                        Reset Products
+                                                    </button>
                                                 </div>
                                             </th>
                                         </tr>
@@ -614,6 +641,8 @@ const Admin = () => {
                     </div>
                 </div>
             </div>
+
+            <DeleteModal />
 
             <Cart showCart={showCart} setshowCart={setshowCart}>
                 {/* Modal Content Here */}
