@@ -498,7 +498,7 @@ const Admin = () => {
                                                                 className="w-20 h-20 object-cover"
                                                             />
                                                         ) : (
-                                                            <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
+                                                            <span className="text-gray-500 dark:text-gray-300 w-20 h-20 flex justify-center items-center">
                                                                 No Image Found
                                                             </span>
                                                         )}
