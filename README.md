@@ -12,7 +12,7 @@ This is a Webshop project developed as part of a school assignment. It's a full-
 
 The project is deployed on Netlify and can be accessed at the following URL:
 
-[Webshop](#)
+[Webshop](https://webshoppyy.netlify.app/)
 
 ## Installation
 
