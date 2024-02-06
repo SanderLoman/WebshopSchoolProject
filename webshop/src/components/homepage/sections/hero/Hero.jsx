@@ -1,3 +1,5 @@
+import React from "react"
+
 const Hero = () => {
     return (
         <section className="h-screen flex justify-center items-center bg-neutral-200 dark:bg-gray-900">
