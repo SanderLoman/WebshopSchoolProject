@@ -1,19 +1,17 @@
-import React, { useEffect, useContext, useState } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import { UserContext } from "../providers/UserContext.jsx"
-import ThemeContext from "../providers/ThemeProvider.jsx"
-import Cart from "../cart/Cart.jsx"
 import { useNavigate } from "react-router-dom"
+import { ToastContainer, toast } from "react-toastify"
+import ThemeContext from "../providers/ThemeProvider.jsx"
+import ImageCropperModal from "./image-cropper/ImageCropper.jsx"
 import { initFlowbite } from "flowbite"
-import { ToastContainer } from "react-toastify"
-import DeleteModal from "./modals/DeleteModal.jsx"
-import EditModal from "./modals/EditModal.jsx"
-import AddModal from "./modals/AddModal.jsx"
-import "react-toastify/dist/ReactToastify.css"
-import "./Admin.css"
+import Cart from "../cart/Cart.jsx"
 
-// Admin Component: Administration interface for managing products and orders.
-const Admin = () => {
-    // Context and navigation hooks.
+// Account Component: Manages user account details and interactions.
+const Account = () => {
+    const fileInputRef = useRef(null)
+
+    // Context for themes like light, dark, and system mode.
     const {
         lightTheme,
         systemTheme,
@@ -21,99 +19,173 @@ const Admin = () => {
         setDarkMode,
         setSystemMode,
     } = useContext(ThemeContext)
-    const { user, logout } = useContext(UserContext)
+    const { user, logout, updateProfile } = useContext(UserContext)
+
     const navigate = useNavigate()
 
     // State hooks for various functionalities.
     const [showCart, setshowCart] = useState(false)
+    const [isCropping, setIsCropping] = useState(false)
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
+    const [isImageUpdated, setIsImageUpdated] = useState(false)
     const [orders, setOrders] = useState([])
-    const [products, setProducts] = useState([])
-    const [isDeleteModalOpen, setisDeleteModalOpen] = useState(false)
-    const [deleteProductId, setDeleteProductId] = useState(null)
-    const [isAddModalOpen, setisAddModalOpen] = useState(false)
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [editProduct, setEditProduct] = useState(null)
+    let [totalCost, setTotalCost] = useState(0)
 
-    // Fetch and aggregate orders on component mount if user is admin.
+    // Effect for calculating the total cost of cart items.
     useEffect(() => {
-        // Admin validation and fetching user data logic.
-        if (user && user.role === "admin") {
-            // Fetch user data and aggregate orders.
-            fetch("http://localhost:4500/api/users")
-                .then((res) => res.json())
-                .then((users) => {
-                    // Create a map to hold the sum of quantities for each product.
-                    const productMap = new Map()
+        // eslint-disable-next-line
+        totalCost = 0
+        user.cart.forEach((item) => {
+            totalCost += item.price * item.quantity
+        })
+        setTotalCost(totalCost)
+    }, [user.cart])
 
-                    // Aggregate all boughtProducts from each user.
-                    users.forEach((user) => {
-                        user.boughtProducts.forEach((product) => {
-                            if (productMap.has(product.id)) {
-                                productMap.get(product.id).quantity +=
-                                    product.quantity
-                            } else {
-                                productMap.set(product.id, { ...product })
-                            }
-                        })
-                    })
+    // Handles file selection for profile picture updating.
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0]
 
-                    // Convert the map back into an array, so that it can be set as state.
-                    const aggregatedProducts = Array.from(productMap.values())
-
-                    // Set the aggregated products as state.
-                    setOrders(aggregatedProducts)
-                })
-                .catch((err) => {
-                    console.error("Failed to fetch user data:", err)
-                })
+        if (file) {
+            setSelectedFile(file)
+            setIsCropping(true)
         } else {
-            // Redirect to access-denied page if user is not admin.
-            navigate("/access-denied")
+            setSelectedFile(null)
+            setImagePreview(null)
         }
-    }, [user, navigate])
+    }
 
-    // Fetch products from the server.
-    useEffect(() => {
-        // Function to fetch products.
-        const fetchProducts = async () => {
-            try {
-                // Fetch products from the server.
-                const response = await fetch(
-                    "http://localhost:4500/api/products",
+    // Handles the cropped image.
+    const handleImageCropped = (croppedImageUrl) => {
+        setImagePreview(croppedImageUrl)
+
+        fetch(croppedImageUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const file = new File([blob], `profile-pic-${Date.now()}.jpg`, {
+                    type: "image/jpeg",
+                })
+                setSelectedFile(file)
+                setIsCropping(false)
+                setIsImageUpdated(true)
+            })
+            .catch((error) => {
+                console.error("Error creating file from blob URL:", error)
+            })
+    }
+
+    // Handles the submission of profile updates.
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        const formData = new FormData()
+
+        formData.append("profilePicture", selectedFile)
+        formData.append("email", user.email)
+        formData.append(
+            "firstName",
+            document.getElementById("first_name").value,
+        )
+        formData.append("lastName", document.getElementById("last_name").value)
+        formData.append("password", document.getElementById("password").value)
+        formData.append(
+            "confirmPassword",
+            document.getElementById("confirm_password").value,
+        )
+
+        try {
+            const updateResponse = await fetch(
+                "http://localhost:4500/api/update-profile",
+                {
+                    method: "POST",
+                    body: formData,
+                },
+            )
+
+            if (!updateResponse.ok) {
+                throw new Error(`HTTP error! Status: ${updateResponse.status}`)
+            }
+
+            const fetchUserResponse = await fetch(
+                `http://localhost:4500/api/user/${user.email}`,
+            )
+
+            if (!fetchUserResponse.ok) {
+                throw new Error(
+                    `Failed to fetch updated user data. Status: ${fetchUserResponse.status}`,
                 )
+            }
 
-                // Parse the response as JSON.
-                const data = await response.json()
+            const updatedUser = await fetchUserResponse.json()
+            updateProfile(updatedUser)
 
-                // Check if the data is in the expected format.
-                if (Array.isArray(data)) {
-                    setProducts(data)
-                } else {
-                    console.error(
-                        "Products data is not in expected format:",
-                        data,
-                    )
-                }
+            toast.success("Profile updated successfully", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                className:
+                    systemTheme === "dark" || systemTheme === "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
+
+            setImagePreview(updatedUser.pfp)
+            setIsImageUpdated(false)
+        } catch (error) {
+            console.error("Error uploading file:", error)
+            toast.error("Error updating profile", {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                className:
+                    systemTheme === "dark" || systemTheme === "system"
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-black",
+            })
+        }
+    }
+
+    // Effect for handling the display of the cart.
+    useEffect(() => {
+        if (showCart) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = ""
+        }
+
+        return () => {
+            document.body.style.overflow = ""
+        }
+    }, [showCart])
+
+    // Effect for fetching user orders.
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:4500/api/user/${user.email}`,
+                )
+                const userData = await response.json()
+                // Assuming userData contains the orders
+                setOrders(userData.boughtProducts)
             } catch (error) {
-                console.error("Error fetching products:", error)
+                console.error("Error fetching orders:", error)
             }
         }
 
-        fetchProducts()
-    }, [])
+        fetchOrders()
+    }, [user.email])
 
-    // Navigation and logout handlers.
+    // Navigation helpers.
     const navigateHome = () => {
         navigate("/")
     }
 
     const navigateToLogin = () => {
         navigate("/login")
-    }
-
-    const handleLogout = () => {
-        logout()
-        navigate("/")
     }
 
     const navigateToAdmin = () => {
@@ -124,99 +196,9 @@ const Admin = () => {
         navigate("/account")
     }
 
-    // Handlers for adding, editing, and deleting products.
-    const handleAddProduct = async (productData) => {
-        try {
-            const response = await fetch("http://localhost:4500/api/products", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(productData),
-            })
-            const data = await response.json()
-            if (response.ok) {
-                setProducts([...products, data]) // Update local state
-                setisAddModalOpen(false) // Close the modal
-            } else {
-                console.error("Failed to add product:", data)
-            }
-        } catch (error) {
-            console.error("Error adding product:", error)
-        }
-    }
-
-    const handleEditClick = (product) => {
-        setEditProduct(product)
-        setIsEditModalOpen(true)
-    }
-
-    const handleEditProduct = async (updatedProduct) => {
-        try {
-            const response = await fetch(
-                `http://localhost:4500/api/products/${updatedProduct.id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(updatedProduct),
-                },
-            )
-            const data = await response.json()
-            if (response.ok) {
-                // Update the products state with the updated product
-                setProducts(
-                    products.map((p) =>
-                        p.id === updatedProduct.id ? data : p,
-                    ),
-                )
-                setIsEditModalOpen(false) // Close the modal
-            } else {
-                console.error("Failed to update product:", data)
-                // Optionally show an error message to the user
-            }
-        } catch (error) {
-            console.error("Error updating product:", error)
-            // Optionally show an error message to the user
-        }
-    }
-
-    const handleDeleteClick = (productId) => {
-        setDeleteProductId(productId)
-        setisDeleteModalOpen(true)
-    }
-
-    const handleDeleteProduct = async () => {
-        await fetch(`http://localhost:4500/api/products/${deleteProductId}`, {
-            method: "DELETE",
-        })
-        setProducts(
-            products.filter((product) => product.id !== deleteProductId),
-        )
-    }
-
-    // Reset products to original state.
-    const handleResetProducts = async () => {
-        try {
-            const response = await fetch(
-                "http://localhost:4500/api/reset-products",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                },
-            )
-            const data = await response.json()
-            if (data.success) {
-                setProducts(data.products)
-            } else {
-                console.error("Failed to reset products:", data.message)
-            }
-        } catch (error) {
-            console.error("Error resetting products:", error)
-        }
+    const handleLogout = () => {
+        logout()
+        navigate("/")
     }
 
     // Initialize Flowbite on component mount, to prevent styling bugs.
@@ -265,14 +247,14 @@ const Admin = () => {
                             <li className="me-2 text-md" role="presentation">
                                 <button
                                     className="inline-block border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                                    id="products-tab"
-                                    data-tabs-target="#products"
+                                    id="profile-tab"
+                                    data-tabs-target="#profile"
                                     type="button"
                                     role="tab"
-                                    aria-controls="products"
+                                    aria-controls="profile"
                                     aria-selected="false"
                                 >
-                                    products
+                                    Profile
                                 </button>
                             </li>
                             <li className="me-2 text-md" role="presentation">
@@ -482,203 +464,163 @@ const Admin = () => {
                     id="default-tab-content"
                     className="container h-2/3 md:h-auto"
                 >
-                    {/* <!-- Products Section --> */}
+                    {/* <!-- Profile Section --> */}
                     <div
-                        className="hidden px-4 xl:w-1/2 md:mx-auto"
-                        id="products"
+                        className="p-4 xl:w-1/2 md:mx-auto"
+                        id="profile"
                         role="tabpanel"
-                        aria-labelledby="products-tab"
+                        aria-labelledby="profile-tab"
                     >
-                        {products && (
-                            <div className="flex justify-center items-center flex-col">
-                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t-lg">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full h-8">
-                                        Products overview
-                                    </h3>
+                        {/* <!-- Profile Update Form --> */}
+                        <form
+                            id="profile-update-form"
+                            className="space-y-6"
+                            onSubmit={handleSubmit}
+                        >
+                            {/* <!-- User Image --> */}
+                            <div className="w-max mx-auto z-10">
+                                <div
+                                    className="flex mx-auto justify-center drop-shadow-lg active:drop-shadow-sm border-gray-400 w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
+                                    onClick={() =>
+                                        fileInputRef.current &&
+                                        fileInputRef.current.click()
+                                    }
+                                >
+                                    {isImageUpdated ? (
+                                        <img
+                                            src={imagePreview}
+                                            alt="Profile"
+                                            className="w-full h-full rounded-full cursor-pointer active:opacity-70"
+                                        />
+                                    ) : user && user.pfp ? (
+                                        <img
+                                            src={user.pfp}
+                                            alt="Profile"
+                                            className="w-full h-full rounded-full cursor-pointer active:opacity-70"
+                                        />
+                                    ) : (
+                                        <svg
+                                            className="absolute w-32 h-32 text-gray-400 -left-4 -top-4"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clipRule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    {/* Trigger for Image Selection */}
+                                    <div className="w-full h-full rounded-full opacity-0 cursor-pointer">
+                                        <input
+                                            type="file"
+                                            accept=".jpg, .jpeg, .png"
+                                            className="hidden"
+                                            onChange={handleFileSelect}
+                                            ref={fileInputRef}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="relative overflow-y-auto w-full bg-white h-[calc(50vh)]">
-                                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="text-center w-1/4 px-4 py-3"
-                                                >
-                                                    Image
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-center w-1/4 px-6 py-3"
-                                                >
-                                                    Product
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-center w-1/4 px-6 py-3"
-                                                >
-                                                    Price
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-center w-1/4 px-6 py-3"
-                                                >
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {products.map((item) => (
-                                                <tr
-                                                    key={item.id}
-                                                    className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                                >
-                                                    <td className="p-4 flex justify-center text-center">
-                                                        {item.imageUrl ? (
-                                                            <img
-                                                                src={
-                                                                    item.imageUrl
-                                                                }
-                                                                alt={item.name}
-                                                                className="w-20 h-20 object-cover"
-                                                            />
-                                                        ) : (
-                                                            <span className="text-gray-500 dark:text-gray-300 w-20 h-20 flex justify-center items-center">
-                                                                No Image Found
-                                                            </span>
-                                                        )}
-                                                    </td>
-                                                    <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                        {item.name}
-                                                    </td>
-                                                    <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                        ${item.price.toFixed(2)}
-                                                    </td>
-                                                    <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white space-x-4">
-                                                        <button
-                                                            className="text-blue-500"
-                                                            onClick={() =>
-                                                                handleEditClick(
-                                                                    item,
-                                                                )
-                                                            }
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            className="text-red-500"
-                                                            onClick={() =>
-                                                                handleDeleteClick(
-                                                                    item.id,
-                                                                )
-                                                            }
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                {/* <!-- User Name --> */}
+                                <div className="text-center my-4">
+                                    <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">
+                                        {user.firstName} {user.lastName}
+                                    </h2>
                                 </div>
-                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg h-16">
-                                    <tbody>
-                                        <tr>
-                                            <th
-                                                scope="col"
-                                                className="text-center w-1/4 px-4 py-3"
-                                            >
-                                                <div className="flex justify-center items-center w-full">
-                                                    <button
-                                                        className="text-blue-500 flex justify-center items-center"
-                                                        onClick={() =>
-                                                            setisAddModalOpen(
-                                                                true,
-                                                            )
-                                                        }
-                                                    >
-                                                        <span className="mr-2">
-                                                            Add A Product
-                                                        </span>
-                                                        <svg
-                                                            className="w-0 h-0 md:w-4 md:h-4 text-blue-500"
-                                                            aria-hidden="true"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                stroke="currentColor"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="2"
-                                                                d="M12 7.8v8.4M7.8 12h8.4m4.8 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="w-1/4 px-6 py-3"
-                                            ></th>
-                                            <th
-                                                scope="col"
-                                                className="w-1/4 px-6 py-3"
-                                            ></th>
-                                            <th
-                                                scope="col"
-                                                className="w-1/4 px-6 py-3"
-                                            >
-                                                <div className="flex justify-center items-center w-full">
-                                                    <button
-                                                        onClick={
-                                                            handleResetProducts
-                                                        }
-                                                        className="text-emerald-500 flex justify-center items-center"
-                                                    >
-                                                        <span className="mr-2">
-                                                            Reset Products
-                                                        </span>
-                                                        <svg
-                                                            className="md:w-4 md:h-4 text-emerald-500"
-                                                            aria-hidden="true"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 20 18"
-                                                        >
-                                                            <path
-                                                                stroke="currentColor"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="2"
-                                                                d="m1 14 3-3m-3 3 3 3m-3-3h16v-3m2-7-3 3m3-3-3-3m3 3H3v3"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                        )}
+
+                            <div className="grid gap-6 mb-6 md:grid-cols-2">
+                                <div>
+                                    <label
+                                        htmlFor="first_name"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        First name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="first_name"
+                                        className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        autoComplete="first-name"
+                                        placeholder={user.firstName}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="last_name"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Last name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="last_name"
+                                        className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        autoComplete="family-name"
+                                        placeholder={user.lastName}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    autoComplete="new-password"
+                                    placeholder="•••••••••"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="confirm_password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Confirm password
+                                </label>
+                                <input
+                                    type="password"
+                                    id="confirm_password"
+                                    className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    autoComplete="new-password"
+                                    placeholder="•••••••••"
+                                />
+                            </div>
+
+                            <div className="flex justify-center">
+                                <button
+                                    type="submit"
+                                    className="w-1/2 md:w-1/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
                     </div>
 
                     {/* <!-- Orders Section --> */}
                     <div
-                        className="hidden p-4 xl:w-1/2 md:mx-auto"
+                        className="hidden px-4 h-full"
                         id="orders"
                         role="tabpanel"
                         aria-labelledby="orders-tab"
                     >
                         {orders && orders.length > 0 ? (
-                            <>
-                                <div className="bg-white dark:bg-gray-800 dark:border-gray-700 flex items-start justify-between p-4 border-b rounded-t-lg">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full h-8">
-                                        All previous orders
+                            <div className="flex justify-center items-center flex-col">
+                                <div className="w-full bg-white dark:bg-gray-800 dark:border-gray-700  flex items-start justify-between p-4 border-b rounded-t">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center w-full">
+                                        Your Orders
                                     </h3>
                                 </div>
-                                <div className="relative overflow-y-auto bg-white dark:bg-gray-800 h-[calc(50vh)]">
+                                <div className="relative overflow-y-auto w-full bg-white dark:bg-gray-800 h-[calc(50vh)]">
                                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
@@ -714,20 +656,12 @@ const Admin = () => {
                                                     key={item.id}
                                                     className="bg-white border-t dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                 >
-                                                    <td className="p-4 flex justify-center text-center">
-                                                        {item.imageUrl ? (
-                                                            <img
-                                                                src={
-                                                                    item.imageUrl
-                                                                }
-                                                                alt={item.name}
-                                                                className="w-20 h-20 object-cover"
-                                                            />
-                                                        ) : (
-                                                            <span className="text-gray-500 w-20 h-20 flex justify-center items-center">
-                                                                No Image Found
-                                                            </span>
-                                                        )}
+                                                    <td className="p-4 flex justify-center">
+                                                        <img
+                                                            src={item.imageUrl}
+                                                            alt={item.name}
+                                                            className="w-20 h-20 object-cover"
+                                                        />
                                                     </td>
                                                     <td className="text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                                         {item.name}
@@ -747,7 +681,7 @@ const Admin = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg h-16">
+                                <table className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 w-full text-left dark:text-gray-400 border-t dark:border-gray-600 rounded-b-lg">
                                     <tbody>
                                         <tr>
                                             <th
@@ -786,7 +720,7 @@ const Admin = () => {
                                         </tr>
                                     </tbody>
                                 </table>
-                            </>
+                            </div>
                         ) : (
                             <div className="text-center py-6 h-[calc(50vh)]">
                                 <p className="flex justify-center items-center h-full text-lg text-gray-700 dark:text-gray-300">
@@ -798,34 +732,22 @@ const Admin = () => {
                 </div>
             </div>
 
-            {/* Delete, Edit, Add Modals */}
-            <DeleteModal
-                isOpen={isDeleteModalOpen}
-                setIsOpen={setisDeleteModalOpen}
-                onDelete={handleDeleteProduct}
-                productId={deleteProductId}
-            />
-
-            <EditModal
-                isOpen={isEditModalOpen}
-                setIsOpen={setIsEditModalOpen}
-                onEdit={handleEditProduct}
-                product={editProduct}
-            />
-
-            <AddModal
-                isOpen={isAddModalOpen}
-                setIsOpen={setisAddModalOpen}
-                onAdd={handleAddProduct}
-            />
+            {/* Image Cropper Modal */}
+            {isCropping && selectedFile && (
+                <ImageCropperModal
+                    src={URL.createObjectURL(selectedFile)}
+                    onImageCropped={handleImageCropped}
+                    onClose={() => setIsCropping(false)}
+                />
+            )}
 
             {/* Cart Component */}
             <Cart showCart={showCart} setshowCart={setshowCart} />
 
-            {/* ToastContaier Component */}
+            {/* ToastContainer Component */}
             <ToastContainer className={"select-none"} />
         </>
     )
 }
 
-export default Admin
+export default Account

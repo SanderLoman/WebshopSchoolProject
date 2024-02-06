@@ -1,24 +1,22 @@
 // HomePage.jsx
-import React, { useEffect } from "react"
+import React from "react"
 import Navbar from "./navbar/Navbar.jsx"
 import Hero from "./sections/hero/Hero.jsx"
-import Shop from "./sections/main/Shop.jsx"
+import Shop from "./sections/shop/Shop.jsx"
 import Footer from "./sections/footer/Footer.jsx"
-import { useDarkMode } from "../darkmode/DarkModeContext.jsx"
+import Testimonials from "./sections/testimonials/Testimonials.jsx"
+import Faq from "./sections/faq/Faq.jsx"
 import "./HomePage.css"
 
+// HomePage Component: Displays the homepage of the website.
 const HomePage = () => {
-    const { isDarkMode, setIsDarkMode } = useDarkMode()
-
     return (
-        <div
-            className={`${
-                isDarkMode ? "dark:bg-[#1d242c] dark:text-white" : "bg-white text-black"
-            }`}
-        >
+        <div>
             <Navbar />
             <Hero />
             <Shop />
+            <Testimonials />
+            <Faq />
             <Footer />
         </div>
     )

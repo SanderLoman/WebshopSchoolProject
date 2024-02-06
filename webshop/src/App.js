@@ -4,23 +4,42 @@ import HomePage from "./components/homepage/HomePage.jsx"
 import LoginPage from "./components/login/Login.jsx"
 import RegisterPage from "./components/login/Register.jsx"
 import AdminPage from "./components/admin/Admin.jsx"
-import { DarkModeProvider } from "./components/darkmode/DarkModeContext.jsx"
+import Account from "./components/account/Account.jsx"
+import Page404 from "./components/errors/Page404.jsx"
+import AccessDenied from "./components/errors/AccessDenied.jsx"
+import { ThemeProvider } from "./components/providers/ThemeProvider.jsx"
+import UserContext from "./components/providers/UserContext.jsx"
+import CartProvider from "./components/providers/CartProvider.jsx"
+import Checkout from "./components/checkout/Checkout.jsx"
+import "flowbite"
 import "./App.css"
 
 function App() {
     return (
-        <DarkModeProvider>
-            <Router>
-                <div className="">
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/login" element={<LoginPage />} />
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/admin" element={<AdminPage />} />
-                    </Routes>
-                </div>
-            </Router>
-        </DarkModeProvider>
+        <ThemeProvider>
+            <UserContext>
+                <CartProvider>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route
+                                path="/register"
+                                element={<RegisterPage />}
+                            />
+                            <Route
+                                path="/access-denied"
+                                element={<AccessDenied />}
+                            />
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/account" element={<Account />} />
+                            <Route path="*" element={<Page404 />} />
+                            <Route path="/checkout" element={<Checkout />} />
+                        </Routes>
+                    </Router>
+                </CartProvider>
+            </UserContext>
+        </ThemeProvider>
     )
 }
 
