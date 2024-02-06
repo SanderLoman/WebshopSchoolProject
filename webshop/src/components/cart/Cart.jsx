@@ -4,18 +4,23 @@ import { useNavigate } from "react-router-dom"
 import { UserContext } from "../providers/UserContext.jsx"
 import "./Cart.css"
 
+// Cart Component: Displays and manages a shopping cart.
+// Props:
+// - showCart: Boolean indicating if the cart should be shown.
+// - setshowCart: Function to update the showCart state.
 const Cart = ({ showCart, setshowCart }) => {
+    // Context for cart items and user details.
     const { cartItems, setCartItems, clearCart, removeFromCart } =
         useContext(CartContext)
-    const navigate = useNavigate()
-
     const { user } = useContext(UserContext)
 
-    // Temp
-    console.log("Rendering Cart component, cart items:", cartItems)
+    // Navigation hook.
+    const navigate = useNavigate()
 
+    // Effect to fetch cart data from the server when the user changes.
     useEffect(() => {
         async function fetchCartData() {
+            // Fetch cart data logic.
             if (user && user.email) {
                 console.log("Fetching cart data for user:", user.email)
 
@@ -37,10 +42,12 @@ const Cart = ({ showCart, setshowCart }) => {
         fetchCartData()
     }, [user, user?.email])
 
+    // Function to prevent event propagation.
     const handleContentClick = (e) => {
         e.stopPropagation()
     }
 
+    // Function to handle checkout navigation.
     const handleCheckout = () => {
         setshowCart(false)
         navigate("/checkout")
@@ -51,6 +58,7 @@ const Cart = ({ showCart, setshowCart }) => {
         return acc + item.price * item.quantity
     }, 0)
 
+    // Return null if cart is not to be shown.
     if (!showCart) return null
 
     return (
