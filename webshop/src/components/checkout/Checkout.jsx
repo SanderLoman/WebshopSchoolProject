@@ -30,8 +30,6 @@ const Checkout = () => {
     useEffect(() => {
         async function fetchCartData() {
             if (user && user.email) {
-                console.log("Fetching cart data for user:", user.email)
-
                 try {
                     const response = await fetch(
                         `http://localhost:4500/api/user/${user.email}`,
@@ -59,7 +57,6 @@ const Checkout = () => {
 
     // Function to handle delivery date change.
     const handleChange = (date) => {
-        console.log(date)
         setDeliveryDate(date)
     }
 

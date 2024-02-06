@@ -22,8 +22,6 @@ const Cart = ({ showCart, setshowCart }) => {
         async function fetchCartData() {
             // Fetch cart data logic.
             if (user && user.email) {
-                console.log("Fetching cart data for user:", user.email)
-
                 try {
                     const response = await fetch(
                         `http://localhost:4500/api/user/${user.email}`,

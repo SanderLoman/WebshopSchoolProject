@@ -54,7 +54,6 @@ const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
 
         // If no fields have been changed, do not proceed with the update
         if (Object.keys(updatedProduct).length === 0) {
-            console.log("No changes made to the product")
             handleClose()
             return
         }

@@ -26,8 +26,6 @@ const LoginPage = () => {
 
     // Function to handle login logic.
     const handleLogin = async () => {
-        console.log("Attempting login with:", email, password)
-
         if (isValidEmail(email)) {
             const loginSuccess = await login(email, password)
             if (loginSuccess) {

@@ -44,7 +44,6 @@ const Account = () => {
     // Handles file selection for profile picture updating.
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
-        console.log("Selected file:", file)
 
         if (file) {
             setSelectedFile(file)
@@ -58,7 +57,6 @@ const Account = () => {
     // Handles the cropped image.
     const handleImageCropped = (croppedImageUrl) => {
         setImagePreview(croppedImageUrl)
-        console.log("Cropped image URL:", croppedImageUrl)
 
         fetch(croppedImageUrl)
             .then((response) => response.blob())

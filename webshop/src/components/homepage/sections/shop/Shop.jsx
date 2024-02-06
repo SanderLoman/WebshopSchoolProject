@@ -42,7 +42,6 @@ const Shop = () => {
     // Function to handle adding products to the cart.
     const handleAddToCart = (product, quantity) => {
         if (user) {
-            console.log(`Added ${quantity} of ${product.name} to the cart.`)
             addToCart({ ...product, quantity: parseInt(quantity) })
 
             toast.success(

@@ -211,7 +211,6 @@ const Admin = () => {
             const data = await response.json()
             if (data.success) {
                 setProducts(data.products)
-                console.log("Products reset successfully")
             } else {
                 console.error("Failed to reset products:", data.message)
             }

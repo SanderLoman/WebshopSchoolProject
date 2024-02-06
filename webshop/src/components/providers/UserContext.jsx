@@ -1,27 +1,30 @@
 import React, { createContext, useState, useEffect } from "react"
 
+// UserContext creation using React's createContext.
 export const UserContext = createContext()
 
+// UserProvider: Manages user authentication, profile, and related operations.
 export const UserProvider = ({ children }) => {
+    // State for storing the current user's information.
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null,
     )
+
+    // State for storing authentication data.
     const [authData, setAuthData] = useState([])
 
+    // Update user profile information.
     const updateProfile = (updatedUser) => {
-        // Temp
-        console.log("Updating user profile:", updatedUser)
-
         setUser(updatedUser)
         localStorage.setItem("user", JSON.stringify(updatedUser))
     }
 
+    // Fetch authentication data from the server.
     const fetchAuthData = async () => {
         try {
             const response = await fetch("http://localhost:4500/api/authData")
             if (response.ok) {
                 const data = await response.json()
-                console.log("Auth data:", data)
                 setAuthData(data)
             } else {
                 console.error("Failed to fetch auth data")
@@ -31,10 +34,12 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+    // Fetch auth data on component mount, to prevent styling bugs.
     useEffect(() => {
         fetchAuthData()
     }, [])
 
+    // Handle user login.
     const login = async (email, password) => {
         await fetchAuthData()
 
@@ -47,9 +52,6 @@ export const UserProvider = ({ children }) => {
         )
 
         if (foundUser) {
-            // Temp
-            console.log("Found user:", foundUser)
-
             setUser(foundUser)
             localStorage.setItem("user", JSON.stringify(foundUser))
             return true

@@ -51,7 +51,7 @@ export const CartProvider = ({ children }) => {
             }),
         })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => data)
             .catch((error) => console.error("Error:", error))
     }
 
