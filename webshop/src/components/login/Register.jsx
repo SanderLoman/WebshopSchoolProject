@@ -6,9 +6,13 @@ import "react-toastify/dist/ReactToastify.css"
 import ThemeContext from "../providers/ThemeProvider.jsx"
 import "./Login.css"
 
+// RegisterPage Component: Provides a user interface for registration functionality.
 const RegisterPage = () => {
+    // Context for system theme and user registration.
     const { systemTheme } = useContext(ThemeContext)
     const { register } = useContext(UserContext)
+
+    // State for managing form inputs.
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -16,15 +20,18 @@ const RegisterPage = () => {
     const [lastName, setLastName] = useState("")
     const navigate = useNavigate()
 
+    // Additional state for profile picture, cart, and bought products.
     const [pfp, setPfp] = useState("")
     const [cart, setCart] = useState([])
     const [boughtProducts, setBoughtProducts] = useState([])
 
+    // Function to validate email format.
     const isValidEmail = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return emailRegex.test(email)
     }
 
+    // Function to handle registration logic.
     const handleRegister = async (e) => {
         e.preventDefault()
         if (!isValidEmail(email)) {
@@ -57,6 +64,7 @@ const RegisterPage = () => {
             return
         }
 
+        // Attempt to register the user.
         const success = await register(
             email,
             password,
@@ -67,8 +75,6 @@ const RegisterPage = () => {
             cart,
             boughtProducts,
         )
-
-        console.log("Registration success:", success)
 
         if (success) {
             navigate("/login")
@@ -100,6 +106,7 @@ const RegisterPage = () => {
         }
     }
 
+    // Function to navigate to the login page.
     const navigateLogin = () => {
         navigate("/login")
     }
