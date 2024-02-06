@@ -1,13 +1,18 @@
 import React, { createContext, useState, useContext } from "react"
 import { UserContext } from "./UserContext"
 
+// CartContext creation using React's createContext.
 export const CartContext = createContext()
 
+// CartProvider: Manages the cart items and interactions for the application.
 export const CartProvider = ({ children }) => {
+    // State to store cart items.
     const [cartItems, setCartItems] = useState([])
 
+    // Using UserContext to access user information.
     const { user } = useContext(UserContext)
 
+    // Function to add items to the cart.
     const addToCart = (item) => {
         setCartItems((prevItems) => {
             let newCartItems
@@ -33,6 +38,7 @@ export const CartProvider = ({ children }) => {
         })
     }
 
+    // Function to update the cart on the server.
     const updateCartOnServer = async (cartItems) => {
         await fetch("http://localhost:4500/api/update-cart", {
             method: "POST",
@@ -49,19 +55,20 @@ export const CartProvider = ({ children }) => {
             .catch((error) => console.error("Error:", error))
     }
 
-    // Function to remove an item from the cart
+    // Function to remove an item from the cart.
     const removeFromCart = (itemId) => {
         setCartItems((prevItems) => {
             const updatedCartItems = prevItems.filter(
                 (item) => item.id !== itemId,
             )
 
-            updateCartOnServer(updatedCartItems) // Update the cart on the server after removing an item
+            // Update the cart on the server after removing an item
+            updateCartOnServer(updatedCartItems)
             return updatedCartItems
         })
     }
 
-    // Function to update the quantity of an item in the cart
+    // Function to update the quantity of an item in the cart.
     const updateItemQuantity = (itemId, quantity) => {
         setCartItems((prevItems) => {
             return prevItems.map((item) =>
@@ -70,14 +77,15 @@ export const CartProvider = ({ children }) => {
         })
     }
 
-    // Function to clear the cart
+    // Function to clear all items from the cart.
     const clearCart = () => {
         setCartItems([])
 
+        // Update the cart on the server after clearing.
         updateCartOnServer([])
     }
 
-    // The value that will be supplied to any descendants of this provider
+    // Context value that will be provided to descendants.
     const contextValue = {
         cartItems,
         setCartItems,
@@ -87,8 +95,8 @@ export const CartProvider = ({ children }) => {
         clearCart,
     }
 
+    // Providing the CartContext to child components.
     return (
-        // Provide the context to children
         <CartContext.Provider value={contextValue}>
             {children}
         </CartContext.Provider>
