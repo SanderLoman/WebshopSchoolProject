@@ -8,18 +8,25 @@ import { UserContext } from "../providers/UserContext.jsx"
 import { CartContext } from "../providers/CartProvider.jsx"
 import "./Checkout.css"
 
+// Checkout Component: Provides a checkout interface for users.
 const Checkout = () => {
+    // Context and state hooks.
     const { cartItems, clearCart, setCartItems, removeFromCart } =
         useContext(CartContext)
     const { systemTheme } = useContext(ThemeContext)
     const { user } = useContext(UserContext)
-    const [show, setShow] = useState(false)
     const navigate = useNavigate()
-    const datepickerRef = useRef(null)
+
+    // State for managing UI elements.
+    const [show, setShow] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [deliveryDate, setDeliveryDate] = useState(new Date())
     const [deliveryAddress, setDeliveryAddress] = useState("")
 
+    // Ref for the datepicker component.
+    const datepickerRef = useRef(null)
+
+    // Fetch cart data for logged-in user.
     useEffect(() => {
         async function fetchCartData() {
             if (user && user.email) {
@@ -29,9 +36,11 @@ const Checkout = () => {
                     const response = await fetch(
                         `http://localhost:4500/api/user/${user.email}`,
                     )
+
                     if (!response.ok) {
                         throw new Error("Failed to fetch cart data")
                     }
+
                     const userData = await response.json()
                     setCartItems(userData.cart)
                 } catch (error) {
@@ -43,15 +52,18 @@ const Checkout = () => {
         fetchCartData()
     }, [user, user?.email])
 
+    // Function to navigate home.
     const navigateHome = () => {
         navigate("/")
     }
 
+    // Function to handle delivery date change.
     const handleChange = (date) => {
         console.log(date)
         setDeliveryDate(date)
     }
 
+    // Function to handle order submission.
     const handleOrder = async () => {
         const orderData = {
             email: user.email,
@@ -90,7 +102,7 @@ const Checkout = () => {
         }
     }
 
-    // Datepicker options
+    // Options for the datepicker component.
     const options = {
         title: "Pick your delivery date",
         autoHide: true,
@@ -464,6 +476,8 @@ const Checkout = () => {
                     </div>
                 </div>
             )}
+
+            {/* ToastContainer Component */}
             <ToastContainer className={"select-none"} />
         </div>
     )
