@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react"
 import { UserContext } from "../providers/UserContext.jsx"
 import ThemeContext from "../providers/ThemeProvider.jsx"
-import { CartContext } from "../providers/CartProvider.jsx"
 import Cart from "../cart/Cart.jsx"
 import { useNavigate } from "react-router-dom"
 import { initFlowbite } from "flowbite"
@@ -12,9 +11,9 @@ import AddModal from "./modals/AddModal.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Admin.css"
 
+// Admin Component: Administration interface for managing products and orders.
 const Admin = () => {
-    const { cartItems, setCartItems, clearCart, removeFromCart } =
-        useContext(CartContext)
+    // Context and navigation hooks.
     const {
         lightTheme,
         systemTheme,
@@ -24,29 +23,29 @@ const Admin = () => {
     } = useContext(ThemeContext)
     const { user, logout } = useContext(UserContext)
     const navigate = useNavigate()
+
+    // State hooks for various functionalities.
     const [showCart, setshowCart] = useState(false)
-
     const [orders, setOrders] = useState([])
-
     const [products, setProducts] = useState([])
-
     const [isDeleteModalOpen, setisDeleteModalOpen] = useState(false)
     const [deleteProductId, setDeleteProductId] = useState(null)
-
     const [isAddModalOpen, setisAddModalOpen] = useState(false)
-
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
 
+    // Fetch and aggregate orders on component mount if user is admin.
     useEffect(() => {
+        // Admin validation and fetching user data logic.
         if (user && user.role === "admin") {
+            // Fetch user data and aggregate orders.
             fetch("http://localhost:4500/api/users")
                 .then((res) => res.json())
                 .then((users) => {
-                    // Create a map to hold the sum of quantities for each product
+                    // Create a map to hold the sum of quantities for each product.
                     const productMap = new Map()
 
-                    // Aggregate all boughtProducts from each user
+                    // Aggregate all boughtProducts from each user.
                     users.forEach((user) => {
                         user.boughtProducts.forEach((product) => {
                             if (productMap.has(product.id)) {
@@ -58,27 +57,35 @@ const Admin = () => {
                         })
                     })
 
-                    // Convert the map back into an array
+                    // Convert the map back into an array, so that it can be set as state.
                     const aggregatedProducts = Array.from(productMap.values())
 
+                    // Set the aggregated products as state.
                     setOrders(aggregatedProducts)
                 })
                 .catch((err) => {
                     console.error("Failed to fetch user data:", err)
                 })
         } else {
+            // Redirect to access-denied page if user is not admin.
             navigate("/access-denied")
         }
     }, [user, navigate])
 
+    // Fetch products from the server.
     useEffect(() => {
+        // Function to fetch products.
         const fetchProducts = async () => {
             try {
+                // Fetch products from the server.
                 const response = await fetch(
                     "http://localhost:4500/api/products",
                 )
+
+                // Parse the response as JSON.
                 const data = await response.json()
-                console.log("Data:", data)
+
+                // Check if the data is in the expected format.
                 if (Array.isArray(data)) {
                     setProducts(data)
                 } else {
@@ -95,6 +102,7 @@ const Admin = () => {
         fetchProducts()
     }, [])
 
+    // Navigation and logout handlers.
     const navigateHome = () => {
         navigate("/")
     }
@@ -116,6 +124,7 @@ const Admin = () => {
         navigate("/account")
     }
 
+    // Handlers for adding, editing, and deleting products.
     const handleAddProduct = async (productData) => {
         try {
             const response = await fetch("http://localhost:4500/api/products", {
@@ -189,6 +198,7 @@ const Admin = () => {
         )
     }
 
+    // Reset products to original state.
     const handleResetProducts = async () => {
         try {
             const response = await fetch(
@@ -212,6 +222,7 @@ const Admin = () => {
         }
     }
 
+    // Initialize Flowbite on component mount, to prevent styling bugs.
     useEffect(() => {
         initFlowbite()
     }, [])
@@ -790,6 +801,7 @@ const Admin = () => {
                 </div>
             </div>
 
+            {/* Delete, Edit, Add Modals */}
             <DeleteModal
                 isOpen={isDeleteModalOpen}
                 setIsOpen={setisDeleteModalOpen}
@@ -810,8 +822,10 @@ const Admin = () => {
                 onAdd={handleAddProduct}
             />
 
+            {/* Cart Component */}
             <Cart showCart={showCart} setshowCart={setshowCart} />
 
+            {/* ToastContaier Component */}
             <ToastContainer className={"select-none"} />
         </>
     )
