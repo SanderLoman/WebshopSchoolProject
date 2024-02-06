@@ -9,10 +9,6 @@ export const CartProvider = ({ children }) => {
     const { user } = useContext(UserContext)
 
     const addToCart = (item) => {
-        // Temp
-        console.log("Before adding to cart, cartItems:", cartItems)
-        console.log("Adding to cart:", item)
-
         setCartItems((prevItems) => {
             let newCartItems
             const existingItemIndex = prevItems.findIndex(
@@ -31,9 +27,6 @@ export const CartProvider = ({ children }) => {
                 newCartItems = [...prevItems, item]
             }
 
-            // Temp
-            console.log("After adding to cart, newCartItems:", newCartItems)
-
             // Send the updated cart to the server
             updateCartOnServer(newCartItems)
             return newCartItems
@@ -41,9 +34,6 @@ export const CartProvider = ({ children }) => {
     }
 
     const updateCartOnServer = async (cartItems) => {
-        // Temp
-        console.log("Updating cart on server with items:", cartItems)
-
         await fetch("http://localhost:4500/api/update-cart", {
             method: "POST",
             headers: {
@@ -61,15 +51,10 @@ export const CartProvider = ({ children }) => {
 
     // Function to remove an item from the cart
     const removeFromCart = (itemId) => {
-        // Temp
-        console.log("Removing item from cart, itemId:", itemId)
-
         setCartItems((prevItems) => {
             const updatedCartItems = prevItems.filter(
                 (item) => item.id !== itemId,
             )
-            // Temp
-            console.log("After removing, updatedCartItems:", updatedCartItems)
 
             updateCartOnServer(updatedCartItems) // Update the cart on the server after removing an item
             return updatedCartItems
@@ -78,11 +63,6 @@ export const CartProvider = ({ children }) => {
 
     // Function to update the quantity of an item in the cart
     const updateItemQuantity = (itemId, quantity) => {
-        // Temp
-        console.log(
-            `Updating item quantity, itemId: ${itemId}, quantity: ${quantity}`,
-        )
-
         setCartItems((prevItems) => {
             return prevItems.map((item) =>
                 item.id === itemId ? { ...item, quantity } : item,
@@ -92,9 +72,6 @@ export const CartProvider = ({ children }) => {
 
     // Function to clear the cart
     const clearCart = () => {
-        // Temp
-        console.log("Clearing cart")
-
         setCartItems([])
 
         updateCartOnServer([])
