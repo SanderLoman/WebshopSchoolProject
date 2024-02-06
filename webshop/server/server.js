@@ -4,6 +4,8 @@ const multer = require("multer")
 const fs = require("fs")
 const path = require("path")
 
+// Configuration for multer to store uploaded files.
+// Files are stored in the './pfp/' directory with a timestamp appended to their name.
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, "./pfp/"),
     filename: (req, file, cb) => {
@@ -19,18 +21,23 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+// Logger middleware to log the details of incoming requests.
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`)
     next()
 })
 
+// Serve static files from the 'pfp' directory.
 app.use("/pfp", express.static(path.join(__dirname, "pfp")))
 
+// Route to send authentication data as JSON from a file.
 app.get("/api/authData", (req, res) => {
     res.sendFile(path.join(__dirname, "./auth.json"))
 })
 
+// Route to get product data from a JSON file.
 app.get("/api/products", (req, res) => {
+    // Read and parse the products.json file, then send the product data.
     fs.readFile(
         path.join(__dirname, "./products.json"),
         "utf-8",
@@ -46,7 +53,9 @@ app.get("/api/products", (req, res) => {
     )
 })
 
+// Route to update the cart items for a specific user.
 app.post("/api/update-cart", (req, res) => {
+    // Update the cart items in the auth.json file for the given user.
     const { email, cartItems } = req.body
 
     fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
@@ -62,7 +71,6 @@ app.post("/api/update-cart", (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        // Update the user's cart
         users[userIndex].cart = cartItems
 
         fs.writeFile(
@@ -79,7 +87,9 @@ app.post("/api/update-cart", (req, res) => {
     })
 })
 
+// Route to register a new user.
 app.post("/api/register", async (req, res) => {
+    // Handle user registration and update the auth.json file.
     const {
         email,
         password,
@@ -113,7 +123,9 @@ app.post("/api/register", async (req, res) => {
     }
 })
 
+// Route to update a user's profile, including uploading a profile picture.
 app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
+    // Handle updating user's profile information.
     const { email, firstName, lastName, password, confirmPassword } = req.body
     const file = req.file
 
@@ -134,7 +146,6 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        // Update fields only if they are provided
         if (firstName) users[userIndex].firstName = firstName
         if (lastName) users[userIndex].lastName = lastName
 
@@ -167,12 +178,9 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
                     console.error("An error occurred:", writeErr)
                     return res.status(500).send("Internal Server Error")
                 }
-                // Find and send back the updated user data
                 const updatedUser = users.find((user) => user.email === email)
                 if (updatedUser) {
-                    // Remove sensitive data before sending back to client
                     delete updatedUser.password
-                    // Send back the updated user data
                     res.json(updatedUser)
                 } else {
                     res.status(404).send("User not found after update")
@@ -182,7 +190,9 @@ app.post("/api/update-profile", upload.single("profilePicture"), (req, res) => {
     })
 })
 
+// Route to get user information based on email.
 app.get("/api/user/:email", (req, res) => {
+    // Retrieve and send user data from auth.json based on email.
     fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
         if (err) {
             console.error("An error occurred:", err)
@@ -193,7 +203,6 @@ app.get("/api/user/:email", (req, res) => {
         const user = users.find((u) => u.email === req.params.email)
 
         if (user) {
-            // delete user.password
             res.json(user)
         } else {
             res.status(404).send("User not found")
@@ -201,7 +210,9 @@ app.get("/api/user/:email", (req, res) => {
     })
 })
 
+// Route to submit an order.
 app.post("/api/submit-order", (req, res) => {
+    // Handle order submission and update user's bought products.
     const { email, orderItems } = req.body
 
     fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
@@ -217,23 +228,19 @@ app.post("/api/submit-order", (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        // Update or add the order items in boughtProducts
         orderItems.forEach((orderedItem) => {
             const existingItemIndex = users[userIndex].boughtProducts.findIndex(
                 (item) => item.id === orderedItem.id,
             )
 
             if (existingItemIndex >= 0) {
-                // Update quantity if item already exists
                 users[userIndex].boughtProducts[existingItemIndex].quantity +=
                     orderedItem.quantity
             } else {
-                // Add new item if it doesn't exist
                 users[userIndex].boughtProducts.push(orderedItem)
             }
         })
 
-        // Clear the user's cart
         users[userIndex].cart = []
 
         fs.writeFile(
@@ -252,7 +259,9 @@ app.post("/api/submit-order", (req, res) => {
     })
 })
 
+// Route to get all users' information, excluding passwords.
 app.get("/api/users", (req, res) => {
+    // Send all users' information except their passwords.
     fs.readFile(path.join(__dirname, "./auth.json"), "utf-8", (err, data) => {
         if (err) {
             console.error("An error occurred:", err)
@@ -260,7 +269,7 @@ app.get("/api/users", (req, res) => {
         }
 
         let users = JSON.parse(data)
-        // You might want to remove sensitive information like passwords
+
         users = users.map((user) => {
             delete user.password
             return user
@@ -270,7 +279,9 @@ app.get("/api/users", (req, res) => {
     })
 })
 
+// Route to reset the product list to a default state.
 app.post("/api/reset-products", (req, res) => {
+    // Reset the product list to a predefined state.
     fs.readFile(
         path.join(__dirname, "./products.json"),
         "utf-8",
@@ -282,7 +293,6 @@ app.post("/api/reset-products", (req, res) => {
             const jsonData = JSON.parse(data)
             const resetProducts = jsonData["reset-products"]
 
-            // Overwriting the 'products' key with 'reset-products'
             jsonData.products = resetProducts
 
             fs.writeFile(
@@ -304,7 +314,9 @@ app.post("/api/reset-products", (req, res) => {
     )
 })
 
+// Route to delete a product by ID.
 app.delete("/api/products/:id", (req, res) => {
+    // Delete a product based on the provided ID.
     const productId = parseInt(req.params.id)
 
     fs.readFile(
@@ -318,7 +330,6 @@ app.delete("/api/products/:id", (req, res) => {
 
             let productsData = JSON.parse(data)
 
-            // Find the index of the product to be deleted
             const productIndex = productsData.products.findIndex(
                 (p) => p.id === productId,
             )
@@ -327,10 +338,8 @@ app.delete("/api/products/:id", (req, res) => {
                 return res.status(404).send("Product not found")
             }
 
-            // Remove the product from the array
             productsData.products.splice(productIndex, 1)
 
-            // Write the updated products array back to the file
             fs.writeFile(
                 path.join(__dirname, "./products.json"),
                 JSON.stringify(productsData, null, 2),
@@ -346,8 +355,9 @@ app.delete("/api/products/:id", (req, res) => {
     )
 })
 
-// POST route to add a new product
+// Route to add a new product.
 app.post("/api/products", (req, res) => {
+    // Add a new product to the product list.
     const { name, price, imageUrl } = req.body
 
     fs.readFile(
@@ -361,12 +371,10 @@ app.post("/api/products", (req, res) => {
 
             let productsData = JSON.parse(data)
 
-            // Sort existing product IDs
             let ids = productsData.products
                 .map((p) => p.id)
                 .sort((a, b) => a - b)
 
-            // Find the first available ID
             let newId = 1
             for (let i = 0; i < ids.length; i++) {
                 if (ids[i] > newId) {
@@ -375,7 +383,6 @@ app.post("/api/products", (req, res) => {
                 newId = ids[i] + 1
             }
 
-            // Create a new product object
             const newProduct = {
                 id: newId,
                 name,
@@ -383,10 +390,8 @@ app.post("/api/products", (req, res) => {
                 imageUrl: imageUrl,
             }
 
-            // Add the new product
             productsData.products.push(newProduct)
 
-            // Write the updated products array back to the file
             fs.writeFile(
                 path.join(__dirname, "./products.json"),
                 JSON.stringify(productsData, null, 2),
@@ -402,9 +407,11 @@ app.post("/api/products", (req, res) => {
     )
 })
 
+// Route to update an existing product by ID.
 app.put("/api/products/:id", (req, res) => {
+    // Update an existing product based on ID.
     const productId = parseInt(req.params.id)
-    const updates = req.body // This now contains only the updated fields
+    const updates = req.body
 
     fs.readFile(
         path.join(__dirname, "./products.json"),
@@ -417,7 +424,6 @@ app.put("/api/products/:id", (req, res) => {
 
             let productsData = JSON.parse(data)
 
-            // Find the product and update it
             const productIndex = productsData.products.findIndex(
                 (p) => p.id === productId,
             )
@@ -425,7 +431,6 @@ app.put("/api/products/:id", (req, res) => {
                 return res.status(404).send("Product not found")
             }
 
-            // Update only the provided fields
             productsData.products[productIndex] = {
                 ...productsData.products[productIndex],
                 ...updates,
@@ -446,11 +451,12 @@ app.put("/api/products/:id", (req, res) => {
     )
 })
 
-// For handling not found routes
+// Middleware for handling 404 (Not Found) errors.
 app.use((req, res) => {
     res.status(404).send("Route not found")
 })
 
+// Function to register a user. Used in the '/api/register' route.
 const registerUser = (
     email,
     password,
@@ -461,6 +467,7 @@ const registerUser = (
     cart,
     boughtProducts,
 ) => {
+    // Handles registering a new user by updating the auth.json file.
     return new Promise((resolve, reject) => {
         fs.readFile(
             path.join(__dirname, "./auth.json"),
@@ -480,7 +487,6 @@ const registerUser = (
                     return
                 }
 
-                // Add a new user with bought-products as an empty array
                 users.push({
                     email,
                     password,
@@ -512,7 +518,7 @@ const registerUser = (
     })
 }
 
-// Start the server
+// Start the server on port 4500.
 app.listen(4500, () => {
     console.log("Server is running on port 4500")
 })

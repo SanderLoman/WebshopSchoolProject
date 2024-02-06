@@ -71,6 +71,12 @@
       "name": "Backpack",
       "price": 44.99,
       "imageUrl": "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
+    },
+    {
+      "id": 13,
+      "name": "Ferrari",
+      "price": 728434,
+      "imageUrl": "http://localhost:4500/pfp/profile-pic-1706710430311-1706710435481.jpg"
     }
   ],
   "reset-products": [
