@@ -9,7 +9,6 @@ import DeleteModal from "./modals/DeleteModal.jsx"
 import EditModal from "./modals/EditModal.jsx"
 import AddModal from "./modals/AddModal.jsx"
 import "react-toastify/dist/ReactToastify.css"
-import "./Admin.css"
 
 // Admin Component: Administration interface for managing products and orders.
 const Admin = () => {

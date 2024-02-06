@@ -1,6 +1,5 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import "./AccessDenied.css"
 
 // AccessDenied Component: Displays an Access Denied page for unauthorized access.
 const Page404 = () => {

@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react"
 import { CartContext } from "../providers/CartProvider.jsx"
 import { useNavigate } from "react-router-dom"
 import { UserContext } from "../providers/UserContext.jsx"
-import "./Cart.css"
 
 // Cart Component: Displays and manages a shopping cart.
 // Props:

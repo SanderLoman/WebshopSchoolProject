@@ -1,5 +1,4 @@
 import React from "react"
-import "./Testimonials.css"
 
 // Testimonials Component: Displays the testimonials section of the website.
 const Testimonials = () => {

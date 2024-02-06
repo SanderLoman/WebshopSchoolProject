@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import ThemeContext from "../providers/ThemeProvider.jsx"
-import "./Login.css"
 
 // RegisterPage Component: Provides a user interface for registration functionality.
 const RegisterPage = () => {

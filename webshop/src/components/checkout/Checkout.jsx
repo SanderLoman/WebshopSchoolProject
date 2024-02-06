@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { UserContext } from "../providers/UserContext.jsx"
 import { CartContext } from "../providers/CartProvider.jsx"
-import "./Checkout.css"
 
 // Checkout Component: Provides a checkout interface for users.
 const Checkout = () => {

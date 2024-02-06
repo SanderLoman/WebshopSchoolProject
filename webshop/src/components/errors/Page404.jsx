@@ -1,6 +1,5 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import "./Page404.css"
 
 // Page404 Component: Displays a 404 Not Found page.
 const Page404 = () => {

@@ -1,5 +1,4 @@
 import React from "react"
-import "./Faq.css"
 
 // Faq Component: Displays a Frequently Asked Questions section.
 const Faq = () => {

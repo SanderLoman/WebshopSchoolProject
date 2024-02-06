@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css"
 import ThemeContext from "../../providers/ThemeProvider.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../../cart/Cart.jsx"
-import "./Navbar.css"
 
 // Navbar Component: Provides navigation and access to various features like theme switching and user account.
 const Navbar = () => {
