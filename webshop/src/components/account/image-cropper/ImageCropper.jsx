@@ -2,7 +2,13 @@ import React, { useState, useCallback, useRef, useEffect } from "react"
 import ReactCrop from "react-image-crop"
 import "react-image-crop/dist/ReactCrop.css"
 
+// ImageCropperModal Component: Displays a modal for cropping an image.
+// Props:
+// - src: Source of the image to be cropped.
+// - onImageCropped: Callback function to handle the cropped image.
+// - onClose: Callback function to close the modal.
 const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
+    // State for crop specifications (unit, aspect ratio, width, height, x, y).
     const [crop, setCrop] = useState({
         unit: "%",
         aspect: 1,
@@ -12,10 +18,15 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
         y: 0,
     })
 
+    // useRef hook to keep a reference to the image element.
     const imgRef = useRef(null)
+
+    // State to track loading status and URL of the cropped image blob.
     const [isLoading, setIsLoading] = useState(false)
     const [croppedImageBlobUrl, setCroppedImageBlobUrl] = useState(null)
 
+    // onCropComplete: Callback function that is called after cropping is done.
+    // It generates a blob URL for the cropped image.
     const onCropComplete = useCallback((crop) => {
         if (imgRef.current && crop.width && crop.height) {
             setIsLoading(true)
@@ -31,7 +42,7 @@ const ImageCropperModal = ({ src, onImageCropped, onClose }) => {
         }
     }, [])
 
-    // Function to crop the image and return a URL
+    // getCroppedImg: Function to create a cropped image blob from the canvas.
     const getCroppedImg = (image, crop) => {
         const canvas = document.createElement("canvas")
         const scaleX = image.naturalWidth / image.width

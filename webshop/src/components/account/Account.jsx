@@ -7,9 +7,11 @@ import ImageCropperModal from "./image-cropper/ImageCropper.jsx"
 import { initFlowbite } from "flowbite"
 import Cart from "../cart/Cart.jsx"
 
+// Account Component: Manages user account details and interactions.
 const Account = () => {
     const fileInputRef = useRef(null)
 
+    // Context for themes like light, dark, and system mode.
     const {
         lightTheme,
         systemTheme,
@@ -17,23 +19,20 @@ const Account = () => {
         setDarkMode,
         setSystemMode,
     } = useContext(ThemeContext)
-
     const { user, logout, updateProfile } = useContext(UserContext)
 
     const navigate = useNavigate()
 
+    // State hooks for various functionalities.
     const [showCart, setshowCart] = useState(false)
-
     const [isCropping, setIsCropping] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null)
     const [imagePreview, setImagePreview] = useState(null)
-
     const [isImageUpdated, setIsImageUpdated] = useState(false)
-
     const [orders, setOrders] = useState([])
-
     let [totalCost, setTotalCost] = useState(0)
 
+    // Effect for calculating the total cost of cart items.
     useEffect(() => {
         totalCost = 0
         user.cart.forEach((item) => {
@@ -42,6 +41,7 @@ const Account = () => {
         setTotalCost(totalCost)
     }, [user.cart])
 
+    // Handles file selection for profile picture updating.
     const handleFileSelect = (event) => {
         const file = event.target.files[0]
         console.log("Selected file:", file)
@@ -55,6 +55,7 @@ const Account = () => {
         }
     }
 
+    // Handles the cropped image.
     const handleImageCropped = (croppedImageUrl) => {
         setImagePreview(croppedImageUrl)
         console.log("Cropped image URL:", croppedImageUrl)
@@ -74,6 +75,7 @@ const Account = () => {
             })
     }
 
+    // Handles the submission of profile updates.
     const handleSubmit = async (event) => {
         event.preventDefault()
         const formData = new FormData()
@@ -147,6 +149,7 @@ const Account = () => {
         }
     }
 
+    // Effect for handling the display of the cart.
     useEffect(() => {
         if (showCart) {
             document.body.style.overflow = "hidden"
@@ -159,6 +162,7 @@ const Account = () => {
         }
     }, [showCart])
 
+    // Effect for fetching user orders.
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -176,6 +180,7 @@ const Account = () => {
         fetchOrders()
     }, [user.email])
 
+    // Navigation helpers.
     const navigateHome = () => {
         navigate("/")
     }
@@ -197,6 +202,7 @@ const Account = () => {
         navigate("/")
     }
 
+    // Initialize Flowbite on component mount, to prevent styling bugs.
     useEffect(() => {
         initFlowbite()
     }, [])
@@ -736,10 +742,10 @@ const Account = () => {
                 />
             )}
 
-            <Cart showCart={showCart} setshowCart={setshowCart}>
-                {/* Modal Content Here */}
-            </Cart>
+            {/* Cart Component */}
+            <Cart showCart={showCart} setshowCart={setshowCart} />
 
+            {/* ToastContainer Component */}
             <ToastContainer className={"select-none"} />
         </>
     )
