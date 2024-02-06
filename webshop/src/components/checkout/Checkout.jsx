@@ -98,7 +98,6 @@ const Checkout = () => {
             }, 3000)
         } catch (error) {
             console.error("Error submitting order:", error)
-            // You might also want to handle error state here
         }
     }
 

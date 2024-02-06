@@ -140,11 +140,9 @@ const Admin = () => {
                 setisAddModalOpen(false) // Close the modal
             } else {
                 console.error("Failed to add product:", data)
-                // Optionally show an error message to the user
             }
         } catch (error) {
             console.error("Error adding product:", error)
-            // Optionally show an error message to the user
         }
     }
 
