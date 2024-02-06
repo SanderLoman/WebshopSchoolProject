@@ -18,12 +18,20 @@ const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // Prepare the update object with only the fields that have changed
+        // Initialize the update object
         let updatedProduct = {}
-        if (name !== product.name) updatedProduct.name = name
-        if (imageUrl !== product.imageUrl) updatedProduct.imageUrl = imageUrl
 
-        // Parse price only if it's provided and different
+        // Check if the name has changed and is not empty
+        if (name !== product.name && name.trim() !== "") {
+            updatedProduct.name = name
+        }
+
+        // Check if the image URL has changed and is not empty
+        if (imageUrl !== product.imageUrl && imageUrl.trim() !== "") {
+            updatedProduct.imageUrl = imageUrl
+        }
+
+        // Parse and check the price if it has changed and is not empty
         if (price !== "" && parseFloat(price) !== product.price) {
             const parsedPrice = parseFloat(price)
             if (!isNaN(parsedPrice)) {
@@ -34,11 +42,16 @@ const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
             }
         }
 
-        // Call onEdit with the updated product
-        if (Object.keys(updatedProduct).length > 0) {
-            onEdit({ id: product.id, ...updatedProduct })
+        // If no fields have been changed, do not proceed with the update
+        if (Object.keys(updatedProduct).length === 0) {
+            console.log("No changes made to the product")
             handleClose()
+            return
         }
+
+        // Call onEdit with the updated product
+        onEdit({ id: product.id, ...updatedProduct })
+        handleClose()
     }
 
     return (
@@ -143,7 +156,7 @@ const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
                             className="flex justify-center w-full text-white items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             <svg
-                                className="w-5 h-5 text-gray-800 dark:text-white me-1"
+                                className="w-5 h-5 text-white me-1"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
