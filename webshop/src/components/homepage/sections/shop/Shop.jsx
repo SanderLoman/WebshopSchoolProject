@@ -4,12 +4,16 @@ import { CartContext } from "../../../providers/CartProvider.jsx"
 import { UserContext } from "../../../providers/UserContext.jsx"
 import { toast } from "react-toastify"
 
+// Shop Component: Displays products and allows users to add them to their cart.
 const Shop = () => {
     const [products, setProducts] = useState([])
+
+    // Context for cart operations, theme, and user details.
     const { addToCart } = useContext(CartContext)
     const { systemTheme } = useContext(ThemeContext)
     const { user } = useContext(UserContext)
 
+    // Fetch products from the server on component mount.
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -17,7 +21,7 @@ const Shop = () => {
                     "http://localhost:4500/api/products",
                 )
                 const data = await response.json()
-                console.log("Data:", data)
+
                 // Directly check if data is an array since it's already the array of products
                 if (Array.isArray(data)) {
                     setProducts(data)
@@ -35,6 +39,7 @@ const Shop = () => {
         fetchProducts()
     }, [])
 
+    // Function to handle adding products to the cart.
     const handleAddToCart = (product, quantity) => {
         if (user) {
             console.log(`Added ${quantity} of ${product.name} to the cart.`)
@@ -69,6 +74,7 @@ const Shop = () => {
         }
     }
 
+    // Function to update product quantity in the UI.
     const updateQuantity = (productId, action) => {
         setProducts(
             products.map((product) => {
@@ -94,6 +100,7 @@ const Shop = () => {
             id="shop"
             className="p-4 md:p-8 lg:p-12 xl:p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8 lg:gap-12 xl:gap-16 bg-neutral-200 dark:bg-gray-900"
         >
+            {/* Mapping through products to display them */}
             {Array.isArray(products) &&
                 products.map((product) => (
                     <div

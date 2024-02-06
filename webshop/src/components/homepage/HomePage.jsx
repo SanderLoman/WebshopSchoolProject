@@ -8,6 +8,7 @@ import Testimonials from "./sections/testimonials/Testimonials.jsx"
 import Faq from "./sections/faq/Faq.jsx"
 import "./HomePage.css"
 
+// HomePage Component: Displays the homepage of the website.
 const HomePage = () => {
     return (
         <div>

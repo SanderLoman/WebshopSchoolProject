@@ -1,6 +1,7 @@
 import React from "react"
 import "./Faq.css"
 
+// Faq Component: Displays a Frequently Asked Questions section.
 const Faq = () => {
     return (
         <div id="faq" className="w-full h-max bg-neutral-200 dark:bg-gray-900">

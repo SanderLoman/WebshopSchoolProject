@@ -1,5 +1,6 @@
 import React from "react"
 
+// Footer Component: Displays the footer section of the website.
 const Footer = () => {
     return (
         <footer className="pt-20 bg-neutral-200 dark:bg-gray-900 dark:text-white p-4">

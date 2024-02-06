@@ -1,5 +1,6 @@
 import React from "react"
 
+// Hero Component: Displays the hero section of the homepage.
 const Hero = () => {
     return (
         <section className="h-screen flex justify-center items-center bg-neutral-200 dark:bg-gray-900">
