@@ -4,8 +4,15 @@ This is a Webshop project developed as part of a school assignment. It's a full-
 
 ## Table of Contents
 
+-   [Netlify](#netlify)
 -   [Installation](#installation)
 -   [Running the Project](#running-the-project)
+
+## Netlify
+
+The project is deployed on Netlify and can be accessed at the following URL:
+
+[Webshop](#)
 
 ## Installation
 
@@ -51,3 +58,26 @@ To run the project on your local machine, follow these steps:
 Now, you should be able to access the webshop in your browser at `http://localhost:3000`.
 
 > **Note:** Ensure you have Node.js and npm installed on your machine to run this project.
+
+## Pre-configured User Accounts for Testing
+
+The project includes two pre-configured user accounts for comprehensive testing:
+
+1. **Admin Account:**
+
+    - **Email:** `admin@test.com`
+    - **Password:** `123`
+    - **First Name:** Admin
+    - **Last Name:** Beheerder
+    - **Role:** admin
+    - _Description:_ This account has administrative privileges, allowing testing of features like managing products, viewing all user profiles, and other administrative functions.
+
+2. **Customer Account:**
+    - **Email:** `customer@test.com`
+    - **Password:** `123`
+    - **First Name:** Customer
+    - **Last Name:** Klant
+    - **Role:** customer
+    - _Description:_ This account simulates the typical customer experience, focusing on browsing products, adding them to the cart, and making purchases.
+
+These accounts enable testing the application from both the administrator's and customer's perspectives, demonstrating the versatility and functionality of the webshop.
