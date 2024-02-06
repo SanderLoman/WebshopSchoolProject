@@ -6,18 +6,25 @@ import ThemeContext from "../providers/ThemeProvider.jsx"
 import "react-toastify/dist/ReactToastify.css"
 import "./Login.css"
 
+// LoginPage Component: Provides a user interface for login functionality.
 const LoginPage = () => {
+    // Context for system theme and user login.
     const { systemTheme } = useContext(ThemeContext)
     const { login } = useContext(UserContext)
+
+    // State for managing form inputs.
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
     const navigate = useNavigate()
 
+    // Function to validate email format.
     const isValidEmail = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return emailRegex.test(email)
     }
 
+    // Function to handle login logic.
     const handleLogin = async () => {
         console.log("Attempting login with:", email, password)
 
@@ -66,6 +73,7 @@ const LoginPage = () => {
         }
     }
 
+    // Function to navigate back to the homepage.
     const navigateHome = () => {
         navigate("/")
     }
