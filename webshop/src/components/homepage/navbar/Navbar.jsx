@@ -8,7 +8,9 @@ import { initFlowbite } from "flowbite"
 import Cart from "../../cart/Cart.jsx"
 import "./Navbar.css"
 
+// Navbar Component: Provides navigation and access to various features like theme switching and user account.
 const Navbar = () => {
+    // Context for theme and user details.
     const {
         lightTheme,
         systemTheme,
@@ -17,10 +19,15 @@ const Navbar = () => {
         setSystemMode,
     } = useContext(ThemeContext)
     const { user, logout } = useContext(UserContext)
+
     const navigate = useNavigate()
+
+    // State for controlling the display of the cart.
     const [showCart, setshowCart] = useState(false)
 
+    // Effect for managing body overflow based on cart visibility.
     useEffect(() => {
+        // Overflow control logic.
         if (showCart) {
             document.body.style.overflow = "hidden"
         } else {
@@ -33,6 +40,7 @@ const Navbar = () => {
         }
     }, [showCart])
 
+    // Navigation helper functions.
     const navigateToLogin = () => {
         navigate("/login")
     }
@@ -45,6 +53,7 @@ const Navbar = () => {
         navigate("/account")
     }
 
+    // Initialize Flowbite on component mount, to prevent styling bugs.
     useEffect(() => {
         initFlowbite()
     }, [])
@@ -263,8 +272,11 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Cart Component */}
             <Cart showCart={showCart} setshowCart={setshowCart} />
 
+            {/* ToastContainer for displaying notifications */}
             <ToastContainer className={"select-none"} />
         </nav>
     )
