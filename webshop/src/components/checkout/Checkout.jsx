@@ -48,7 +48,7 @@ const Checkout = () => {
         }
 
         fetchCartData()
-    }, [user, user?.email])
+    }, [user, user?.email, setCartItems])
 
     // Function to navigate home.
     const navigateHome = () => {

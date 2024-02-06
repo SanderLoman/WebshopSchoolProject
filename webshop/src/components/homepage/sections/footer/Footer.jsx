@@ -7,12 +7,9 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-wrap justify-between items-center">
                     <div className="w-full md:w-1/4 mb-6 md:mb-auto">
-                        <a
-                            href="/"
-                            className="flex items-center md:mb-1 self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                        >
+                        <div className="flex items-center md:mb-1 self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                             Webshop
-                        </a>
+                        </div>
                         <p className="text-sm text-gray-500 dark:text-gray-300">
                             Explore the latest in fashion, style, and home. Fast
                             shipping, effortless shopping. Thank you for
@@ -27,36 +24,24 @@ const Footer = () => {
                                 </h5>
                                 <ul className="text-sm">
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             About
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Careers
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Brand Center
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Blog
-                                        </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -66,36 +51,24 @@ const Footer = () => {
                                 </h5>
                                 <ul className="text-sm">
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Discord Server
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Twitter
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Facebook
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Contact Us
-                                        </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -105,28 +78,19 @@ const Footer = () => {
                                 </h5>
                                 <ul className="text-sm">
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Privacy Policy
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Licensing
-                                        </a>
+                                        </div>
                                     </li>
                                     <li className="mb-2">
-                                        <a
-                                            href="#"
-                                            className="hover:text-gray-300"
-                                        >
+                                        <div className="hover:text-gray-300">
                                             Terms
-                                        </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

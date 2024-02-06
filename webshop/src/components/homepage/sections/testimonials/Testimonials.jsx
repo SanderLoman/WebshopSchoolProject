@@ -34,7 +34,7 @@ const Testimonials = () => {
                         <img
                             className="w-6 h-6 rounded-full"
                             src="http://localhost:4500/pfp/profile-pic-1706827333553-1706827339185.jpg"
-                            alt="profile picture"
+                            alt="pfp"
                         />
                         <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
                             <div className="pr-3 font-medium text-gray-900 dark:text-white">
@@ -73,7 +73,7 @@ const Testimonials = () => {
                         <img
                             className="w-6 h-6 rounded-full"
                             src="http://localhost:4500/pfp/profile-pic-1707069538033-1707069539405.jpg"
-                            alt="profile picture"
+                            alt="pfp"
                         />
                         <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
                             <div className="pr-3 font-medium text-gray-900 dark:text-white">
@@ -112,7 +112,7 @@ const Testimonials = () => {
                         <img
                             className="w-6 h-6 rounded-full"
                             src="http://localhost:4500/pfp/profile-pic-1707120890036-1707120894127.jpg"
-                            alt="profile picture"
+                            alt="pfp"
                         />
                         <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
                             <div className="pr-3 font-medium text-gray-900 dark:text-white">

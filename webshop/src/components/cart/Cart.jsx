@@ -38,7 +38,7 @@ const Cart = ({ showCart, setshowCart }) => {
         }
 
         fetchCartData()
-    }, [user, user?.email])
+    }, [user, user?.email, setCartItems])
 
     // Function to prevent event propagation.
     const handleContentClick = (e) => {

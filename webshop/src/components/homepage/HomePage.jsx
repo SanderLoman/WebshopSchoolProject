@@ -1,5 +1,5 @@
 // HomePage.jsx
-import React, { useEffect } from "react"
+import React from "react"
 import Navbar from "./navbar/Navbar.jsx"
 import Hero from "./sections/hero/Hero.jsx"
 import Shop from "./sections/shop/Shop.jsx"

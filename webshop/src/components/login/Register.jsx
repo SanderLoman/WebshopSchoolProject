@@ -21,8 +21,12 @@ const RegisterPage = () => {
     const navigate = useNavigate()
 
     // Additional state for profile picture, cart, and bought products.
+
+    // eslint-disable-next-line
     const [pfp, setPfp] = useState("")
+    // eslint-disable-next-line
     const [cart, setCart] = useState([])
+    // eslint-disable-next-line
     const [boughtProducts, setBoughtProducts] = useState([])
 
     // Function to validate email format.

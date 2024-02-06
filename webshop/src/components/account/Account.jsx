@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import { UserContext } from "../providers/UserContext.jsx"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import ThemeContext from "../providers/ThemeProvider.jsx"
 import ImageCropperModal from "./image-cropper/ImageCropper.jsx"
@@ -34,6 +34,7 @@ const Account = () => {
 
     // Effect for calculating the total cost of cart items.
     useEffect(() => {
+        // eslint-disable-next-line
         totalCost = 0
         user.cart.forEach((item) => {
             totalCost += item.price * item.quantity
