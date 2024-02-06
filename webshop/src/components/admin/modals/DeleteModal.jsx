@@ -1,10 +1,18 @@
 import React from "react"
 
+// DeleteModal Component: Modal for confirming product deletion.
+// Props:
+// - isOpen: Boolean indicating if the modal is open.
+// - setIsOpen: Function to update the isOpen state.
+// - onDelete: Function to handle product deletion.
+// - productId: ID of the product to be deleted.
 const DeleteModal = ({ isOpen, setIsOpen, onDelete, productId }) => {
+    // Function to close the modal.
     const handleClose = () => {
         setIsOpen(false)
     }
 
+    // Function to handle outside click (clicking the backdrop to close).
     const handleOutsideClick = (event) => {
         // Close modal if clicking outside of the modal content
         if (event.target.id === "popup-modal") {

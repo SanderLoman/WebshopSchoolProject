@@ -1,20 +1,29 @@
 import React, { useState } from "react"
 
+// AddModal Component: Modal for adding a new product.
+// Props:
+// - isOpen: Boolean indicating if the modal is open.
+// - setIsOpen: Function to update the isOpen state.
+// - onAdd: Function to handle adding a new product.
 const AddModal = ({ isOpen, setIsOpen, onAdd }) => {
+    // States to keep track of the product name, price, and image URL.
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [imageUrl, setImageUrl] = useState("")
 
+    // Function to close the modal.
     const handleClose = () => {
         setIsOpen(false)
     }
 
+    // Function to handle outside click (clicking the backdrop to close).
     const handleOutsideClick = (event) => {
         if (event.target.id === "crud-modal") {
             handleClose()
         }
     }
 
+    // Function to handle form submission.
     const handleSubmit = async (e) => {
         e.preventDefault()
         const parsedPrice = parseFloat(price)

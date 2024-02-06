@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from "react"
 
+// EditModal Component: Modal for editing an existing product.
+// Props:
+// - isOpen: Boolean indicating if the modal is open.
+// - setIsOpen: Function to update the isOpen state.
+// - onEdit: Function to handle product edit.
+// - product: The product object to be edited.
 const EditModal = ({ isOpen, setIsOpen, onEdit, product }) => {
+    // State for form fields initialized with product properties.
     const [name, setName] = useState(product ? product.name : "")
     const [price, setPrice] = useState(product ? product.price : "")
     const [imageUrl, setImageUrl] = useState(product ? product.imageUrl : "")
 
+    // Function to close the modal.
     const handleClose = () => {
         setIsOpen(false)
     }
 
+    // Function to handle outside click (clicking the backdrop to close).
     const handleOutsideClick = (event) => {
         if (event.target.id === "crud-modal") {
             handleClose()
         }
     }
 
+    // Function to handle form submission.
     const handleSubmit = async (e) => {
         e.preventDefault()
 
