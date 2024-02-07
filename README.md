@@ -53,7 +53,7 @@ To run the project on your local machine, follow these steps:
     cd server
     npm start
     ```
-    The server will typically run on `http://localhost:5000`.
+    The server will typically run on `http://localhost:4500`.
 
 Now, you should be able to access the webshop in your browser at `http://localhost:3000`.
 
